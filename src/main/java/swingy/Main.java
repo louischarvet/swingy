@@ -1,5 +1,8 @@
 package swingy;
 
+import java.util.Set;
+import jakarta.validation.ConstraintViolation;
+
 import swingy.artifact.Artifact;
 import swingy.artifact.Weapon;
 import swingy.artifact.Armor;
@@ -8,6 +11,8 @@ import swingy.artifact.Helm;
 import swingy.character.Character;
 import swingy.character.Hero;
 
+import swingy.validation.ValidatorUtil;
+
 public class Main {
 	public static void	main(String args[]) {
 		if (args.length != 2) {
@@ -15,10 +20,20 @@ public class Main {
 			return;
 		}
 
+	//	ValidatorUtil	validator = new ValidatorUtil();
+
 		Character	hero = new Hero.Builder()
 			.setName(args[0])
 			.setClass(args[1])
 			.build();
+		
+		Set< ConstraintViolation< Character > >	violations = ValidatorUtil.validate(hero);
+		if (!violations.isEmpty()) {
+			for (ConstraintViolation< Character > violation : violations) {
+				System.out.println("Error: " + violation.getMessage());
+			}
+			return ;
+		}
 		
 		Artifact	weapon = new Weapon.Builder()
 			.setName("Dragonslayer")
