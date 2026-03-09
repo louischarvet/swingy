@@ -1,7 +1,6 @@
-package swingy.game;
+package swingy.map;
 
 import java.lang.Integer;
-// import swingy.game.SquareMap;
 
 public final class SquareMapFactory {
 	public static void	main(String args[]) {
