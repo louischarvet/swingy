@@ -3,6 +3,8 @@ package swingy;
 import java.util.Set;
 import jakarta.validation.ConstraintViolation;
 
+import swingy.database.DatabaseManager;
+
 import swingy.artifact.Artifact;
 import swingy.artifact.Weapon;
 import swingy.artifact.Armor;
@@ -57,6 +59,10 @@ public class Main {
 		weapon.print();
 		armor.print();
 		helm.print();
+
+		System.out.println();
+
+		DatabaseManager	databaseManager = new DatabaseManager();
 
 	}
 }

@@ -6,12 +6,12 @@ import swingy.artifact.Armor;
 import swingy.artifact.Helm;
 
 public class Hero extends Character {
-	private int	_experience;
+	private int	experience;
 
 	private Hero(Builder builder) {
 		super(builder);
 
-		this._experience = 0;
+		this.experience = 0;
 	}
 
 	// @Override
@@ -38,7 +38,7 @@ public class Hero extends Character {
 	@Override
 	public void	print() {
 		super.print();
-		System.out.println(" | EXP " + this._experience);
+		System.out.println(" | EXP " + this.experience);
 	}
 
 	public static class Builder extends Character.Builder {
