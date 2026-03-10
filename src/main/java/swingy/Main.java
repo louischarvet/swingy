@@ -5,6 +5,9 @@ import jakarta.validation.ConstraintViolation;
 
 import swingy.database.DatabaseManager;
 
+import swingy.map.SquareMapFactory;
+import swingy.map.SquareMap;
+
 import swingy.artifact.Artifact;
 import swingy.artifact.Weapon;
 import swingy.artifact.Armor;
@@ -17,8 +20,8 @@ import swingy.validation.ValidatorUtil;
 
 public class Main {
 	public static void	main(String args[]) {
-		if (args.length != 2) {
-			System.out.println("Arguments needed: <name> <class>");
+		if (args.length != 3) {
+			System.out.println("Arguments needed: <name> <class> <level>");
 			return;
 		}
 
@@ -64,5 +67,7 @@ public class Main {
 
 		DatabaseManager	databaseManager = new DatabaseManager();
 
+		SquareMap	squareMap = SquareMapFactory.newSquareMap(Integer.parseInt(args[2]));
+		squareMap.print();
 	}
 }
