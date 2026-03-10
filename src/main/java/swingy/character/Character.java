@@ -53,13 +53,13 @@ public abstract class Character {
 	public int	attackOutput() {
 		int	bonus = this.weapon != null ? this.weapon.getLevel() : 0;
 		
-		return this._attack + bonus;
+		return this.attack + bonus;
 	}
 
 	public int	defenseOutput() {
 		int	bonus = this.armor != null ? this.armor.getLevel() : 0;
 		
-		return this._defense + bonus;
+		return this.defense + bonus;
 	}
 
 	public int	hitPointsOutput() {
@@ -101,7 +101,7 @@ public abstract class Character {
 			(" \u001B[32m+" + this.helm.getLevel()) + "\u001B[0m" : "";
 
 		System.out.print(
-			this.getName() + " | " + this.getCharacterClass()
+			this.getName() + " | " + this.getKlass()
 			+ " | LVL " + this.level
 			+ " | ATT " + this.attack + attackBonus
 			+ " | DEF " + this.defense + defenseBonus
