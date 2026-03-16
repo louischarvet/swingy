@@ -3,7 +3,8 @@ package swingy;
 import java.util.Set;
 import jakarta.validation.ConstraintViolation;
 
-import swingy.game.Game;
+import swingy.view.View;
+import swingy.view.ViewFactory;
 
 import swingy.artifact.Artifact;
 import swingy.artifact.Weapon;
@@ -12,8 +13,6 @@ import swingy.artifact.Helm;
 
 import swingy.character.Character;
 import swingy.character.Hero;
-
-import swingy.validation.ValidatorUtil;
 
 public class Main {
 	public static void	main(String args[]) {
@@ -65,7 +64,19 @@ public class Main {
 			return;
 		}
 
-		Game	game = new Game(args[0]);
-		game.launch();
+		View	view = ViewFactory.newView(args[0]);
+		if (view == null) {
+			System.out.println("Argument needed: \"console\" or \"gui\"");
+			return;
+		}
+		view.display();
+
+		System.out.println("test");
+
+		// while (true) {
+		// 	// take input -- controller
+		// 	// calculate -- model
+		// 	// update -- view
+		// }
 	}
 }
