@@ -1,9 +1,9 @@
-package swingy.character;
+package swingy.model.character;
 
-import swingy.artifact.Artifact;
-import swingy.artifact.Weapon;
-import swingy.artifact.Armor;
-import swingy.artifact.Helm;
+import swingy.model.artifact.Artifact;
+import swingy.model.artifact.Weapon;
+import swingy.model.artifact.Armor;
+import swingy.model.artifact.Helm;
 
 public class Hero extends Character {
 	private int	experience;

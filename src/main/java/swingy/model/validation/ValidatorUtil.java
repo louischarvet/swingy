@@ -1,4 +1,4 @@
-package swingy.validation;
+package swingy.model.validation;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

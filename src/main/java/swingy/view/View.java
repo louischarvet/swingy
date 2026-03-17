@@ -9,7 +9,7 @@ public abstract class View {
 	protected final String	HELP_MESSAGE = "In game:\n\tN/E/S/W -> move North, East, South or West\n\tMAP -> displays map\n\tHERO -> shows your stats and inventory\n";
 	protected Model	model = null;
 
-	public void	registerModel(Model p_model) {
+	protected View(Model p_model) {
 		this.model = p_model;
 	}
 

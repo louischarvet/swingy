@@ -1,4 +1,4 @@
-package swingy.artifact;
+package swingy.model.artifact;
 
 public abstract class Artifact {
 	private final String	_name;

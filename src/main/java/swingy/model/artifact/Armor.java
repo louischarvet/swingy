@@ -1,4 +1,4 @@
-package swingy.artifact;
+package swingy.model.artifact;
 
 public class Armor extends Artifact {
 	private Armor(Builder builder) {

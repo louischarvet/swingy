@@ -1,12 +1,12 @@
-package swingy.character;
+package swingy.model.character;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import swingy.artifact.Artifact;
-import swingy.artifact.Weapon;
-import swingy.artifact.Armor;
-import swingy.artifact.Helm;
+import swingy.model.artifact.Artifact;
+import swingy.model.artifact.Weapon;
+import swingy.model.artifact.Armor;
+import swingy.model.artifact.Helm;
 
 public class Villain extends Character {
 	private Villain(Builder builder) {

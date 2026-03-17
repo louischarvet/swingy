@@ -1,4 +1,4 @@
-package swingy.map;
+package swingy.model.map;
 
 import java.util.List;
 import java.util.ArrayList;

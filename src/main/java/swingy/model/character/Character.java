@@ -1,12 +1,12 @@
-package swingy.character;
+package swingy.model.character;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import swingy.artifact.Artifact;
-import swingy.artifact.Weapon;
-import swingy.artifact.Helm;
-import swingy.artifact.Armor;
+import swingy.model.artifact.Artifact;
+import swingy.model.artifact.Weapon;
+import swingy.model.artifact.Helm;
+import swingy.model.artifact.Armor;
 
 public abstract class Character {
 	@NotNull

@@ -1,6 +1,7 @@
 package swingy.view;
 
 import swingy.controller.Controller;
+import swingy.model.Model;
 
 public class ConsoleView extends View {
 	// public GuiView(View view) {
@@ -8,9 +9,15 @@ public class ConsoleView extends View {
 	// 	// copie des parametres en cas de changement de mode de view
 	// }
 
+	public ConsoleView(Model p_model) {
+		super(p_model);
+	}
+
 	@Override
 	public void	display() {
-		System.out.println("\f" + this.OPENING_MESSAGE);
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+		System.out.println(this.OPENING_MESSAGE);
 		// Welcome message + commands menu
 		readInput();
 	}
@@ -25,7 +32,7 @@ public class ConsoleView extends View {
 				readByte = System.in.read();
 				input += readByte;		
 			}
-			Controller.process(input);
+			Controller.transmit(input);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return ;
@@ -39,7 +46,13 @@ public class ConsoleView extends View {
 
 	@Override
 	public void	update() {
-		// JLabel	response = new JLabel();
-		// panel.add(response);
+		switch (this.model.getCurrentState()) {
+			case "MAIN_MENU":
+				;
+			case "HERO_CREATION":
+				;
+			case "IN_GAME":
+				;
+		}
 	}
 }

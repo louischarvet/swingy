@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 
 import swingy.controller.Controller;
+import swingy.model.Model;
 
 public class GuiView extends View {
 	private JFrame	frame = null;
@@ -26,7 +27,9 @@ public class GuiView extends View {
 	// 	// copie des parametres en cas de changement de mode de view
 	// }
 
-	public GuiView() {
+	public GuiView(Model p_model) {
+		super(p_model);
+
 		this.frame = new JFrame("Swingy");
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setSize(500, 500);
@@ -58,7 +61,7 @@ public class GuiView extends View {
 	protected void	readInput() { // ActionEvent needed ?
 		String	input = this.textField.getText();
 
-		Controller.process(input);
+		Controller.transmit(input);
 		
 		this.textField.setText("");
 		this.textField.setColumns(10);
