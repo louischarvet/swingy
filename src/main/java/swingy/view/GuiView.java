@@ -1,5 +1,7 @@
 package swingy.view;
 
+import java.util.Observable;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -27,8 +29,8 @@ public class GuiView extends View {
 	// 	// copie des parametres en cas de changement de mode de view
 	// }
 
-	public GuiView(Model p_model) {
-		super(p_model);
+	public GuiView() {
+		super();
 
 		this.frame = new JFrame("Swingy");
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +63,7 @@ public class GuiView extends View {
 	protected void	readInput() { // ActionEvent needed ?
 		String	input = this.textField.getText();
 
-		Controller.transmit(input);
+		transmit(input);
 		
 		this.textField.setText("");
 		this.textField.setColumns(10);
@@ -73,8 +75,9 @@ public class GuiView extends View {
 	}
 
 	@Override
-	public void	update() {
+	public void	update(Observable model, Object data) {
 		// JLabel	response = new JLabel();
 		// panel.add(response);
+		System.out.println(data);
 	}
 }

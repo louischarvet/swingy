@@ -3,6 +3,8 @@ package swingy;
 import java.util.Set;
 import jakarta.validation.ConstraintViolation;
 
+import swingy.controller.Controller;
+
 import swingy.view.View;
 import swingy.view.ViewFactory;
 
@@ -18,27 +20,30 @@ import swingy.model.character.Hero;
 
 public class Main {
 	public static void	main(String args[]) {
-		if (args.length != 3) {
-			System.out.println("Arguments needed: <name> <class> <level>");
+		if (args.length != 1) {
+			System.out.println("Argument needed: \"console\" or \"gui\"");
 			return;
 		}
 
 		Model	model = new Model();
-		View	view = ViewFactory.newView(model, args[0]);
+		View	view = ViewFactory.newView(args[0]);
 		if (view == null) {
 			System.out.println("Argument needed: \"console\" or \"gui\"");
 			return;
 		}
+		model.addObserver(view);
+		view.registerController(new Controller(model, view));
+
 		view.display();
 
-		System.out.println("test");
+//		System.out.println("test");
 
 		// while (true) {
 		// 	// take input -- controller
 		// 	// calculate -- model
 		// 	// update -- view
 		// }
-		System.out.println();
+//		System.out.println();
 
 		// SquareMap	squareMap = SquareMapFactory.newSquareMap(Integer.parseInt(args[2]));
 		// squareMap.print();

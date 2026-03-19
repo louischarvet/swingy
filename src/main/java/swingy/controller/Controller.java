@@ -29,8 +29,8 @@ public class Controller {
 	// 	"MAP",
 	// 	"HELP"
 	// ));
-	private static View	view = null; // to notify in case of exception/error
-	private static Model	model = null;
+	private View	view = null; // to notify in case of exception/error
+	private Model	model = null;
 //	private Runnable	stateModel[3];
 
 	public Controller(Model p_model, View p_view) {
@@ -38,7 +38,8 @@ public class Controller {
 		this.model = p_model;
 	}
 
-	public static void	transmit(String input) {
+	public void	transmit(String input) {
+		System.out.println("in Controller: " + input);
 		try {
 			String	currentState = model.getCurrentState();
 			String	upperInput = input.toUpperCase();

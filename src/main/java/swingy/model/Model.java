@@ -1,5 +1,6 @@
 package swingy.model;
 
+import java.util.Observable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +8,7 @@ import java.util.Arrays;
 import swingy.model.DatabaseManager;
 import swingy.model.character.Hero;
 
-public class Model {
+public class Model extends Observable {
 	private DatabaseManager	databaseManager;
 	private final List< String >	STATES = new ArrayList<>(Arrays.asList(
 		"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
@@ -30,10 +31,13 @@ public class Model {
 
 	// Validate MAIN_MENU commands
 	public void	menu(String input) {
+		String	data = "toto";
+		System.out.println("In Model: " + input);
+
 		switch (input) {
 			case "NEW":
 				this.currentState = "HERO_CREATION";
-				this.toPrint = "Enter your hero's name:";
+				data = "Enter your hero's name:";
 			case "LOAD":
 				;
 			case "ERASE":
@@ -43,5 +47,6 @@ public class Model {
 			case "HELP":
 				;
 		}
+		notifyObservers(data);
 	}
 }

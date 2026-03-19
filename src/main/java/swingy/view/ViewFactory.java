@@ -7,11 +7,11 @@ public final class ViewFactory {
 		super();
 	}
 
-	public static View	newView(Model model, String mode) {
+	public static View	newView(String mode) {
 		if (mode.equals("console"))
-			return new ConsoleView(model);
+			return new ConsoleView();
 		else if (mode.equals("gui"))
-			return new GuiView(model);
+			return new GuiView();
 		else
 			return null;
 	}

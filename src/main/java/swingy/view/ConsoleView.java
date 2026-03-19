@@ -1,5 +1,7 @@
 package swingy.view;
 
+import java.util.Observable;
+
 import swingy.controller.Controller;
 import swingy.model.Model;
 
@@ -9,8 +11,8 @@ public class ConsoleView extends View {
 	// 	// copie des parametres en cas de changement de mode de view
 	// }
 
-	public ConsoleView(Model p_model) {
-		super(p_model);
+	public ConsoleView() {
+		super();
 	}
 
 	@Override
@@ -28,11 +30,11 @@ public class ConsoleView extends View {
 		int	readByte = 0;
 
 		try {
-			while (readByte != -1) { // readByte != '\n'
+			while (readByte != -1 && readByte != '\n') { // readByte != '\n'
 				readByte = System.in.read();
-				input += readByte;		
+				input += (char)readByte;		
 			}
-			Controller.transmit(input);
+			transmit(input);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return ;
@@ -45,14 +47,7 @@ public class ConsoleView extends View {
 	}
 
 	@Override
-	public void	update() {
-		switch (this.model.getCurrentState()) {
-			case "MAIN_MENU":
-				;
-			case "HERO_CREATION":
-				;
-			case "IN_GAME":
-				;
-		}
+	public void	update(Observable model, Object data) {
+		System.out.println(data);
 	}
 }
