@@ -40,9 +40,7 @@ public class Main {
 		// }
 		System.out.println();
 
-		DatabaseManager	databaseManager = new DatabaseManager();
-
-		SquareMap	squareMap = SquareMapFactory.newSquareMap(Integer.parseInt(args[2]));
-		squareMap.print();
+		// SquareMap	squareMap = SquareMapFactory.newSquareMap(Integer.parseInt(args[2]));
+		// squareMap.print();
 	}
 }

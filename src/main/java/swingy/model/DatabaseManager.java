@@ -1,4 +1,4 @@
-package swingy.database;
+package swingy.model;
 
 import java.io.InputStream;
 import java.nio.file.Files;

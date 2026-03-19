@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import swingy.model.DatabaseManager;
 import swingy.model.character.Hero;
 
 public class Model {
+	private DatabaseManager	databaseManager;
 	private final List< String >	STATES = new ArrayList<>(Arrays.asList(
 		"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
 		"HERO_CREATION",	// expecting <name> then <class>
@@ -21,6 +23,7 @@ public class Model {
 	}
 
 	public Model() {
+		this.databaseManager = new DatabaseManager();
 		this.currentState = STATES.get(0);
 		// ...
 	}
