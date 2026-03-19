@@ -18,8 +18,8 @@ import swingy.model.character.Hero;
 
 public class Main {
 	public static void	main(String args[]) {
-		if (args.length != 3) {
-			System.out.println("Arguments needed: <name> <class> <level>");
+		if (args.length != 1) {
+			System.out.println("Argument needed: \"console\" or \"gui\"");
 			return;
 		}
 
