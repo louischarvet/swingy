@@ -21,7 +21,11 @@ public class ConsoleView extends View {
 		System.out.flush();
 		System.out.println(this.OPENING_MESSAGE);
 		// Welcome message + commands menu
-		readInput();
+		while (true) {
+			System.out.print("•-I==> ");
+			readInput();
+		}
+	//	update();
 	}
 
 	@Override
@@ -48,6 +52,6 @@ public class ConsoleView extends View {
 
 	@Override
 	public void	update(Observable model, Object data) {
-		System.out.println(data);
+		System.out.println((String)data);
 	}
 }

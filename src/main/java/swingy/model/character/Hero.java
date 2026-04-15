@@ -6,6 +6,7 @@ import swingy.model.artifact.Armor;
 import swingy.model.artifact.Helm;
 
 public class Hero extends Character {
+	private int	id;
 	private int	experience;
 
 	private Hero(Builder builder) {

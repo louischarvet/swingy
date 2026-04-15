@@ -39,19 +39,31 @@ public class Controller {
 	}
 
 	public void	transmit(String input) {
-		System.out.println("in Controller: " + input);
+//		System.out.println("in Controller: " + input);
 		try {
 			String	currentState = model.getCurrentState();
-			String	upperInput = input.toUpperCase();
+			String	upperInput = input.toUpperCase().trim();
+
+			System.out.println("currentState: " + currentState);
 
 			switch (currentState) {
 				case "MAIN_MENU":
+					System.out.println("Controller: in MAIN MENU");
 					model.menu(upperInput);
-				case "HERO_CREATION":
-					;
+					break;
+				case "WAIT_NAME":
+					System.out.println("Controller: in WAIT NAME");
+					model.registerName(upperInput);
+					break;
 //					this.model.createHero(upperInput);
+				case "WAIT_CLASS":
+					model.registerClass(upperInput);
+					break;
+				case "CREATE_HERO":
+					model.createHero(upperInput);
+					break;
 				case "IN_GAME":
-					;
+					break;
 //					this.model.game(upperInput);
 			}
 		} catch (Exception e) {

@@ -34,6 +34,7 @@ public class Main {
 		model.addObserver(view);
 		view.registerController(new Controller(model, view));
 
+	//	while (true)
 		view.display();
 
 //		System.out.println("test");

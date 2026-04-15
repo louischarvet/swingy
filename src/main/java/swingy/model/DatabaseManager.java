@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.HashMap;
 
 import java.io.InputStream;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.Scanner;
+
+import swingy.model.character.Hero;
 
 // must restrain access to the database !!
 
@@ -51,25 +54,27 @@ public class DatabaseManager {
 			Files.createDirectory(Paths.get(DB_DIR));
 
 		if (!Files.exists(dbPath)) {
+			System.out.println("DatabaseManager: !Files.exists(" + dbPath + ")");
+			
 			TableManager	heroTable = new TableManager.Builder()
-				.setName("hero")
-				.setColumn("id", "INTEGER PRIMARY KEY AUTOINCREMENT")
-				.setColumn("level", "INTEGER NOT NULL DEFAULT 1")
-				.setColumn("name", "TEXT NOT NULL")
-				.setColumn("class", "TEXT NOT NULL") //
-				.setColumn("attack", "INTEGER NOT NULL DEFAULT 0")
-				.setColumn("defense", "INTEGER NOT NULL DEFAULT 0")
-				.setColumn("hit_points", "INTEGER NOT NULL DEFAULT 0")
-				.setColumn("weapon", "INTEGER") // FOREIGN KEY (weapon) REFERENCES artifact(id)
-				.setColumn("armor", "INTEGER")
-				.setColumn("helm", "INTEGER")
+				.withName("hero")
+				.withColumn("id", "INTEGER PRIMARY KEY AUTOINCREMENT")
+				.withColumn("level", "INTEGER NOT NULL DEFAULT 1")
+				.withColumn("name", "TEXT NOT NULL")
+				.withColumn("class", "TEXT NOT NULL") //
+				.withColumn("attack", "INTEGER NOT NULL DEFAULT 1")
+				.withColumn("defense", "INTEGER NOT NULL DEFAULT 1")
+				.withColumn("hit_points", "INTEGER NOT NULL DEFAULT 1") ////////
+				.withColumn("weapon", "INTEGER") // FOREIGN KEY (weapon) REFERENCES artifact(id)
+				.withColumn("armor", "INTEGER")
+				.withColumn("helm", "INTEGER")
 				.build();
 
 			TableManager	artifactTable = new TableManager.Builder()
-				.setName("artifact")
-				.setColumn("id", "INTEGER PRIMARY KEY AUTOINCREMENT")
-				.setColumn("level", "TEXT NOT NULL")
-				.setColumn("type", "TEXT NOT NULL")
+				.withName("artifact")
+				.withColumn("id", "INTEGER PRIMARY KEY AUTOINCREMENT")
+				.withColumn("level", "TEXT NOT NULL")
+				.withColumn("type", "TEXT NOT NULL")
 				.build();
 
 			tables.put("hero", heroTable);
@@ -78,6 +83,11 @@ public class DatabaseManager {
 			tables.get("hero").create();
 			tables.get("artifact").create();
 		}
+	}
+
+	public void	insert(Hero hero) {
+		this.tables.get("hero").insert(hero);
+		// err ?
 	}
 
 	public void	insert(String table, String column, String value) {
@@ -109,6 +119,31 @@ public class DatabaseManager {
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
 				// remonter l'erreur !
+			}
+		}
+
+		/**
+		 * Insert HERO
+		 */
+		private void	insert(Hero hero) {
+			try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
+				String	sql = "INSERT INTO " + this.name
+				+ "(name, class, level, attack, defense, hit_points) VALUES(?, ?, ?, ?, ?, ?)";
+			
+				try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+					preparedStatement.setString(1, hero.getName());
+					preparedStatement.setString(2, hero.getKlass());
+					preparedStatement.setInt(3, hero.getLevel());
+					preparedStatement.setInt(4, hero.getAttack());
+					preparedStatement.setInt(5, hero.getDefense());
+					preparedStatement.setInt(6, hero.getHitPoints());
+
+					preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					System.err.println(e);
+				}
+			} catch (Exception e) {
+				System.err.println(e); /////// error mgmt
 			}
 		}
 
@@ -169,12 +204,12 @@ public class DatabaseManager {
 			private String	name;
 			private Map< String, String >	columns = new HashMap<>();
 
-			private Builder	setName(String p_name) {
+			private Builder	withName(String p_name) {
 				this.name = p_name;
 				return this;
 			}
 
-			private Builder	setColumn(String column, String type) {
+			private Builder	withColumn(String column, String type) {
 				this.columns.put(column, type);
 				return this;
 			}

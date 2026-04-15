@@ -36,7 +36,7 @@ public class Villain extends Character {
 		private Armor	armor = null;
 		private Helm	helm = null;
 
-		public Builder setArtifact(Artifact artifact) {
+		public Builder withArtifact(Artifact artifact) {
 			String	artifactType = artifact.getClass().getSimpleName();
 
 			switch (artifactType) {
@@ -53,7 +53,7 @@ public class Villain extends Character {
 			return this;
 		}
 
-		@Override
+	//	@Override
 		public Villain	build() {
 			return new Villain(this);
 		}

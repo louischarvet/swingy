@@ -50,6 +50,22 @@ public abstract class Character {
 		return this.klass;
 	}
 
+	public int	getLevel() {
+		return this.level;
+	}
+
+	public int	getAttack() {
+		return this.attack;
+	}
+
+	public int	getDefense() {
+		return this.defense;
+	}
+
+	public int	getHitPoints() {
+		return this.hitPoints;
+	}
+
 	public int	attackOutput() {
 		int	bonus = this.weapon != null ? this.weapon.getLevel() : 0;
 		
@@ -114,6 +130,7 @@ public abstract class Character {
 		private String	klass;
 
 		private int	level = 1;
+
 		private int	attack = 1;
 		private int	defense = 1;
 		private int	hitPoints = 1;
@@ -122,17 +139,17 @@ public abstract class Character {
 //		private Armor	armor = null;
 //		private Helm	helm = null;
 
-		public Builder	setName(String p_name) {
+		public Builder	withName(String p_name) {
 			this.name = p_name;
 			return this;
 		}
 
-		public Builder	setClass(String p_class) {
+		public Builder	withKlass(String p_class) {
 			this.klass = p_class;
 			return this;
 		}
 
-		public Builder	setLevel(int p_level) {
+		public Builder	withLevel(int p_level) {
 			this.level = p_level;
 			return this;
 		}
