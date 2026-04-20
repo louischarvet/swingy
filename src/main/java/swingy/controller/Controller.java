@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import swingy.view.View;
 import swingy.model.Model; /////////////////
+import swingy.model.validation.ValidationException;
 
 /**
  * Réagir aux résultats (ex : afficher une erreur ou rediriger).
@@ -28,6 +29,7 @@ public class Controller {
 	// 	"W",
 	// 	"MAP",
 	// 	"HELP"
+	// SAVE ?????
 	// ));
 	private View	view = null; // to notify in case of exception/error
 	private Model	model = null;
@@ -42,32 +44,32 @@ public class Controller {
 //		System.out.println("in Controller: " + input);
 		try {
 			String	currentState = model.getCurrentState();
-			String	upperInput = input.toUpperCase().trim();
+			String	upperInput = input.trim();
 
-			System.out.println("currentState: " + currentState);
+		//	System.out.println("currentState: " + currentState);
 
 			switch (currentState) {
 				case "MAIN_MENU":
-					System.out.println("Controller: in MAIN MENU");
-					model.menu(upperInput);
+					// System.out.println("Controller: in MAIN MENU");
+					model.menu(input.toUpperCase().trim());
 					break;
 				case "WAIT_NAME":
-					System.out.println("Controller: in WAIT NAME");
-					model.registerName(upperInput);
+					// System.out.println("Controller: in WAIT NAME");
+					model.registerName(input.trim());
 					break;
 //					this.model.createHero(upperInput);
 				case "WAIT_CLASS":
-					model.registerClass(upperInput);
+					model.registerClass(input.toUpperCase().trim());
 					break;
 				case "CREATE_HERO":
-					model.createHero(upperInput);
+					model.createHero(input.toUpperCase().trim());
 					break;
 				case "IN_GAME":
 					break;
 //					this.model.game(upperInput);
 			}
-		} catch (Exception e) {
-			view.error(e.getMessage());
+		} catch (ValidationException e) {
+			view.error(e.getMessages());
 		}
 	}
 }

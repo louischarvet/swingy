@@ -2,6 +2,7 @@ package swingy.model.character;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 import swingy.model.artifact.Artifact;
 import swingy.model.artifact.Weapon;
@@ -11,11 +12,11 @@ import swingy.model.artifact.Armor;
 public abstract class Character {
 	@NotNull
 	@Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
+	@Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
 	private final String	name;
 
-//	@NotNull
-//	@Pattern()
-	private final String	klass; // Hero only ?
+	@Pattern(regexp = "^(BERSERKER|TANK|RESILIENT)$", message = "Class must be (either digit or string): 1 BERSERKER, 2 TANK, 3 RESILIENT")
+	private	String	klass; // Hero only ?
 
 	private int	level;
 
@@ -40,6 +41,10 @@ public abstract class Character {
 		this.weapon = null;
 		this.armor = null;
 		this.helm = null;
+	}
+
+	public void	setKlass(String klass) {
+		this.klass = klass;
 	}
 
 	public String	getName() {
@@ -125,7 +130,7 @@ public abstract class Character {
 		);
 	}
 
-	public static abstract class Builder {
+	public static abstract class Builder< T extends Character > {
 		private String	name;
 		private String	klass;
 
@@ -139,17 +144,17 @@ public abstract class Character {
 //		private Armor	armor = null;
 //		private Helm	helm = null;
 
-		public Builder	withName(String p_name) {
+		public Builder< T >	withName(String p_name) {
 			this.name = p_name;
 			return this;
 		}
 
-		public Builder	withKlass(String p_class) {
+		public Builder< T >	withKlass(String p_class) {
 			this.klass = p_class;
 			return this;
 		}
 
-		public Builder	withLevel(int p_level) {
+		public Builder< T >	withLevel(int p_level) {
 			this.level = p_level;
 			return this;
 		}
@@ -173,6 +178,6 @@ public abstract class Character {
 		// 	return new Character(this);
 		// }
 
-		public abstract Character	build();
+		public abstract T	build();
 	}
 }

@@ -53,8 +53,8 @@ public class DatabaseManager {
 		if (!Files.exists(Paths.get(DB_DIR)))
 			Files.createDirectory(Paths.get(DB_DIR));
 
-		if (!Files.exists(dbPath)) {
-			System.out.println("DatabaseManager: !Files.exists(" + dbPath + ")");
+	//	if (!Files.exists(dbPath)) {
+	//		System.out.println("DatabaseManager: !Files.exists(" + dbPath + ")");
 			
 			TableManager	heroTable = new TableManager.Builder()
 				.withName("hero")
@@ -82,7 +82,7 @@ public class DatabaseManager {
 
 			tables.get("hero").create();
 			tables.get("artifact").create();
-		}
+	//	}
 	}
 
 	public void	insert(Hero hero) {

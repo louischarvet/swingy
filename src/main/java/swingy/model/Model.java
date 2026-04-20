@@ -5,11 +5,25 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import java.util.Set;
+
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.ConstraintViolation;
+
 import swingy.model.DatabaseManager;
 import swingy.model.character.Character;
 import swingy.model.character.Hero;
 
+import swingy.model.validation.CharacterValidationException;
+
 public class Model extends Observable {
+	private static final Validator validator = Validation
+		.buildDefaultValidatorFactory()
+		.getValidator();
 	private DatabaseManager	databaseManager;
 	private final List< String >	STATES = new ArrayList<>(Arrays.asList(
 		"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
@@ -22,8 +36,11 @@ public class Model extends Observable {
 	));
 	private String	currentState = null;
 	private Hero	currentHero = null;
-//	private String	toPrint = null; // resultat de la commande
+
+	@Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
+	@Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
 	private String	heroName = null;
+
 	private String	heroClass = null;
 
 	public String	getCurrentState() {
@@ -39,11 +56,13 @@ public class Model extends Observable {
 	// Validate MAIN_MENU commands
 	public void	menu(String input) {
 		String	data = "popo";
-		System.out.println("In Model: " + input);
+	//	System.out.println("In Model: " + input);
+
+	// validate command ? private attribute ?
 
 		switch (input) {
 			case "NEW":
-				System.out.println("Model: in NEW");
+			//	System.out.println("Model: in NEW");
 				this.currentState = "WAIT_NAME";
 				setChanged();
 				notifyObservers("Creating new hero. Enter your name:");
@@ -63,32 +82,73 @@ public class Model extends Observable {
 
 	// WAIT_NAME
 	// validation in hero creation (instanciation)
-	public void	registerName(String input) {
-		this.heroName = input;
+	public void	registerName(String input) throws CharacterValidationException {
+		// Dto ? illogique de le build ici
+		this.currentHero = new Hero.Builder()
+			.withName(input)
+			.withLevel(1)
+			.build();
+
+		// this.heroName = input;
+		Set< ConstraintViolation< Character > >	violations = validator.validate(this.currentHero);
+		if (!violations.isEmpty())
+			throw new CharacterValidationException(violations);
+
 		currentState = "WAIT_CLASS";
 		setChanged();
+
+		// notify: currentState ?
 		notifyObservers("Choose your class:\n\t1: BERSERKER (+1 ATT)\n\t2: TANK (+1 DEF)\n\t3: RESILIENT (+1 HP)");
 	}
 
 	// WAIT_CLASS
-	public void	registerClass(String input) {
-		this.heroClass = input;
+	public void	registerClass(String input) throws CharacterValidationException {
+	//	this.heroClass = input;
+		this.currentHero.setKlass(input);
+
+		Set< ConstraintViolation< Character > >	violations = validator.validate(this.currentHero);
+		if (!violations.isEmpty())
+			throw new CharacterValidationException(violations);
+
 		currentState = "CREATE_HERO";
 		setChanged();
-		notifyObservers("Create this hero ?\n" + this.heroName + " " + this.heroClass);
+
+		// notify: currentState ?
+		notifyObservers("Create this hero ? (y/n)\n"
+			+ this.currentHero.getName() + " "
+			+ this.currentHero.getKlass());
 	}
 
 	// CREATE_HERO
 	// validation: YES Y NO N
 	public void	createHero(String input) {
-		Character	hero = new Hero.Builder()
-			.withName(this.heroName)
-			.withKlass(this.heroClass)
-			.withLevel(1)
-			.build();
-		databaseManager.insert((Hero)hero);
-		this.currentHero = (Hero)hero;
-		currentState = "IN_GAME";
+		if (input.equals("Y") || input.equals("YES")) {
+			// Character	hero = new Hero.Builder()
+			// 	.withName(this.heroName)
+			// 	.withKlass(this.heroClass)
+			// 	.withLevel(1)
+			// 	.build();
+
+			databaseManager.insert(this.currentHero);
+			currentState = "IN_GAME";
+			setChanged();
+
+			// notify: currentState ?
+			notifyObservers("The adventure begins !\nMove commands: N E S W\nOther commands:\n  SAVE (save your progression)\n  MAP (display level map)\n  HELP (display this message)");
+		} else if (input.equals("N") || input.equals("NO")) {
+			this.currentHero = null;
+
+			currentState = "MAIN_MENU";
+			setChanged();
+
+			// notify: currentState ?
+			notifyObservers("menu_message // tmp");
+		} else {
+			setChanged();
+
+			// notify: currentState ?
+			notifyObservers("Unrecognized command.\nCreate this hero ? (y/n)\n"); /// ......
+		}
 	}
 
 	// private static class mainMenu {
