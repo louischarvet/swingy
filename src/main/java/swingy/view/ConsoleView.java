@@ -22,7 +22,7 @@ public class ConsoleView extends View {
 		System.out.println(this.OPENING_MESSAGE);
 		// Welcome message + commands menu
 		while (true) {
-			System.out.print("•-I==> ");
+			System.out.print("\n\u001B[38;5;220m•\u001B[0m\u001B[38;5;130m-\u001B[0m\u001B[38;5;220mI\u001B[0m\u001B[38;5;255m==>\u001B[0m ");
 			readInput();
 		}
 	//	update();

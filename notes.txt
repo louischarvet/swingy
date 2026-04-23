@@ -1,0 +1,22 @@
+ResultSet peut occasionner des leaks !
+	ne pas le renvoyer (doit rester dans son scope, bloc try-with-ressources)
+
+TO DO
+
+- NEW
+	- DTO pour le nom + pour la classe (validation plus simple)
+	- modifier les stats en fonction de la classe
+	- avec Hibernate ORM : creer d'abord l'objet Hero. Puis avec EntityManager, insert en DB.
+
+- LOAD
+	- DTO pour les resumés des Hero existants en DB
+	- DTO pour l'input (id du Hero ? ou 1, 2, 3... dans l'ordre de print)
+
+- Base de Données !
+	- retaper DatabaseManager. Implémenter Hibernate ORM.
+	
+
+- notifyObservers(currentState, ...)
+	- prévoir un DTO pour data 
+	- dans View: en fonction de l'état: print le texte correspondant
+	autre parametre : data eventuelle (nom et classe du heros apres la creaation par exemple)
