@@ -51,6 +51,8 @@ public class Controller {
 			switch (currentState) {
 				case "MAIN_MENU":
 					// System.out.println("Controller: in MAIN MENU");
+					// move toUpperCase() in Model
+					// check in Model DTOs
 					model.menu(input.toUpperCase().trim());
 					break;
 				case "WAIT_NAME":
@@ -68,8 +70,9 @@ public class Controller {
 					break;
 //					this.model.game(upperInput);
 			}
-		} catch (ValidationException e) {
-			view.error(e.getMessages());
+		} catch (Exception e) {
+			view.error(e.getMessage());
+			// view.error(e.getMessages());
 		}
 	}
 }

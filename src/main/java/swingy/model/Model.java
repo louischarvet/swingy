@@ -20,6 +20,9 @@ import swingy.model.character.Hero;
 
 import swingy.model.validation.exception.CharacterValidationException;
 
+import swingy.model.validation.dto.DTOInterface;
+import swingy.model.validation.dto.MenuCommandDTO;
+
 public class Model extends Observable {
 	private static final Validator validator = Validation
 		.buildDefaultValidatorFactory()
@@ -37,6 +40,10 @@ public class Model extends Observable {
 	private String	currentState = null;
 	private Hero	currentHero = null;
 
+	/**
+	 * DTOs
+	 */
+	private MenuCommandDTO	menuCommand = null;
 	@Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
 	@Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
 	private String	heroName = null;
@@ -53,9 +60,17 @@ public class Model extends Observable {
 		// ...
 	}
 
+	private void	validate(DTOInterface dto) throws Exception {
+		Set< ConstraintViolation< Character > >	violations = validator.validate(this.currentHero);
+		if (!violations.isEmpty())
+			throw new CharacterValidationException(violations);
+	}
+
 	// Validate MAIN_MENU commands
-	public void	menu(String input) {
-		String	data = "popo";
+	public void	menu(String input) throws Exception {
+		this.menuCommand = new MenuCommandDTO(input);
+		validate(this.menuCommand);
+	//	String	data = "popo";
 	//	System.out.println("In Model: " + input);
 
 	// validate command ? private attribute ?

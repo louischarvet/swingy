@@ -20,3 +20,16 @@ TO DO
 	- prévoir un DTO pour data 
 	- dans View: en fonction de l'état: print le texte correspondant
 	autre parametre : data eventuelle (nom et classe du heros apres la creaation par exemple)
+
+- DTOs :
+	- Commandes (MENU commands):
+		- NEW :
+			- name
+			- klass
+			- create this ? yes / no
+		- LOAD / ERASE (Game management):
+			- id du heros/partie
+		- QUIT
+			- sure ? yes/no
+		- HELP
+	- Game commands
