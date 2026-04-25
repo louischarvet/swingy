@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import swingy.view.View;
 import swingy.model.Model; /////////////////
-import swingy.model.validation.exception.ValidationException;
+import swingy.model.validation.exception.DTOException;
 
 /**
  * Réagir aux résultats (ex : afficher une erreur ou rediriger).
@@ -70,9 +70,14 @@ public class Controller {
 					break;
 //					this.model.game(upperInput);
 			}
-		} catch (Exception e) {
+		} catch (DTOException e) {
+		//	System.out.println("in controller: DTOException");
 			view.error(e.getMessage());
 			// view.error(e.getMessages());
+
+		} catch (Exception e) {
+		//	System.out.println("in controller: Exception");
+			view.error(e.getMessage());
 		}
 	}
 }

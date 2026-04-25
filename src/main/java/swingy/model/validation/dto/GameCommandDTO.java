@@ -1,5 +1,7 @@
 package swingy.model.validation.dto;
 
+import jakarta.validation.constraints.Pattern;
+
 public class GameCommandDTO implements DTOInterface {
 	@Pattern(
 		regexp = "^(N|E|S|W|MAP|HELP)$",

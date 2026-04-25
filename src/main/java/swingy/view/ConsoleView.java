@@ -47,7 +47,7 @@ public class ConsoleView extends View {
 
 	@Override
 	public void	error(String message) {
-		System.out.println("Error: " + message);
+		System.out.print(message);
 	}
 
 	@Override

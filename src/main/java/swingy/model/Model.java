@@ -68,8 +68,9 @@ public class Model extends Observable {
 
 	// Validate MAIN_MENU commands
 	public void	menu(String input) throws Exception {
-		this.menuCommand = new MenuCommandDTO(input);
-		validate(this.menuCommand);
+		// this.menuCommand = new MenuCommandDTO(input);
+		// validate(this.menuCommand);
+		this.menuCommand = MenuCommandDTO.of(input);
 	//	String	data = "popo";
 	//	System.out.println("In Model: " + input);
 

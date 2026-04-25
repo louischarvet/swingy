@@ -17,6 +17,8 @@ public class HeroNameDTO implements DTOInterface {
 	public String	name;
 
 	public HeroNameDTO(String name) {
+		System.out.println("data in HeroNameDTO: " + name);
+
 		this.name = name;
 	}
 
