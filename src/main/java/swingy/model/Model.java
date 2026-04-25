@@ -124,19 +124,19 @@ public class Model extends Observable {
 
 		// notify: currentState ?
 		notifyObservers("Create this hero ? (y/n)\n"
-			+ this.currentHero.getName() + " "
-			+ this.currentHero.getKlass());
+			+ this.heroName.getName() + " "
+			+ this.heroKlass.getKlass());
 	}
 
 	// CREATE_HERO
 	// validation: YES Y NO N
 	public void	createHero(String input) {
 		if (input.equals("Y") || input.equals("YES")) {
-			// Character	hero = new Hero.Builder()
-			// 	.withName(this.heroName)
-			// 	.withKlass(this.heroClass)
-			// 	.withLevel(1)
-			// 	.build();
+			Character	hero = new Hero.Builder()
+				.withName(this.heroName.getName())
+				.withKlass(this.heroKlass.getKlass())
+				.withLevel(1)
+				.build();
 
 			databaseManager.insert(this.currentHero);
 			currentState = "IN_GAME";
@@ -151,7 +151,7 @@ public class Model extends Observable {
 			setChanged();
 
 			// notify: currentState ?
-			notifyObservers("menu_message // tmp");
+			notifyObservers("Hero creation cancelled. Return to Menu.");
 		} else {
 			setChanged();
 

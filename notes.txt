@@ -33,7 +33,8 @@ TO DO
 			- create this ? yes / no
 		- LOAD / ERASE (Game management):
 			- id du heros/partie
+			- Confirmation DTO (erase)
 		- QUIT
-			- sure ? yes/no
+			- sure ? yes/no -> Confirmation DTO
 		- HELP
 	- Game commands
