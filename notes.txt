@@ -22,6 +22,10 @@ TO DO
 	autre parametre : data eventuelle (nom et classe du heros apres la creaation par exemple)
 
 - DTOs :
+	- interface DTO 
+		ou abstract class : contiendrait la validation ? DTO.validate()
+		avec le validateur en static ?
+		ou validateur qui contiendrait tous les DTOs ?
 	- Commandes (MENU commands):
 		- NEW :
 			- name

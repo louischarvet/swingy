@@ -18,10 +18,12 @@ import swingy.model.DatabaseManager;
 import swingy.model.character.Character;
 import swingy.model.character.Hero;
 
+import swingy.model.validation.exception.ValidationException;
 import swingy.model.validation.exception.CharacterValidationException;
 
 import swingy.model.validation.dto.DTOInterface;
 import swingy.model.validation.dto.MenuCommandDTO;
+import swingy.model.validation.dto.HeroNameDTO;
 
 public class Model extends Observable {
 	private static final Validator validator = Validation
@@ -44,9 +46,11 @@ public class Model extends Observable {
 	 * DTOs
 	 */
 	private MenuCommandDTO	menuCommand = null;
-	@Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
-	@Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
-	private String	heroName = null;
+	private HeroNameDTO	heroName = null;
+
+	// @Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
+	// @Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
+	// private String	heroName = null;
 
 	private String	heroClass = null;
 
@@ -97,12 +101,10 @@ public class Model extends Observable {
 
 	// WAIT_NAME
 	// validation in hero creation (instanciation)
-	public void	registerName(String input) throws CharacterValidationException {
+	public void	registerName(String input) throws Exception {
 		// Dto ? illogique de le build ici
-		this.currentHero = new Hero.Builder()
-			.withName(input)
-			.withLevel(1)
-			.build();
+		this.heroName = new HeroNameDTO(input);
+		validate(this.heroName);
 
 		// this.heroName = input;
 		Set< ConstraintViolation< Character > >	violations = validator.validate(this.currentHero);
