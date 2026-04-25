@@ -18,6 +18,7 @@ import swingy.model.DatabaseManager;
 import swingy.model.character.Character;
 import swingy.model.character.Hero;
 
+import swingy.model.validation.exception.DTOException;
 import swingy.model.validation.exception.ValidationException;
 import swingy.model.validation.exception.CharacterValidationException;
 
@@ -34,7 +35,7 @@ public class Model extends Observable {
 	private final List< String >	STATES = new ArrayList<>(Arrays.asList(
 		"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
 			"WAIT_NAME",	// expecting <name> then <class>
-			"WAIT_CLASS",
+			"WAIT_KLASS",
 			"CREATE_HERO",
 			"GAME_MANAGEMENT",	// LOAD or ERASE existing games // expecting game id
 
@@ -98,17 +99,13 @@ public class Model extends Observable {
 
 	// WAIT_NAME
 	// validation in hero creation (instanciation)
-	public void	registerName(String input) throws Exception {
+	public void	registerName(String input) throws DTOException {
 		// Dto ? illogique de le build ici
-		this.heroName = new HeroNameDTO(input);
-		validate(this.heroName);
+		// this.heroName = new HeroNameDTO(input);
+		// validate(this.heroName);
+		this.heroName = HeroNameDTO.of(input);
 
-		// this.heroName = input;
-		Set< ConstraintViolation< Character > >	violations = validator.validate(this.currentHero);
-		if (!violations.isEmpty())
-			throw new CharacterValidationException(violations);
-
-		currentState = "WAIT_CLASS";
+		currentState = "WAIT_KLASS";
 		setChanged();
 
 		// notify: currentState ?
@@ -116,26 +113,25 @@ public class Model extends Observable {
 	}
 
 	// WAIT_CLASS
-	public void	registerClass(String input) throws Exception {
-		this.heroKlass = new HeroKlassDTO(input);
-		validate(this.heroKlass);
+	public void	registerKlass(String input) throws DTOException {
+		this.heroKlass = HeroKlassDTO.of(input);
 
 		currentState = "CREATE_HERO";
 		setChanged();
 
 		// notify: currentState ?
 		notifyObservers("Create this hero ? (y/n)\n"
-			+ this.heroName.getName() + " "
-			+ this.heroKlass.getKlass());
+			+ this.heroName.getData() + " "
+			+ this.heroKlass.getData());
 	}
 
 	// CREATE_HERO
 	// validation: YES Y NO N
 	public void	createHero(String input) {
 		if (input.equals("Y") || input.equals("YES")) {
-			Character	hero = new Hero.Builder()
-				.withName(this.heroName.getName())
-				.withKlass(this.heroKlass.getKlass())
+			this.currentHero = new Hero.Builder()
+				.withName(this.heroName.getData())
+				.withKlass(this.heroKlass.getData())
 				.withLevel(1)
 				.build();
 

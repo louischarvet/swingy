@@ -4,7 +4,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
-public class HeroNameDTO implements DTOInterface {
+import swingy.model.validation.exception.DTOException;
+
+public class HeroNameDTO extends DTO {
 	@NotNull
 	@Size(
 		min = 1, 
@@ -14,15 +16,21 @@ public class HeroNameDTO implements DTOInterface {
 		regexp = "^[A-Za-z0-9]+$",
 		flags = Pattern.Flag.CASE_INSENSITIVE,
 		message = "Name must be alphanumeric.")
-	public String	name;
+	public String	data;
 
-	public HeroNameDTO(String name) {
-		System.out.println("data in HeroNameDTO: " + name);
-
-		this.name = name;
+	public HeroNameDTO(String data) {
+		this.data = data;
 	}
 
-	public String	getName() {
-		return this.name;
+	public String	getData() {
+		return this.data;
+	}
+
+	public static HeroNameDTO	of(String data) throws DTOException {
+		System.out.println("data in HeroNameDTO: " + data);
+
+		HeroNameDTO	dto = new HeroNameDTO(data);
+		dto.validate();
+		return dto;
 	}
 }

@@ -19,4 +19,5 @@ public abstract class DTO {
 		if (!violations.isEmpty())
 			throw new DTOException((Set<ConstraintViolation< ? > >) (Set< ? >) violations);
 	}
+	protected abstract String getData();
 }

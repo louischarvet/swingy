@@ -2,6 +2,8 @@ package swingy.model.validation.dto;
 
 import jakarta.validation.constraints.Pattern;
 
+import swingy.model.validation.exception.DTOException;
+
 public class MenuCommandDTO extends DTO {
 	@Pattern(
 		regexp = "^(NEW|LOAD|ERASE|QUIT|HELP)$",
@@ -17,7 +19,7 @@ public class MenuCommandDTO extends DTO {
 		return this.data;
 	}
 
-	public static MenuCommandDTO	of(String data) throws Exception {
+	public static MenuCommandDTO	of(String data) throws DTOException {
 		System.out.println("data in MenuCommandDTO: " + data);
 
 		MenuCommandDTO	dto = new MenuCommandDTO(data);

@@ -5,8 +5,10 @@ import java.lang.Integer;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class HeroKlassDTO implements DTOInterface {
-	private final String klassArray[] = {
+import swingy.model.validation.exception.DTOException;
+
+public class HeroKlassDTO extends DTO {
+	private static final String klassArray[] = {
 		"BERSERKER",
 		"TANK",
 		"RESILIENT"
@@ -16,16 +18,24 @@ public class HeroKlassDTO implements DTOInterface {
 	@Pattern(
 		regexp = "^(BERSERKER|TANK|RESILIENT)$",
 		message = "Class must be (either digit or string): 1 BERSERKER, 2 TANK, 3 RESILIENT")
-	public String	klass;
+	public String	data;
 
-	public HeroKlassDTO(String klass) {
-		if (klass.equals("^(1|2|3)$"))
-			this.klass = this.klassArray[Integer.parseInt(klass) - 1];
+	private HeroKlassDTO(String data) {
+		if (data.equals("^(1|2|3)$"))
+			this.data = this.klassArray[Integer.parseInt(data) - 1];
 		else
-			this.klass = klass;
+			this.data = data;
 	}
 
-	public String	getKlass() {
-		return this.klass;
+	public String	getData() {
+		return this.data;
+	}
+
+	public static HeroKlassDTO	of(String data) throws DTOException {
+		System.out.println("data in HeroKlassDTO: " + data);
+
+		HeroKlassDTO	dto = new HeroKlassDTO(data);
+		dto.validate();
+		return dto;
 	}
 }

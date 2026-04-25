@@ -60,8 +60,8 @@ public class Controller {
 					model.registerName(input.trim());
 					break;
 //					this.model.createHero(upperInput);
-				case "WAIT_CLASS":
-					model.registerClass(input.toUpperCase().trim());
+				case "WAIT_KLASS":
+					model.registerKlass(input.toUpperCase().trim());
 					break;
 				case "CREATE_HERO":
 					model.createHero(input.toUpperCase().trim());
