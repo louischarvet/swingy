@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import swingy.view.View;
 import swingy.model.Model; /////////////////
-import swingy.model.validation.ValidationException;
+import swingy.model.validation.exception.ValidationException;
 
 /**
  * Réagir aux résultats (ex : afficher une erreur ou rediriger).

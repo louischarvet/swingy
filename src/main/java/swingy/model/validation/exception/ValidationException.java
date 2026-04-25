@@ -1,4 +1,4 @@
-package swingy.model.validation;
+package swingy.model.validation.exception;
 
 import java.lang.Exception;
 

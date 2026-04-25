@@ -18,7 +18,7 @@ import swingy.model.DatabaseManager;
 import swingy.model.character.Character;
 import swingy.model.character.Hero;
 
-import swingy.model.validation.CharacterValidationException;
+import swingy.model.validation.exception.CharacterValidationException;
 
 public class Model extends Observable {
 	private static final Validator validator = Validation
