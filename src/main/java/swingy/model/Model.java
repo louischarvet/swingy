@@ -24,6 +24,7 @@ import swingy.model.validation.exception.CharacterValidationException;
 import swingy.model.validation.dto.DTOInterface;
 import swingy.model.validation.dto.MenuCommandDTO;
 import swingy.model.validation.dto.HeroNameDTO;
+import swingy.model.validation.dto.HeroKlassDTO;
 
 public class Model extends Observable {
 	private static final Validator validator = Validation
@@ -47,12 +48,7 @@ public class Model extends Observable {
 	 */
 	private MenuCommandDTO	menuCommand = null;
 	private HeroNameDTO	heroName = null;
-
-	// @Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
-	// @Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
-	// private String	heroName = null;
-
-	private String	heroClass = null;
+	private HeroKlassDTO	heroKlass = null;
 
 	public String	getCurrentState() {
 		return this.currentState;
@@ -119,13 +115,9 @@ public class Model extends Observable {
 	}
 
 	// WAIT_CLASS
-	public void	registerClass(String input) throws CharacterValidationException {
-	//	this.heroClass = input;
-		this.currentHero.setKlass(input);
-
-		Set< ConstraintViolation< Character > >	violations = validator.validate(this.currentHero);
-		if (!violations.isEmpty())
-			throw new CharacterValidationException(violations);
+	public void	registerClass(String input) throws Exception {
+		this.heroKlass = new HeroKlassDTO(input);
+		validate(this.heroKlass);
 
 		currentState = "CREATE_HERO";
 		setChanged();
