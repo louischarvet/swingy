@@ -19,4 +19,8 @@ public class HeroNameDTO implements DTOInterface {
 	public HeroNameDTO(String name) {
 		this.name = name;
 	}
+
+	public String	getName() {
+		return this.name;
+	}
 }

@@ -12,4 +12,8 @@ public class MenuCommandDTO implements DTOInterface {
 	public MenuCommandDTO(String command) {
 		this.command = command;
 	}
+
+	public String	getCommand() {
+		return this.command;
+	}
 }

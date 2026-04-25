@@ -24,4 +24,8 @@ public class HeroKlassDTO implements DTOInterface {
 		else
 			this.klass = klass;
 	}
+
+	public String	getKlass() {
+		return this.klass;
+	}
 }
