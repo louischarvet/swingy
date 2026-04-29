@@ -16,12 +16,12 @@ public class HeroKlassDTO extends DTO {
 
 	@NotNull
 	@Pattern(
-		regexp = "^(BERSERKER|TANK|RESILIENT)$",
+		regexp = "^(1|2|3|BERSERKER|TANK|RESILIENT)$",
 		message = "Class must be (either digit or string): 1 BERSERKER, 2 TANK, 3 RESILIENT")
 	public String	data;
 
 	private HeroKlassDTO(String data) {
-		if (data.equals("^(1|2|3)$"))
+		if (data.matches("^(1|2|3)$"))
 			this.data = this.klassArray[Integer.parseInt(data) - 1];
 		else
 			this.data = data;
