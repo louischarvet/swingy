@@ -24,7 +24,7 @@ public class HeroKlassDTO extends DTO {
 		if (data.matches("^(1|2|3)$"))
 			this.data = this.klassArray[Integer.parseInt(data) - 1];
 		else
-			this.data = data;
+			this.data = data.toUpperCase();
 	}
 
 	public String	getData() {
