@@ -63,7 +63,7 @@ public class Controller {
 				case "WAIT_KLASS":
 					model.registerKlass(input.toUpperCase().trim());
 					break;
-				case "CREATE_HERO":
+				case "CONFIRM_CREATE":
 					model.createHero(input.toUpperCase().trim());
 					break;
 				case "IN_GAME":

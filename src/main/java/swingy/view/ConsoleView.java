@@ -5,6 +5,8 @@ import java.util.Observable;
 import swingy.controller.Controller;
 import swingy.model.Model;
 
+import swingy.model.NotificationArgument;
+
 public class ConsoleView extends View {
 	// public GuiView(View view) {
 	// 	// this = view
@@ -52,6 +54,13 @@ public class ConsoleView extends View {
 
 	@Override
 	public void	update(Observable model, Object data) {
-		System.out.println((String)data);
+		NotificationArgument	arg = (NotificationArgument)data;
+		String	state = arg.getState();
+		String	info = arg.getInfo();
+		String	message = this.stateMessages.get(state);
+		if (info != null)
+			message.concat(info);
+
+		System.out.println(message);
 	}
 }

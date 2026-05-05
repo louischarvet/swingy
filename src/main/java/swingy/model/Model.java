@@ -37,10 +37,10 @@ public class Model extends Observable {
 		"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
 			"WAIT_NAME",	// expecting <name> then <class>
 			"WAIT_KLASS",
-			"CREATE_HERO",
+			"CONFIRM_CREATE",
 			"GAME_MANAGEMENT",	// LOAD or ERASE existing games // expecting game id
 
-		"IN_GAME"			// expecting N E S W MAP HERO MENU
+		"START_GAME"			// expecting N E S W MAP HERO MENU
 	));
 	private String	currentState = null;
 	private Hero	currentHero = null;
@@ -81,10 +81,7 @@ public class Model extends Observable {
 
 		switch (input) {
 			case "NEW":
-			//	System.out.println("Model: in NEW");
-				this.currentState = "WAIT_NAME";
-				setChanged();
-				notifyObservers("Creating new hero. Enter your name:");
+				this.change("WAIT_NAME");
 				break;
 			case "LOAD":
 				System.out.println("Model: in LOAD");
@@ -99,38 +96,36 @@ public class Model extends Observable {
 	//	notifyObservers(data);
 	}
 
-	// WAIT_NAME
-	// validation in hero creation (instanciation)
-	public void	registerName(String input) throws DTOException {
-		// Dto ? illogique de le build ici
-		// this.heroName = new HeroNameDTO(input);
-		// validate(this.heroName);
-		this.heroName = HeroNameDTO.of(input);
-
-		currentState = "WAIT_KLASS";
+	private void	change(String state) {
+		this.currentState = state;
 		setChanged();
+		notifyObservers(new NotificationArgument(state));
+	}
 
-		// notify: currentState ?
-		notifyObservers("Choose your class:\n\t1: BERSERKER (+1 ATT)\n\t2: TANK (+1 DEF)\n\t3: RESILIENT (+1 HP)");
+	private void	change(String state, String info) {
+		this.currentState = state;
+		setChanged();
+		notifyObservers(new NotificationArgument(state, info));
+	}
+
+	// WAIT_NAME
+	public void	registerName(String input) throws DTOException {
+		this.heroName = HeroNameDTO.of(input);
+		this.change("WAIT_KLASS");
 	}
 
 	// WAIT_CLASS
 	public void	registerKlass(String input) throws DTOException {
 		this.heroKlass = HeroKlassDTO.of(input);
-
-		currentState = "CREATE_HERO";
-		setChanged();
-
-		// notify: currentState ?
-		notifyObservers("Create this hero ? (y/n)\n"
-			+ this.heroName.getData() + " "
-			+ this.heroKlass.getData());
+		this.change("CONFIRM_CREATE", new String(
+			this.heroName.getData() + " " + this.heroKlass.getData()));
 	}
 
 	// CREATE_HERO
 	// validation: YES Y NO N
 	public void	createHero(String input) throws DTOException {
 		this.confirm = ConfirmDTO.of(input);
+		System.out.println("in createHero: " + input);
 		
 		if (this.confirm.isOk()) {
 			this.currentHero = new Hero.Builder()
@@ -140,54 +135,12 @@ public class Model extends Observable {
 				.build();
 
 			databaseManager.insert(this.currentHero);
-			currentState = "IN_GAME";
-			setChanged();
 
-			// notify: currentState ?
-			notifyObservers("The adventure begins !\nMove commands: N E S W\nOther commands:\n  SAVE (save your progression)\n  MAP (display level map)\n  HELP (display this message)");
+			this.change("START_GAME"); 
+			// notifyObservers("The adventure begins !\nMove commands: N E S W\nOther commands:\n  SAVE (save your progression)\n  MAP (display level map)\n  HELP (display this message)");
 		} else {
 			this.currentHero = null;
-
-			currentState = "MAIN_MENU";
-			setChanged();
-
-			// notify: currentState ?
-			notifyObservers("Hero creation cancelled. Return to Menu.");
+			this.change("MAIN_MENU");
 		}
 	}
-
-	// private static class mainMenu {
-	// 	private String	heroName;
-
-	// 	private mainMenu() {
-	// 		super();
-	// 	}
-
-	// 	private void	newGame() {
-	// 		currentState = "WAIT_NAME";
-	// 		notifyObservers("Enter your name: ");
-	// 		// wait for Name
-	// 	}
-
-	// 	private void	setHeroName(String heroName) {
-	// 		this.heroName = heroName;
-	// 		currentState = "NEW_CLASS";
-	// 		notifyObservers("Choose your class:"); /////////
-	// 	}
-
-	// 	private class heroCreation {
-	// 		private heroCreation() {
-	// 			super();
-	// 		}
-
-	// 		public void	createHero(String name, String klass) {
-	// 			Character	hero = new Hero.Builder()
-	// 				.withName(name)
-	// 				.withKlass(klass)
-	// 				.withLevel(1)
-	// 				.build();
-	// 			databaseManager.insert((Hero)hero);
-	// 		}
-	// 	}
-	// }
 }
