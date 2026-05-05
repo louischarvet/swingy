@@ -132,7 +132,7 @@ public class Model extends Observable {
 	public void	createHero(String input) throws DTOException {
 		this.confirm = ConfirmDTO.of(input);
 		
-		if (input.equals("Y") || input.equals("YES")) {
+		if (this.confirm.isOk()) {
 			this.currentHero = new Hero.Builder()
 				.withName(this.heroName.getData())
 				.withKlass(this.heroKlass.getData())
@@ -145,7 +145,7 @@ public class Model extends Observable {
 
 			// notify: currentState ?
 			notifyObservers("The adventure begins !\nMove commands: N E S W\nOther commands:\n  SAVE (save your progression)\n  MAP (display level map)\n  HELP (display this message)");
-		} else if (input.equals("N") || input.equals("NO")) {
+		} else {
 			this.currentHero = null;
 
 			currentState = "MAIN_MENU";
@@ -153,11 +153,6 @@ public class Model extends Observable {
 
 			// notify: currentState ?
 			notifyObservers("Hero creation cancelled. Return to Menu.");
-		} else {
-			setChanged();
-
-			// notify: currentState ?
-			notifyObservers("Unrecognized command.\nCreate this hero ? (y/n)\n"); /// ......
 		}
 	}
 
