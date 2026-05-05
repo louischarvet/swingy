@@ -32,8 +32,6 @@ public class HeroKlassDTO extends DTO {
 	}
 
 	public static HeroKlassDTO	of(String data) throws DTOException {
-		System.out.println("data in HeroKlassDTO: " + data);
-
 		HeroKlassDTO	dto = new HeroKlassDTO(data);
 		dto.validate();
 		return dto;

@@ -26,6 +26,7 @@ import swingy.model.validation.dto.DTOInterface;
 import swingy.model.validation.dto.MenuCommandDTO;
 import swingy.model.validation.dto.HeroNameDTO;
 import swingy.model.validation.dto.HeroKlassDTO;
+import swingy.model.validation.dto.ConfirmDTO;
 
 public class Model extends Observable {
 	private static final Validator validator = Validation
@@ -50,6 +51,7 @@ public class Model extends Observable {
 	private MenuCommandDTO	menuCommand = null;
 	private HeroNameDTO	heroName = null;
 	private HeroKlassDTO	heroKlass = null;
+	private ConfirmDTO	confirm = null;
 
 	public String	getCurrentState() {
 		return this.currentState;
@@ -127,7 +129,9 @@ public class Model extends Observable {
 
 	// CREATE_HERO
 	// validation: YES Y NO N
-	public void	createHero(String input) {
+	public void	createHero(String input) throws DTOException {
+		this.confirm = ConfirmDTO.of(input);
+		
 		if (input.equals("Y") || input.equals("YES")) {
 			this.currentHero = new Hero.Builder()
 				.withName(this.heroName.getData())

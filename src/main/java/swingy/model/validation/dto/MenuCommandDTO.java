@@ -20,8 +20,6 @@ public class MenuCommandDTO extends DTO {
 	}
 
 	public static MenuCommandDTO	of(String data) throws DTOException {
-		System.out.println("data in MenuCommandDTO: " + data);
-
 		MenuCommandDTO	dto = new MenuCommandDTO(data);
 		dto.validate();
 		return dto;

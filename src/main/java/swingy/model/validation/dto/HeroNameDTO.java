@@ -27,8 +27,6 @@ public class HeroNameDTO extends DTO {
 	}
 
 	public static HeroNameDTO	of(String data) throws DTOException {
-		System.out.println("data in HeroNameDTO: " + data);
-
 		HeroNameDTO	dto = new HeroNameDTO(data);
 		dto.validate();
 		return dto;

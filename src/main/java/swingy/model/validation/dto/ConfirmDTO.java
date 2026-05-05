@@ -4,14 +4,15 @@ import jakarta.validation.constraints.Pattern;
 
 import swingy.model.validation.exception.DTOException;
 
-public class GameCommandDTO extends DTO {
+public class ConfirmDTO extends DTO {
 	@Pattern(
-		regexp = "^(N|E|S|W|MAP|HELP)$",
+		regexp = "^(Y|YES|N|NO)$",
 		flags = Pattern.Flag.CASE_INSENSITIVE,
-		message = "Invalid command.")
-	private String	data = null;
+		message = "Confirm ? (y/n)"
+	)
+	private String	data;
 
-	public GameCommandDTO(String data) {
+	private ConfirmDTO(String data) {
 		this.data = data;
 	}
 
@@ -19,8 +20,8 @@ public class GameCommandDTO extends DTO {
 		return this.data;
 	}
 
-	public static GameCommandDTO	of(String data) throws DTOException {
-		GameCommandDTO	dto = new GameCommandDTO(data);
+	public static ConfirmDTO	of(String data) throws DTOException {
+		ConfirmDTO	dto = new ConfirmDTO(data);
 		dto.validate();
 		return dto;
 	}
