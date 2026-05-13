@@ -21,7 +21,7 @@ public class ConsoleView extends View {
 	public void	display() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
-		System.out.println(Printable.getMessage(0));
+		System.out.println(Printable.MAIN_MENU.getMessage());
 		// Welcome message + commands menu
 		while (true) {
 			System.out.print("\n\u001B[38;5;220m•\u001B[0m\u001B[38;5;130m-\u001B[0m\u001B[38;5;220mI\u001B[0m\u001B[38;5;255m==>\u001B[0m ");

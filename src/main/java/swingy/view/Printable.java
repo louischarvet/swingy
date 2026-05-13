@@ -13,7 +13,7 @@ public enum Printable {
 		this.message = message;
 	}
 
-	private String	getMessage() {
+	public String	getMessage() {
 		return message;
 	}
 
