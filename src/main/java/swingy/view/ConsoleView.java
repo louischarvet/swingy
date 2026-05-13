@@ -21,7 +21,7 @@ public class ConsoleView extends View {
 	public void	display() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
-		System.out.println(this.OPENING_MESSAGE);
+		System.out.println(Printable.getMessage(0));
 		// Welcome message + commands menu
 		while (true) {
 			System.out.print("\n\u001B[38;5;220m•\u001B[0m\u001B[38;5;130m-\u001B[0m\u001B[38;5;220mI\u001B[0m\u001B[38;5;255m==>\u001B[0m ");
@@ -55,11 +55,11 @@ public class ConsoleView extends View {
 	@Override
 	public void	update(Observable model, Object data) {
 		NotificationArgument	arg = (NotificationArgument)data;
-		String	state = arg.getState();
+		int code = arg.getStatusCode();
 		String	info = arg.getInfo();
-		String	message = this.stateMessages.get(state);
+		String	message = Printable.getMessage(code);
 		if (info != null)
-			message.concat(info);
+			message = message.concat(info);
 
 		System.out.println(message);
 	}

@@ -1,20 +1,23 @@
 package swingy.model;
 
+// dto ?
 public class NotificationArgument {
-	private String	state = null;
+	// validate code ?
+	private int	statusCode = 0;
+//	private String	state = null;
 	private String	info = null;
 
-	public NotificationArgument(String state) {
-		this.state = state;
+	public NotificationArgument(int statusCode) {
+		this.statusCode = statusCode;
 	}
 
-	public NotificationArgument(String state, String info) {
-		this.state = state;
+	public NotificationArgument(int statusCode, String info) {
+		this.statusCode = statusCode;
 		this.info = info;
 	}
 
-	public String	getState() {
-		return this.state;
+	public int	getStatusCode() {
+		return this.statusCode;
 	}
 
 	public String	getInfo() {

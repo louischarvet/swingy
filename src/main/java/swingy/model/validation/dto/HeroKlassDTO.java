@@ -17,7 +17,7 @@ public class HeroKlassDTO extends DTO {
 	@NotNull
 	@Pattern(
 		regexp = "^(1|2|3|BERSERKER|TANK|RESILIENT)$",
-		message = "Class must be (either digit or string): 1 BERSERKER, 2 TANK, 3 RESILIENT")
+		message = "Class must be (either digit or string):\n\t1: BERSERKER (+1 ATT)\n\t2: TANK (+1 DEF)\n\t3: RESILIENT (+1 HP)")
 	public String	data;
 
 	private HeroKlassDTO(String data) {

@@ -33,16 +33,19 @@ public class Model extends Observable {
 		.buildDefaultValidatorFactory()
 		.getValidator();
 	private DatabaseManager	databaseManager;
-	private final List< String >	STATES = new ArrayList<>(Arrays.asList(
-		"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
-			"WAIT_NAME",	// expecting <name> then <class>
-			"WAIT_KLASS",
-			"CONFIRM_CREATE",
-			"GAME_MANAGEMENT",	// LOAD or ERASE existing games // expecting game id
 
-		"START_GAME"			// expecting N E S W MAP HERO MENU
-	));
-	private String	currentState = null;
+	private Status	status = null;
+
+	// private final List< String >	STATES = new ArrayList<>(Arrays.asList(
+	// 	"MAIN_MENU",		// expecting NEW LOAD ERASE QUIT HELP
+	// 		"WAIT_NAME",	// expecting <name> then <class>
+	// 		"WAIT_KLASS",
+	// 		"CONFIRM_CREATE",
+	// 		"GAME_MANAGEMENT",	// LOAD or ERASE existing games // expecting game id
+
+	// 	"START_GAME"			// expecting N E S W MAP HERO MENU
+	// ));
+	// private String	currentState = null;
 	private Hero	currentHero = null;
 
 	/**
@@ -53,13 +56,19 @@ public class Model extends Observable {
 	private HeroKlassDTO	heroKlass = null;
 	private ConfirmDTO	confirm = null;
 
-	public String	getCurrentState() {
-		return this.currentState;
+	public Status	getStatus() {
+		return status;
 	}
+
+	// public String	getCurrentState() {
+	// 	return this.currentState;
+	// }
 
 	public Model() {
 		this.databaseManager = new DatabaseManager();
-		this.currentState = STATES.get(0);
+
+		this.status = Status.MAIN_MENU;
+	//	this.currentState = STATES.get(0);
 		// ...
 	}
 
@@ -81,7 +90,7 @@ public class Model extends Observable {
 
 		switch (input) {
 			case "NEW":
-				this.change("WAIT_NAME");
+				this.change(Status.WAIT_NAME);
 				break;
 			case "LOAD":
 				System.out.println("Model: in LOAD");
@@ -96,28 +105,28 @@ public class Model extends Observable {
 	//	notifyObservers(data);
 	}
 
-	private void	change(String state) {
-		this.currentState = state;
+	private void	change(Status status) {
+		this.status = status;
 		setChanged();
-		notifyObservers(new NotificationArgument(state));
+		notifyObservers(new NotificationArgument(status.getCode()));
 	}
 
-	private void	change(String state, String info) {
-		this.currentState = state;
+	private void	change(Status status, String info) {
+		this.status = status;
 		setChanged();
-		notifyObservers(new NotificationArgument(state, info));
+		notifyObservers(new NotificationArgument(status.getCode(), info));
 	}
 
 	// WAIT_NAME
 	public void	registerName(String input) throws DTOException {
 		this.heroName = HeroNameDTO.of(input);
-		this.change("WAIT_KLASS");
+		this.change(Status.WAIT_KLASS);
 	}
 
 	// WAIT_CLASS
 	public void	registerKlass(String input) throws DTOException {
 		this.heroKlass = HeroKlassDTO.of(input);
-		this.change("CONFIRM_CREATE", new String(
+		this.change(Status.CONFIRM_CREATE, new String(
 			this.heroName.getData() + " " + this.heroKlass.getData()));
 	}
 
@@ -136,11 +145,11 @@ public class Model extends Observable {
 
 			databaseManager.insert(this.currentHero);
 
-			this.change("START_GAME"); 
+			this.change(Status.IN_GAME); 
 			// notifyObservers("The adventure begins !\nMove commands: N E S W\nOther commands:\n  SAVE (save your progression)\n  MAP (display level map)\n  HELP (display this message)");
 		} else {
 			this.currentHero = null;
-			this.change("MAIN_MENU");
+			this.change(Status.MAIN_MENU);
 		}
 	}
 }

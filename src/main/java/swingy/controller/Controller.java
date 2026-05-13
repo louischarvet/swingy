@@ -7,6 +7,8 @@ import java.util.Arrays;
 import swingy.view.View;
 import swingy.model.Model; /////////////////
 import swingy.model.validation.exception.DTOException;
+import swingy.model.Status;
+
 
 /**
  * Réagir aux résultats (ex : afficher une erreur ou rediriger).
@@ -43,30 +45,31 @@ public class Controller {
 	public void	transmit(String input) {
 //		System.out.println("in Controller: " + input);
 		try {
-			String	currentState = model.getCurrentState();
+			// String	currentState = model.getCurrentState();
+			Status	status = model.getStatus();
 			String	upperInput = input.trim();
 
 		//	System.out.println("currentState: " + currentState);
 
-			switch (currentState) {
-				case "MAIN_MENU":
+			switch (status) {
+				case MAIN_MENU:
 					// System.out.println("Controller: in MAIN MENU");
 					// move toUpperCase() in Model
 					// check in Model DTOs
 					model.menu(input.toUpperCase().trim());
 					break;
-				case "WAIT_NAME":
+				case WAIT_NAME:
 					// System.out.println("Controller: in WAIT NAME");
 					model.registerName(input.trim());
 					break;
 //					this.model.createHero(upperInput);
-				case "WAIT_KLASS":
+				case WAIT_KLASS:
 					model.registerKlass(input.toUpperCase().trim());
 					break;
-				case "CONFIRM_CREATE":
+				case CONFIRM_CREATE:
 					model.createHero(input.toUpperCase().trim());
 					break;
-				case "IN_GAME":
+				case IN_GAME:
 					break;
 //					this.model.game(upperInput);
 			}
