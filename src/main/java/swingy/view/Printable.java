@@ -5,7 +5,8 @@ public enum Printable {
 	WAIT_NAME("\tWhat is your name, noble adventurer ?"),
 	WAIT_KLASS("\tWhich class is yours ?\n\t1: BERSERKER (+1 ATT)\n\t2: TANK (+1 DEF)\n\t3: RESILIENT (+1 HP)"),
 	CONFIRM_CREATE("\tCreate this hero ? (y/n)\n"),
-	IN_GAME("Game started !\n");
+	IN_GAME("Game started !\n"),
+	WAIT_LOAD("Choose a game to load:\n");
 
 	private final String	message;
 

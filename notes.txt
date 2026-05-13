@@ -38,3 +38,5 @@ TO DO
 			- sure ? yes/no -> Confirmation DTO
 		- HELP
 	- Game commands
+
+Limites au nombre de parties sauvegardees !

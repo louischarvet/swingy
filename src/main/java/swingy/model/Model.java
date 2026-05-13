@@ -1,5 +1,7 @@
 package swingy.model;
 
+import java.lang.StringBuilder;
+
 import java.util.Observable;
 import java.util.List;
 import java.util.ArrayList;
@@ -93,7 +95,19 @@ public class Model extends Observable {
 				this.change(Status.WAIT_NAME);
 				break;
 			case "LOAD":
-				System.out.println("Model: in LOAD");
+				// get les heros sauvegardes
+				// les stringifier
+				List< String >	heroStrings = databaseManager.getHeroStrings();
+				String	toPrint = new String("");
+				for (int i = 0, n = heroStrings.size(); i < n; i++) {
+					toPrint = toPrint.concat(heroStrings.get(i));	
+				}
+				// c
+				// change avec la String
+				if (!heroStrings.isEmpty())
+					change(Status.WAIT_LOAD, toPrint);
+				else
+					change(Status.MAIN_MENU, "No saved file.") /// 
 				break;
 			case "ERASE":
 				break;

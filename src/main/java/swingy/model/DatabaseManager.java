@@ -1,5 +1,7 @@
 package swingy.model;
 
+import java.lang.StringBuilder;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -61,7 +63,7 @@ public class DatabaseManager {
 				.withColumn("id", "INTEGER PRIMARY KEY AUTOINCREMENT")
 				.withColumn("level", "INTEGER NOT NULL DEFAULT 1")
 				.withColumn("name", "TEXT NOT NULL")
-				.withColumn("class", "TEXT NOT NULL") //
+				.withColumn("klass", "TEXT NOT NULL") //
 				.withColumn("attack", "INTEGER NOT NULL DEFAULT 1")
 				.withColumn("defense", "INTEGER NOT NULL DEFAULT 1")
 				.withColumn("hit_points", "INTEGER NOT NULL DEFAULT 1") ////////
@@ -100,6 +102,11 @@ public class DatabaseManager {
 		// error if no table found ?
 	}
 
+	// resultset ?
+	public List< String >	getHeroStrings() {
+		return this.tables.get("hero").getAllStrings();
+	}
+
 	private static class TableManager {
 		private	String	name;
 		private	Map< String, String >	columns;
@@ -128,7 +135,7 @@ public class DatabaseManager {
 		private void	insert(Hero hero) {
 			try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
 				String	sql = "INSERT INTO " + this.name
-				+ "(name, class, level, attack, defense, hit_points) VALUES(?, ?, ?, ?, ?, ?)";
+				+ "(name, klass, level, attack, defense, hit_points) VALUES(?, ?, ?, ?, ?, ?)";
 			
 				try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 					preparedStatement.setString(1, hero.getName());
@@ -179,6 +186,36 @@ public class DatabaseManager {
 				System.err.println(e.getMessage());
 				// remonter l'erreur !
 			}
+		}
+
+		// T ? generic type
+		// ne pas creer d'objet Hero
+		private List< String >	getAllStrings() {
+			List< String >	list = new ArrayList<>();
+
+			try (Connection connection = DriverManager.getConnection(JDBC_URL)) {
+				String	query = new StringBuilder()
+					.append("SELECT * FROM ")
+					.append(this.name)
+					.toString();
+
+				try (Statement statement = connection.createStatement()) {
+					try (ResultSet resultSet = statement.executeQuery(query)) {
+						while (resultSet.next()) {
+							String	heroString = new StringBuilder()
+								.append(resultSet.getString("name")).append(", ")
+								.append(resultSet.getString("klass")).append(", level ")
+								.append(resultSet.getInt("level")).append('\n') //////
+								.toString();
+							list.add(heroString);
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.err.println("Error in getAll(): " + e.getMessage());
+			}
+
+			return list;
 		}
 
 		private String	getColumnsInit() {
