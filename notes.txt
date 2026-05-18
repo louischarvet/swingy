@@ -40,3 +40,11 @@ TO DO
 	- Game commands
 
 Limites au nombre de parties sauvegardees !
+
+
+REFACTO:
+
+- renommer MenuCommandDTO en MenuCommand, attribut data en input. Package in
+- classe MenuCommand contient les méthodes pour inputs NEW, LOAD, etc.
+- une classe pour chaque output de requete SQL
+	(ex: LOAD -> profils résumés des héros)
