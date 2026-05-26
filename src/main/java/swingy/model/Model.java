@@ -107,7 +107,7 @@ public class Model extends Observable {
 				if (!heroStrings.isEmpty())
 					change(Status.WAIT_LOAD, toPrint);
 				else
-					change(Status.MAIN_MENU, "No saved file.") /// 
+					change(Status.MAIN_MENU, "No saved file."); /// 
 				break;
 			case "ERASE":
 				break;
