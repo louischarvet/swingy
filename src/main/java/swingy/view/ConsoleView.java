@@ -2,32 +2,24 @@ package swingy.view;
 
 import java.util.Observable;
 
-import swingy.controller.Controller;
-import swingy.model.Model;
-
-import swingy.model.NotificationArgument;
-
 public class ConsoleView extends View {
-	// public GuiView(View view) {
-	// 	// this = view
-	// 	// copie des parametres en cas de changement de mode de view
-	// }
+	public ConsoleView() {}
 
-	public ConsoleView() {
-		super();
+	@Override
+	public void launch() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+		System.out.println("Welcome to Swingy !\n" + Printable.MAIN_MENU.getMessage());
+
+		display();
 	}
 
 	@Override
-	public void	display() {
-		System.out.print("\033[H\033[2J");
-		System.out.flush();
-		System.out.println(Printable.MAIN_MENU.getMessage());
-		// Welcome message + commands menu
+	protected void	display() {
 		while (true) {
 			System.out.print("\n\u001B[38;5;220m•\u001B[0m\u001B[38;5;130m-\u001B[0m\u001B[38;5;220mI\u001B[0m\u001B[38;5;255m==>\u001B[0m ");
 			readInput();
 		}
-	//	update();
 	}
 
 	@Override
@@ -36,7 +28,7 @@ public class ConsoleView extends View {
 		int	readByte = 0;
 
 		try {
-			while (readByte != -1 && readByte != '\n') { // readByte != '\n'
+			while (readByte != -1 && readByte != '\n') {
 				readByte = System.in.read();
 				input += (char)readByte;		
 			}
@@ -54,13 +46,13 @@ public class ConsoleView extends View {
 
 	@Override
 	public void	update(Observable model, Object data) {
-		NotificationArgument	arg = (NotificationArgument)data;
-		int code = arg.getStatusCode();
-		String	info = arg.getInfo();
-		String	message = Printable.getMessage(code);
-		if (info != null)
-			message = message.concat(info);
+		// NotificationArgument	arg = (NotificationArgument)data;
+		// int code = arg.getStatusCode();
+		// String	info = arg.getInfo();
+		// String	message = Printable.getMessage(code);
+		// if (info != null)
+		// 	message = message.concat(info);
 
-		System.out.println(message);
+		// System.out.println(message);
 	}
 }
