@@ -10,11 +10,14 @@ import swingy.model.validation.NameValidator;
 
 public class Model extends Observable {
 	private Status	status = null;
-	private static Menu	menu = null;
+	private static Menu	menu;
+
+	private	static final HeroSchema	heroSchema = new HeroSchema();
 
 	public Model() {
 		status = Status.MAIN_MENU;
 		menu = new Menu();
+		// heroSchema = new HeroSchema();
 	}
 
 	public Status	getStatus() {
@@ -33,25 +36,25 @@ public class Model extends Observable {
 		notifyObservers(new NotificationArgument(status.getCode(), info));
 	}
 
-	public static void	menu(String input) throws ValidationException {
+	public static void	menu(Model model, String input) throws ValidationException {
 		String	command = MenuCommandValidator.of(input).getData();
 		// System.out.println("in menu:" + input);
 
 		switch (command) {
 			case "NEW":
-				menu.newGame();
+				model.menu.newGame();
 			// case "LOAD":
 			// 	menu.loadGame();
 		}
-
 	}
 
-	public static void	registerName(String input) throws ValidationException {
+	public static void	registerName(Model model, String input) throws ValidationException {
 		String	name = NameValidator.of(input).getData();
-		System.out.println("in registerName:" + input);
+		heroSchema.setName(name);
+		model.change(Status.WAIT_KLASS);
 	}
 
-	public static void	registerKlass(String input) {
+	public static void	registerKlass(Model model, String input) {
 		System.out.println("in registerKlass:" + input);
 	}
 

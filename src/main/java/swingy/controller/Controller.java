@@ -18,7 +18,7 @@ public class Controller {
 	public void	transmit(String input) {
 		Status	status = model.getStatus();
 		try {
-			Switch.execute(status, input.trim());
+			Switch.execute(model, status, input.trim());
 		} catch (ValidationException e) {
 			view.error(e.getMessage());
 		}

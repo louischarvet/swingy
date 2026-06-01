@@ -6,21 +6,21 @@ import java.util.HashMap;
 
 import swingy.model.Model;
 import swingy.model.Status;
-import swingy.model.ThrowingConsumer;
+import swingy.model.ThrowingBiConsumer;
 
 import swingy.model.validation.ValidationException;
 
 public enum Switch {
-	MAIN_MENU(Status.MAIN_MENU, Model::menu),
-	WAIT_NAME(Status.WAIT_NAME, Model::registerName),
-	WAIT_KLASS(Status.WAIT_KLASS, Model::registerKlass),
+	MAIN_MENU(Status.MAIN_MENU, (model, input) -> model.menu(model, input)),
+	WAIT_NAME(Status.WAIT_NAME, (model, input) -> model.registerName(model, input)),
+	WAIT_KLASS(Status.WAIT_KLASS, (model, input) -> model.registerKlass(model, input)),
 	// CONFIRM_CREATE(Status.CONFIRM_CREATE, Model::createHero),
 	// IN_GAME(Status.IN_GAME, Model::game),
 	// WAIT_LOAD(Status.WAIT_LOAD, Model::load)
 	;
 
 	private final Status	status;
-	private final ThrowingConsumer< String, ValidationException >	function;
+	private final ThrowingBiConsumer< Model, String, ValidationException >	function;
 	private static final Map< Status, Switch >	BY_STATUS = new HashMap<>();
 
 	static {
@@ -28,18 +28,18 @@ public enum Switch {
 			BY_STATUS.put(sw.status, sw);
 	}
 
-	Switch(Status status, ThrowingConsumer< String, ValidationException > function) {
+	Switch(Status status, ThrowingBiConsumer< Model, String, ValidationException > function) {
 		this.status = status;
 		this.function = function;
 	}
 
-	private void	execute(String input) throws ValidationException {
-		function.accept(input);
+	private void	execute(Model model, String input) throws ValidationException {
+		function.accept(model, input);
 	}
 
-	public static void	execute(Status status, String input) throws ValidationException {
+	public static void	execute(Model model, Status status, String input) throws ValidationException {
 		Switch	sw = BY_STATUS.get(status);
 		if (sw != null)
-			sw.execute(input);
+			sw.execute(model, input);
 	}
 }
