@@ -12,7 +12,7 @@ public class MenuCommandValidator extends InputValidator {
 	private String	data;
 
 	private MenuCommandValidator(String data) {
-		this.data = data;
+		this.data = data.toUpperCase();
 	}
 
 	public String	getData() {

@@ -2,6 +2,8 @@ package swingy.view;
 
 import java.util.Observable;
 
+import swingy.model.NotificationArgument;
+
 public class ConsoleView extends View {
 	public ConsoleView() {}
 
@@ -23,7 +25,7 @@ public class ConsoleView extends View {
 	}
 
 	@Override
-	protected void	readInput() {
+	protected void	readInput() { // Scanner
 		String	input = new String("");
 		int	readByte = 0;
 
@@ -46,13 +48,13 @@ public class ConsoleView extends View {
 
 	@Override
 	public void	update(Observable model, Object data) {
-		// NotificationArgument	arg = (NotificationArgument)data;
-		// int code = arg.getStatusCode();
-		// String	info = arg.getInfo();
-		// String	message = Printable.getMessage(code);
-		// if (info != null)
-		// 	message = message.concat(info);
+		NotificationArgument	arg = (NotificationArgument)data;
+		int code = arg.getStatusCode();
+		String	info = arg.getInfo();
+		String	message = Printable.getMessage(code);
+		if (info != null)
+			message = message.concat(info); // info.concat(message)
 
-		// System.out.println(message);
+		System.out.println(message);
 	}
 }
