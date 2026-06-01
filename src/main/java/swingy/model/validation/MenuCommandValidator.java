@@ -15,12 +15,13 @@ public class MenuCommandValidator extends InputValidator {
 		this.data = data.toUpperCase();
 	}
 
+	@Override
 	public String	getData() {
 		return data;
 	}
 
-	public static MenuCommandValidator	of(String data) throws ValidationException {
-		MenuCommandValidator	validator = new MenuCommandValidator(data);
+	public static InputValidator	of(String data) throws ValidationException {
+		InputValidator	validator = new MenuCommandValidator(data);
 		validator.validate();
 		return validator;
 	}

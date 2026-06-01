@@ -6,6 +6,7 @@ import swingy.model.NotificationArgument;
 
 import swingy.model.validation.ValidationException;
 import swingy.model.validation.MenuCommandValidator;
+import swingy.model.validation.NameValidator;
 
 public class Model extends Observable {
 	private Status	status = null;
@@ -39,11 +40,14 @@ public class Model extends Observable {
 		switch (command) {
 			case "NEW":
 				menu.newGame();
+			// case "LOAD":
+			// 	menu.loadGame();
 		}
 
 	}
 
-	public static void	registerName(String input) {
+	public static void	registerName(String input) throws ValidationException {
+		String	name = NameValidator.of(input).getData();
 		System.out.println("in registerName:" + input);
 	}
 

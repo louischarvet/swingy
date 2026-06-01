@@ -22,5 +22,7 @@ public abstract class InputValidator {
 		}
 	}
 
+	public abstract String	getData();
+
 	// public abstract InputValidator	of(String data) throws ValidationException;
 }
