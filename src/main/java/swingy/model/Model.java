@@ -2,6 +2,9 @@ package swingy.model;
 
 import java.util.Observable;
 
+import swingy.model.validation.ValidationException;
+import swingy.model.validation.MenuCommandValidator;
+
 public class Model extends Observable {
 	private Status	status = null;
 
@@ -13,8 +16,9 @@ public class Model extends Observable {
 		return status;
 	}
 
-	public static void	menu(String input) {
-		System.out.println("in menu:" + input);
+	public static void	menu(String input) throws ValidationException {
+		String	command = MenuCommandValidator.of(input).getData();
+		System.out.println("in menu:" + command);
 	}
 
 	public static void	registerName(String input) {

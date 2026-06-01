@@ -4,6 +4,8 @@ import swingy.view.View;
 import swingy.model.Model;
 import swingy.model.Status;
 
+import swingy.model.validation.ValidationException;
+
 public class Controller {
 	private View	view = null;
 	private Model	model = null;
@@ -15,7 +17,11 @@ public class Controller {
 
 	public void	transmit(String input) {
 		Status	status = model.getStatus();
-		Switch.execute(status, input);
+		try {
+			Switch.execute(status, input.trim());
+		} catch (ValidationException e) {
+			view.error(e.getMessage());
+		}
 	}
 
 	public void	registerView(View view) {
