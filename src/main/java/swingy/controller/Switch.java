@@ -14,7 +14,7 @@ public enum Switch {
 	MAIN_MENU(Status.MAIN_MENU, (model, input) -> model.menu(model, input)),
 	WAIT_NAME(Status.WAIT_NAME, (model, input) -> model.registerName(model, input)),
 	WAIT_KLASS(Status.WAIT_KLASS, (model, input) -> model.registerKlass(model, input)),
-	// CONFIRM_CREATE(Status.CONFIRM_CREATE, Model::createHero),
+	CONFIRM_CREATE(Status.CONFIRM_CREATE, (model, input) -> model.createHero(model, input)),
 	// IN_GAME(Status.IN_GAME, Model::game),
 	// WAIT_LOAD(Status.WAIT_LOAD, Model::load)
 	;

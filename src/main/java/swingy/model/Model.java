@@ -6,13 +6,19 @@ import swingy.model.NotificationArgument;
 
 import swingy.model.validation.ValidationException;
 import swingy.model.validation.MenuCommandValidator;
+
 import swingy.model.validation.NameValidator;
+import swingy.model.validation.KlassValidator;
+import swingy.model.validation.ConfirmValidator;
+
+import swingy.model.character.Hero;
 
 public class Model extends Observable {
 	private Status	status = null;
 	private static Menu	menu;
 
 	private	static final HeroSchema	heroSchema = new HeroSchema();
+	private static Hero	currentHero = null;
 
 	public Model() {
 		status = Status.MAIN_MENU;
@@ -48,14 +54,50 @@ public class Model extends Observable {
 		}
 	}
 
+	/**
+	 * Hero Creation
+	 */
+	private void	setSchemaName(String name) {
+		heroSchema.setName(name);
+	}
+
+	private void	setSchemaKlass(String klass) {
+		heroSchema.setKlass(klass);
+	}
+
+	private void	setHero(Hero hero) {
+		currentHero = hero;
+	}
+
 	public static void	registerName(Model model, String input) throws ValidationException {
 		String	name = NameValidator.of(input).getData();
-		heroSchema.setName(name);
+		model.setSchemaName(name);
 		model.change(Status.WAIT_KLASS);
 	}
 
-	public static void	registerKlass(Model model, String input) {
-		System.out.println("in registerKlass:" + input);
+	public static void	registerKlass(Model model, String input) throws ValidationException {
+		String	klass = KlassValidator.of(input).getData();
+		model.setSchemaKlass(klass);
+		model.change(Status.CONFIRM_CREATE, heroSchema.toString());
+	}
+
+	public static void	createHero(Model model, String input) throws ValidationException {
+		if (ConfirmValidator.of(input).isOk()) {
+			model.setHero(
+				new Hero.Builder()
+					.withName(heroSchema.getName())
+					.withKlass(heroSchema.getKlass())
+					.withLevel(1)
+					.build()
+				);
+
+				//
+
+			model.change(Status.MAIN_MENU); // change to IN_GAME
+		} else {
+			model.setHero(null);
+			model.change(Status.MAIN_MENU);
+		}
 	}
 
 	private class Menu {

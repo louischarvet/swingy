@@ -20,8 +20,8 @@ public class MenuCommandValidator extends InputValidator {
 		return data;
 	}
 
-	public static InputValidator	of(String data) throws ValidationException {
-		InputValidator	validator = new MenuCommandValidator(data);
+	public static MenuCommandValidator	of(String data) throws ValidationException {
+		MenuCommandValidator	validator = new MenuCommandValidator(data);
 		validator.validate();
 		return validator;
 	}

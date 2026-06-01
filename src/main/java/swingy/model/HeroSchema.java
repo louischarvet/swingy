@@ -1,5 +1,7 @@
 package swingy.model;
 
+import java.lang.StringBuilder;
+
 public class HeroSchema {
 	private String	name;
 	private String	klass;
@@ -18,5 +20,12 @@ public class HeroSchema {
 
 	public String	getKlass() {
 		return klass;
+	}
+
+	public String	toString() {
+		return new StringBuilder(name)
+			.append(", ")
+			.append(klass)
+			.toString();
 	}
 }

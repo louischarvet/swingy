@@ -25,8 +25,8 @@ public class NameValidator extends InputValidator {
 		return this.data;
 	}
 
-	public static InputValidator	of(String data) throws ValidationException {
-		InputValidator	validator = new NameValidator(data);
+	public static NameValidator	of(String data) throws ValidationException {
+		NameValidator	validator = new NameValidator(data);
 		validator.validate();
 		return validator;
 	}
