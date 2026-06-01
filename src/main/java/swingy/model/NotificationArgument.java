@@ -4,7 +4,6 @@ package swingy.model;
 public class NotificationArgument {
 	// validate code ?
 	private int	statusCode = 0;
-//	private String	state = null;
 	private String	info = null;
 
 	public NotificationArgument(int statusCode) {
