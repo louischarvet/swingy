@@ -12,20 +12,20 @@ public class Villain extends Character {
 	private Villain(Builder builder) {
 		super(builder);
 
-		this.weapon = builder.weapon;
-		this.armor = builder.armor;
-		this.helm = builder.helm;
+		// this.weapon = builder.weapon;
+		// this.armor = builder.armor;
+		// this.helm = builder.helm;
 	}
 
 	public	List< Artifact >	dropArtifacts() {
 		List< Artifact >	artifacts = new ArrayList<>();
 
-		if (this.weapon != null)
-			artifacts.add(this.weapon);
-		if (this.armor != null)
-			artifacts.add(this.armor);
-		if (this.helm != null)
-			artifacts.add(this.helm);
+		// if (this.weapon != null)
+		// 	artifacts.add(this.weapon);
+		// if (this.armor != null)
+		// 	artifacts.add(this.armor);
+		// if (this.helm != null)
+		// 	artifacts.add(this.helm);
 
 		return artifacts;
 	}

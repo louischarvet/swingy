@@ -2,6 +2,10 @@ package swingy.model;
 
 import java.util.Observable;
 
+import swingy.database.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import swingy.model.NotificationArgument;
 
 import swingy.model.validation.ValidationException;
@@ -28,6 +32,10 @@ public class Model extends Observable {
 
 	public Status	getStatus() {
 		return status;
+	}
+
+	public Hero	getCurrentHero() {
+		return currentHero;
 	}
 
 	private void	change(Status status) {
@@ -91,7 +99,23 @@ public class Model extends Observable {
 					.build()
 				);
 
-				//
+			////////////////////////
+        	Transaction transaction = null;
+        	try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        	    transaction = session.beginTransaction();
+        	    session.persist(model.getCurrentHero());
+        	    transaction.commit();
+        	    System.out.println("Hero sauvegardé avec l'ID : " + model.getCurrentHero().getId());
+        	} catch (Exception e) {
+        	    if (transaction != null) {
+        	        transaction.rollback();
+        	    }
+        	    e.printStackTrace();
+			}
+        	// } finally {
+        	//     HibernateUtil.shutdown();
+        	// }				
+			//////////////////////////
 
 			model.change(Status.MAIN_MENU); // change to IN_GAME
 		} else {

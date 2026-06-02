@@ -1,18 +1,53 @@
 package swingy.model.character;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
 import swingy.model.artifact.Artifact;
 import swingy.model.artifact.Weapon;
 import swingy.model.artifact.Armor;
 import swingy.model.artifact.Helm;
 
+@Entity
+@Table(name = "hero")
 public class Hero extends Character {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int	id;
+
+	@Column(name = "experience")
 	private int	experience;
+
+	public Hero() {
+		super();
+		experience = 0;
+	}
 
 	private Hero(Builder builder) {
 		super(builder);
 
 		this.experience = 0;
+	}
+
+	public int	getId() {
+		return id;
+	}
+
+	public int	getExperience() {
+		return experience;
+	}
+
+	public void	setId(int id) {
+		this.id = id;
+	}
+
+	public void	setExperience(int experience) {
+		this.experience = experience;
 	}
 
 	// @Override
@@ -36,9 +71,9 @@ public class Hero extends Character {
 	// 	}
 	// }
 
-	@Override
+	// @Override
 	public void	print() {
-		super.print();
+		// super.print();
 		System.out.println(" | EXP " + this.experience);
 	}
 
