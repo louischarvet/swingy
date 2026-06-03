@@ -122,13 +122,16 @@ public class Model extends Observable {
 		}
 		private void	loadGame() throws Exception {
 			List< Hero >	heroes = heroDAO.getAll();
-			StringBuilder	stringBuilder = new StringBuilder();
+			if (heroes == null)
+				change(Status.MAIN_MENU, new String("There is no saved game."));
+			else {
+				StringBuilder	stringBuilder = new StringBuilder();
 
-			for (Hero hero : heroes) {
-				stringBuilder.append(hero.toString()).append("\n");
+				for (Hero hero : heroes)
+					stringBuilder.append(hero.toString()).append("\n");
+
+				change(Status.WAIT_LOAD, stringBuilder.toString());
 			}
-
-			change(Status.WAIT_LOAD, stringBuilder.toString());
 		}
 	}
 }
