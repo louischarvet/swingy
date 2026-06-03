@@ -2,9 +2,10 @@ package swingy.model;
 
 import java.util.Observable;
 
-import swingy.database.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import swingy.database.HibernateUtil;
 
 import swingy.model.NotificationArgument;
 
@@ -89,7 +90,7 @@ public class Model extends Observable {
 		model.change(Status.CONFIRM_CREATE, heroSchema.toString());
 	}
 
-	public static void	createHero(Model model, String input) throws ValidationException {
+	public static void	createHero(Model model, String input) throws Exception {
 		if (ConfirmValidator.of(input).isOk()) {
 			model.setHero(
 				new Hero.Builder()
@@ -99,23 +100,7 @@ public class Model extends Observable {
 					.build()
 				);
 
-			////////////////////////
-        	Transaction transaction = null;
-        	try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-        	    transaction = session.beginTransaction();
-        	    session.persist(model.getCurrentHero());
-        	    transaction.commit();
-        	    System.out.println("Hero sauvegardé avec l'ID : " + model.getCurrentHero().getId());
-        	} catch (Exception e) {
-        	    if (transaction != null) {
-        	        transaction.rollback();
-        	    }
-        	    e.printStackTrace();
-			}
-        	// } finally {
-        	//     HibernateUtil.shutdown();
-        	// }				
-			//////////////////////////
+			HibernateUtil.insert(model.getCurrentHero());
 
 			model.change(Status.MAIN_MENU); // change to IN_GAME
 		} else {

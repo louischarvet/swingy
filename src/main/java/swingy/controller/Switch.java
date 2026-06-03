@@ -20,7 +20,7 @@ public enum Switch {
 	;
 
 	private final Status	status;
-	private final ThrowingBiConsumer< Model, String, ValidationException >	function;
+	private final ThrowingBiConsumer< Model, String, Exception >	function;
 	private static final Map< Status, Switch >	BY_STATUS = new HashMap<>();
 
 	static {
@@ -28,16 +28,16 @@ public enum Switch {
 			BY_STATUS.put(sw.status, sw);
 	}
 
-	Switch(Status status, ThrowingBiConsumer< Model, String, ValidationException > function) {
+	Switch(Status status, ThrowingBiConsumer< Model, String, Exception > function) {
 		this.status = status;
 		this.function = function;
 	}
 
-	private void	execute(Model model, String input) throws ValidationException {
+	private void	execute(Model model, String input) throws Exception {
 		function.accept(model, input);
 	}
 
-	public static void	execute(Model model, Status status, String input) throws ValidationException {
+	public static void	execute(Model model, Status status, String input) throws Exception {
 		Switch	sw = BY_STATUS.get(status);
 		if (sw != null)
 			sw.execute(model, input);

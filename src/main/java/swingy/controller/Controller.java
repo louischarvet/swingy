@@ -19,7 +19,7 @@ public class Controller {
 		Status	status = model.getStatus();
 		try {
 			Switch.execute(model, status, input.trim());
-		} catch (ValidationException e) {
+		} catch (Exception e) {
 			view.error(e.getMessage());
 		}
 	}
