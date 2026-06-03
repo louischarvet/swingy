@@ -1,11 +1,15 @@
 package swingy.model;
 
+import java.lang.StringBuilder;
+
 import java.util.Observable;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import swingy.database.HibernateUtil;
+import swingy.database.dao.HeroDAO;
 
 import swingy.model.NotificationArgument;
 
@@ -23,6 +27,7 @@ public class Model extends Observable {
 	private static Menu	menu;
 
 	private	static final HeroSchema	heroSchema = new HeroSchema();
+	private static HeroDAO	heroDAO = new HeroDAO();
 	private static Hero	currentHero = null;
 
 	public Model() {
@@ -51,15 +56,17 @@ public class Model extends Observable {
 		notifyObservers(new NotificationArgument(status.getCode(), info));
 	}
 
-	public static void	menu(Model model, String input) throws ValidationException {
+	public static void	menu(Model model, String input) throws Exception {
 		String	command = MenuCommandValidator.of(input).getData();
 		// System.out.println("in menu:" + input);
 
 		switch (command) {
 			case "NEW":
 				model.menu.newGame();
-			// case "LOAD":
-			// 	menu.loadGame();
+				break;
+			case "LOAD":
+				model.menu.loadGame();
+				break;
 		}
 	}
 
@@ -100,7 +107,7 @@ public class Model extends Observable {
 					.build()
 				);
 
-			HibernateUtil.insert(model.getCurrentHero());
+			heroDAO.insert(model.getCurrentHero());
 
 			model.change(Status.MAIN_MENU); // change to IN_GAME
 		} else {
@@ -112,6 +119,16 @@ public class Model extends Observable {
 	private class Menu {
 		private void	newGame() {
 			change(Status.WAIT_NAME);
+		}
+		private void	loadGame() throws Exception {
+			List< Hero >	heroes = heroDAO.getAll();
+			StringBuilder	stringBuilder = new StringBuilder();
+
+			for (Hero hero : heroes) {
+				stringBuilder.append(hero.toString()).append("\n");
+			}
+
+			change(Status.WAIT_LOAD, stringBuilder.toString());
 		}
 	}
 }

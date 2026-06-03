@@ -1,5 +1,8 @@
 package swingy.model.character;
 
+import java.lang.StringBuilder;
+import java.lang.Integer;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -70,6 +73,15 @@ public class Hero extends Character {
 	// 			;
 	// 	}
 	// }
+
+	public String	toString() {
+		String	string = new StringBuilder(Integer.toString(id))
+			.append(" : ").append(name)
+			.append(", ").append(klass)
+			.append(", level ").append(level)
+			.toString();
+		return string;
+	}
 
 	// @Override
 	public void	print() {
