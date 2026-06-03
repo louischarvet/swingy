@@ -8,7 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import swingy.model.character.Hero;
+// import swingy.model.character.Hero;
 
 public class HibernateUtil {
     private static final SessionFactory sessionFactory = buildSessionFactory();
@@ -36,19 +36,28 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-	public static void	insert(Hero hero) throws Exception {
-		Transaction	transaction = null;
+	// public static void	insert(Hero hero) throws Exception {
+	// 	Transaction	transaction = null;
 
-		try (Session session = sessionFactory.openSession()) {
-			transaction = session.beginTransaction();
-			session.persist(hero);
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null)
-				transaction.rollback();
-			throw e;
-		}
-	}
+	// 	try (Session session = sessionFactory.openSession()) {
+	// 		transaction = session.beginTransaction();
+	// 		session.persist(hero);
+	// 		transaction.commit();
+	// 	} catch (Exception e) {
+	// 		if (transaction != null)
+	// 			transaction.rollback();
+	// 		throw e;
+	// 	}
+	// }
+
+	// public static List< HeroDAO >	getHeroes() throws Exception {
+	// 	Transaction	transaction = null;
+
+	// 	try (Session session = sessionFactory.openSession()) {
+	// 		transaction = session.beginTransaction();
+			
+	// 	}
+	// }
 
     public static void shutdown() {
         // Ferme la SessionFactory à la fin du programme
