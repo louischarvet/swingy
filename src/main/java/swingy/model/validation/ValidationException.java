@@ -9,18 +9,28 @@ import jakarta.validation.ConstraintViolation;
 
 public class ValidationException extends Exception {
 	private Set< ConstraintViolation< ? > >	violations = null;
+	private String	message = null;
 
 	public ValidationException(Set< ConstraintViolation< ? > > violations) {
 		this.violations = violations;
+		setMessage();
 	}
 
-	@Override
-	public String	getMessage() {
+	public ValidationException(String message) {
+		this.message = message;
+	}
+
+	private void	setMessage() {
 		StringBuilder sb = new StringBuilder();
 
 		for (ConstraintViolation< ? > violation : violations) {
 			sb.append(violation.getMessage()).append('\n');
 		}
-		return sb.toString();
+		this.message = sb.toString();
+	}
+
+	@Override
+	public String	getMessage() {
+		return message;
 	}
 }

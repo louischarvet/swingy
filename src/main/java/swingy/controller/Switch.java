@@ -16,7 +16,8 @@ public enum Switch {
 	WAIT_KLASS(Status.WAIT_KLASS, (model, input) -> model.registerKlass(model, input)),
 	CONFIRM_CREATE(Status.CONFIRM_CREATE, (model, input) -> model.createHero(model, input)),
 	// IN_GAME(Status.IN_GAME, Model::game),
-	// WAIT_LOAD(Status.WAIT_LOAD, Model::load)
+	WAIT_LOAD(Status.WAIT_LOAD, (model, input) -> model.chooseGame(model, input)),
+	WAIT_ERASE(Status.WAIT_ERASE, (model,input) -> model.chooseGame(model, input))
 	;
 
 	private final Status	status;

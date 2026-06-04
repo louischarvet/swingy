@@ -75,8 +75,7 @@ public class Hero extends Character {
 	// }
 
 	public String	toString() {
-		String	string = new StringBuilder(Integer.toString(id))
-			.append(" : ").append(name)
+		String	string = new StringBuilder(name)
 			.append(", ").append(klass)
 			.append(", level ").append(level)
 			.toString();

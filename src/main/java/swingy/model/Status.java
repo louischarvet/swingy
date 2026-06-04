@@ -6,7 +6,8 @@ public enum Status {
 	WAIT_KLASS(2),
 	CONFIRM_CREATE(3),
 	IN_GAME(4),
-	WAIT_LOAD(5);
+	WAIT_LOAD(5),
+	WAIT_ERASE(6);
 
 	private final int	code;
 

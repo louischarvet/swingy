@@ -1,6 +1,7 @@
 package swingy.model;
 
 import java.lang.StringBuilder;
+import java.lang.Integer;
 
 import java.util.Observable;
 import java.util.List;
@@ -19,6 +20,7 @@ import swingy.model.validation.MenuCommandValidator;
 import swingy.model.validation.NameValidator;
 import swingy.model.validation.KlassValidator;
 import swingy.model.validation.ConfirmValidator;
+import swingy.model.validation.ChooseHeroValidator;
 
 import swingy.model.character.Hero;
 
@@ -65,7 +67,10 @@ public class Model extends Observable {
 				model.menu.newGame();
 				break;
 			case "LOAD":
-				model.menu.loadGame();
+				model.menu.load(Status.WAIT_LOAD);
+				break;
+			case "ERASE":
+				model.menu.load(Status.WAIT_ERASE);
 				break;
 		}
 	}
@@ -116,21 +121,42 @@ public class Model extends Observable {
 		}
 	}
 
+/**
+ * Choose hero / game file
+ * Load or Erase (check Status)
+ */
+	public static void	chooseGame(Model model, String input) throws Exception {
+		int	index = ChooseHeroValidator.of(input, heroDAO.getListSize()).getIndex();
+
+		if (model.getStatus() == Status.WAIT_LOAD) {
+			model.currentHero = heroDAO.get(index - 1);
+			model.change(Status.MAIN_MENU); // change to IN_GAME
+		} else { // WAIT_ERASE
+			heroDAO.erase(index - 1);
+			model.change(Status.MAIN_MENU, "Hero has been deleted.");
+		}
+	}
+
 	private class Menu {
 		private void	newGame() {
 			change(Status.WAIT_NAME);
 		}
-		private void	loadGame() throws Exception {
+		private void	load(Status status) throws Exception {
 			List< Hero >	heroes = heroDAO.getAll();
-			if (heroes == null)
+			if (heroes == null || heroes.size() < 1)
 				change(Status.MAIN_MENU, new String("There is no saved game."));
 			else {
 				StringBuilder	stringBuilder = new StringBuilder();
 
+				int	i = 0;
 				for (Hero hero : heroes)
-					stringBuilder.append(hero.toString()).append("\n");
+					stringBuilder
+						.append(Integer.toString(++i))
+						.append(" : ")
+						.append(hero.toString())
+						.append("\n");
 
-				change(Status.WAIT_LOAD, stringBuilder.toString());
+				change(status, stringBuilder.toString());
 			}
 		}
 	}
