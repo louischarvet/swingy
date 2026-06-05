@@ -6,9 +6,9 @@ import jakarta.validation.constraints.Pattern;
 
 public class MenuCommandValidator extends InputValidator {
 	@Pattern(
-		regexp = "^(NEW|LOAD|ERASE|QUIT|HELP)$",
+		regexp = "^(NEW|LOAD|ERASE|QUIT)$",
 		flags = Pattern.Flag.CASE_INSENSITIVE,
-		message = "Invalid command.")
+		message = "Unrecognized menu command.")
 	private String	data;
 
 	private MenuCommandValidator(String data) {

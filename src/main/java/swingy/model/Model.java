@@ -22,8 +22,12 @@ import swingy.model.validation.NameValidator;
 import swingy.model.validation.KlassValidator;
 import swingy.model.validation.ConfirmValidator;
 import swingy.model.validation.ChooseHeroValidator;
+import swingy.model.validation.GameCommandValidator;
 
 import swingy.model.character.Hero;
+
+import swingy.model.map.SquareMapFactory;
+import swingy.model.map.SquareMap;
 
 public class Model extends Observable {
 	private Status	status = null;
@@ -32,6 +36,7 @@ public class Model extends Observable {
 	private	static final HeroSchema	heroSchema = new HeroSchema();
 	private static HeroDAO	heroDAO = new HeroDAO();
 	private static Hero	currentHero = null;
+	private static SquareMap	currentMap = null;
 
 	public Model() {
 		status = Status.MAIN_MENU;
@@ -60,7 +65,6 @@ public class Model extends Observable {
 
 	public static void	menu(Model model, String input) throws Exception {
 		String	command = MenuCommandValidator.of(input).getData();
-		// System.out.println("in menu:" + input);
 
 		switch (command) {
 			case "NEW":
@@ -77,6 +81,10 @@ public class Model extends Observable {
 		}
 	}
 
+	public static void	game(Model model, String input) throws Exception {
+		String	command = GameCommandValidator.of(input).getData();
+	}
+
 	/**
 	 * Hero Creation
 	 */
@@ -90,6 +98,10 @@ public class Model extends Observable {
 
 	private void	setHero(Hero hero) {
 		currentHero = hero;
+	}
+
+	private void	setMap(SquareMap map) {
+		currentMap = map;
 	}
 
 	public static void	registerName(Model model, String input) throws Exception {
@@ -128,7 +140,8 @@ public class Model extends Observable {
 
 			heroDAO.insert(model.getCurrentHero());
 
-			model.change(Status.MAIN_MENU); // change to IN_GAME
+			model.setMap(SquareMapFactory.create(1));
+			model.change(Status.GAME, currentMap.toString());
 		} else {
 			model.setHero(null);
 			model.change(Status.MAIN_MENU);
@@ -145,7 +158,8 @@ public class Model extends Observable {
 
 			if (model.getStatus() == Status.WAIT_LOAD) {
 				model.currentHero = heroDAO.get(index - 1);
-				model.change(Status.MAIN_MENU); // change to IN_GAME
+				model.setMap(SquareMapFactory.create(model.currentHero.getLevel()));
+				model.change(Status.GAME, currentMap.toString());
 			} else { // WAIT_ERASE
 				heroDAO.erase(index - 1);
 				model.change(Status.MAIN_MENU, "Hero has been deleted.");
