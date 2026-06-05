@@ -15,8 +15,9 @@ import swingy.database.dao.HeroDAO;
 import swingy.model.NotificationArgument;
 
 import swingy.model.validation.ValidationException;
-import swingy.model.validation.MenuCommandValidator;
+import swingy.model.validation.CancelException;
 
+import swingy.model.validation.MenuCommandValidator;
 import swingy.model.validation.NameValidator;
 import swingy.model.validation.KlassValidator;
 import swingy.model.validation.ConfirmValidator;
@@ -26,7 +27,7 @@ import swingy.model.character.Hero;
 
 public class Model extends Observable {
 	private Status	status = null;
-	private static Menu	menu;
+	private static Menu	menu = null;
 
 	private	static final HeroSchema	heroSchema = new HeroSchema();
 	private static HeroDAO	heroDAO = new HeroDAO();
@@ -35,7 +36,6 @@ public class Model extends Observable {
 	public Model() {
 		status = Status.MAIN_MENU;
 		menu = new Menu();
-		// heroSchema = new HeroSchema();
 	}
 
 	public Status	getStatus() {
@@ -72,6 +72,8 @@ public class Model extends Observable {
 			case "ERASE":
 				model.menu.load(Status.WAIT_ERASE);
 				break;
+			case "QUIT":
+				model.menu.quit();
 		}
 	}
 
@@ -90,16 +92,28 @@ public class Model extends Observable {
 		currentHero = hero;
 	}
 
-	public static void	registerName(Model model, String input) throws ValidationException {
-		String	name = NameValidator.of(input).getData();
-		model.setSchemaName(name);
-		model.change(Status.WAIT_KLASS);
+	public static void	registerName(Model model, String input) throws Exception {
+		try {
+			String	name = NameValidator.of(input).getData();
+			model.setSchemaName(name);
+			model.change(Status.WAIT_KLASS);
+		} catch (CancelException e) {
+			model.change(Status.MAIN_MENU, e.getMessage());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
-	public static void	registerKlass(Model model, String input) throws ValidationException {
-		String	klass = KlassValidator.of(input).getData();
-		model.setSchemaKlass(klass);
-		model.change(Status.CONFIRM_CREATE, heroSchema.toString());
+	public static void	registerKlass(Model model, String input) throws Exception {
+		try {
+			String	klass = KlassValidator.of(input).getData();
+			model.setSchemaKlass(klass);
+			model.change(Status.CONFIRM_CREATE, heroSchema.toString());
+		} catch (CancelException e) {
+			model.change(Status.MAIN_MENU, e.getMessage());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	public static void	createHero(Model model, String input) throws Exception {
@@ -126,14 +140,20 @@ public class Model extends Observable {
  * Load or Erase (check Status)
  */
 	public static void	chooseGame(Model model, String input) throws Exception {
-		int	index = ChooseHeroValidator.of(input, heroDAO.getListSize()).getIndex();
+		try {
+			int	index = ChooseHeroValidator.of(input, heroDAO.getListSize()).getIndex();
 
-		if (model.getStatus() == Status.WAIT_LOAD) {
-			model.currentHero = heroDAO.get(index - 1);
-			model.change(Status.MAIN_MENU); // change to IN_GAME
-		} else { // WAIT_ERASE
-			heroDAO.erase(index - 1);
-			model.change(Status.MAIN_MENU, "Hero has been deleted.");
+			if (model.getStatus() == Status.WAIT_LOAD) {
+				model.currentHero = heroDAO.get(index - 1);
+				model.change(Status.MAIN_MENU); // change to IN_GAME
+			} else { // WAIT_ERASE
+				heroDAO.erase(index - 1);
+				model.change(Status.MAIN_MENU, "Hero has been deleted.");
+			}
+		} catch (CancelException e) {
+			model.change(Status.MAIN_MENU, e.getMessage());
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -158,6 +178,11 @@ public class Model extends Observable {
 
 				change(status, stringBuilder.toString());
 			}
+		}
+		private void	quit() {
+			HibernateUtil.shutdown();
+			change(Status.QUIT);
+			System.exit(0);
 		}
 	}
 }

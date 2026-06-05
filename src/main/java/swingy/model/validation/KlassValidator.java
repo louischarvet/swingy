@@ -28,7 +28,10 @@ public class KlassValidator extends InputValidator {
 		return this.data;
 	}
 
-	public static KlassValidator	of(String data) throws ValidationException {
+	public static KlassValidator	of(String data) throws Exception {
+		if (data.equalsIgnoreCase("CANCEL"))
+			throw new CancelException();
+
 		KlassValidator	validator = new KlassValidator(data);
 		validator.validate();
 		return validator;

@@ -7,7 +7,8 @@ public enum Printable {
 	CONFIRM_CREATE("\tCreate this hero ? (y/n)\n"),
 	IN_GAME("Game started !\n"),
 	WAIT_LOAD("Choose a game to load:\n"),
-	WAIT_ERASE("Choose a game to erase:\n");
+	WAIT_ERASE("Choose a game to erase:\n"),
+	QUIT("See you soon !\n");
 
 	private final String	message;
 

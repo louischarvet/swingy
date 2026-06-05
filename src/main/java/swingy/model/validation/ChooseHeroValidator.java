@@ -24,6 +24,9 @@ public class ChooseHeroValidator extends InputValidator {
 	}
 
 	public static ChooseHeroValidator	of(String data, int maxSize) throws Exception {
+		if (data.equalsIgnoreCase("CANCEL"))
+			throw new CancelException();
+
 		int	index = Integer.parseInt(data);
 		if (index > maxSize)
 			throw new ValidationException("Index is out of bounds.");
