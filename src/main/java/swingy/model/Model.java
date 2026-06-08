@@ -51,6 +51,10 @@ public class Model extends Observable {
 		return currentHero;
 	}
 
+	public SquareMap	getCurrentMap() {
+		return currentMap;
+	}
+
 	private void	change(Status status) {
 		this.status = status;
 		setChanged();
@@ -140,11 +144,13 @@ public class Model extends Observable {
 
 			heroDAO.insert(model.getCurrentHero());
 
-			model.setMap(SquareMapFactory.create(1));
+			// startGame()
+			model.setMap(SquareMapFactory.create(1, model.getCurrentHero()));
+			model.currentHero.setPosition(model.getCurrentMap().getCenter()); //////
 			model.change(Status.GAME, currentMap.toString());
 		} else {
 			model.setHero(null);
-			model.change(Status.MAIN_MENU);
+			model.change(Status.MAIN_MENU, "Hero creation cancelled.");
 		}
 	}
 
@@ -158,7 +164,10 @@ public class Model extends Observable {
 
 			if (model.getStatus() == Status.WAIT_LOAD) {
 				model.currentHero = heroDAO.get(index - 1);
-				model.setMap(SquareMapFactory.create(model.currentHero.getLevel()));
+
+				// startGame()
+				model.setMap(SquareMapFactory.create(model.currentHero.getLevel(), model.getCurrentHero()));
+				model.currentHero.setPosition(model.getCurrentMap().getCenter()); //////
 				model.change(Status.GAME, currentMap.toString());
 			} else { // WAIT_ERASE
 				heroDAO.erase(index - 1);

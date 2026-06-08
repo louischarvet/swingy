@@ -11,11 +11,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Transient;
 
 import swingy.model.artifact.Artifact;
 import swingy.model.artifact.Weapon;
 import swingy.model.artifact.Helm;
 import swingy.model.artifact.Armor;
+
+import swingy.model.map.Tile;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -46,6 +49,9 @@ public abstract class Character {
 
 	@Column(name = "hitPoints")
 	protected int	hitPoints;
+
+	@Transient
+	protected Tile	position = null;
 
 	// hero & villain: attribut private int damagePoints ?
 
@@ -109,6 +115,10 @@ public abstract class Character {
 		return this.hitPoints;
 	}
 
+	public Tile	getPosition() {
+		return this.position;
+	}
+
 	// public Weapon	getWeapon() {
 	// 	return this.weapon;
 	// }
@@ -147,6 +157,10 @@ public abstract class Character {
 
 	public void	setHitPoints(int hitPoints) {
 		this.hitPoints = hitPoints;
+	}
+
+	public void	setPosition(Tile position) {
+		this.position = position;
 	}
 
 	// public void	setWeapon(Weapon weapon) {
