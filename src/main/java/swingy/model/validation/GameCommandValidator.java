@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Pattern;
 
 public class GameCommandValidator extends InputValidator {
 	@Pattern(
-		regexp = "^(N|E|S|W|MENU|QUIT|HELP)$",
+		regexp = "^(N|E|S|W|MAP|HERO|MENU|HELP)$",
 		flags = Pattern.Flag.CASE_INSENSITIVE,
 		message = "Unrecognized game command.")
 	private String	data;

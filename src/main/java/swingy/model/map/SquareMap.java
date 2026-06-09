@@ -45,10 +45,17 @@ public class SquareMap {
 		// must check map validity
 	}
 
+	public int	getSize() {
+		return this.size;
+	}
+
 	public Tile	getTile(int y, int x) {
 		// check y and x
 		// >= 0 && < size
-		return this.map[y][x];
+		if (y < 0 || y >= size || x < 0 || x >= size)
+			return null;
+		else
+			return this.map[y][x];
 	}
 
 	public Tile	getCenter() {

@@ -8,7 +8,10 @@ public enum Status {
 	WAIT_LOAD(4),
 	WAIT_ERASE(5),
 	GAME(6),
-	QUIT(7);
+	CONFIRM_BACK_TO_MENU(7),
+	WAIT_SAVE(8),
+	LEVEL_FINISHED(9),
+	QUIT(10);
 
 	private final int	code;
 

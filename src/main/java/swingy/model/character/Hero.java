@@ -53,6 +53,10 @@ public class Hero extends Character {
 		this.experience = experience;
 	}
 
+	public void	gainExperience(int experience) {
+		this.experience += experience;
+	}
+
 	// @Override
 	// public void	equip(Artifact artifact) {
 	// 	String	artifactType = artifact.getClass().getSimpleName();
@@ -78,6 +82,10 @@ public class Hero extends Character {
 		String	string = new StringBuilder(name)
 			.append(", ").append(klass)
 			.append(", level ").append(level)
+			.append(", exp ").append(experience)
+			.append(", attack ").append(attack)
+			.append(", defense ").append(defense)
+			.append(", hp ").append(hitPoints)
 			.toString();
 		return string;
 	}

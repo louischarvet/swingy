@@ -37,6 +37,20 @@ public class HeroDAO {
 		}
 	}
 
+	public void	update(Hero hero) throws Exception {
+		Transaction	transaction = null;
+
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.merge(hero);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			throw e;
+		}
+	}
+
 	public List< Hero >	getAll() throws Exception {
 		Transaction	transaction = null;
 

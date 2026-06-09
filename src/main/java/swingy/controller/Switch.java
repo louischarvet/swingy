@@ -17,7 +17,10 @@ public enum Switch {
 	CONFIRM_CREATE(Status.CONFIRM_CREATE, (model, input) -> model.createHero(model, input)),
 	WAIT_LOAD(Status.WAIT_LOAD, (model, input) -> model.chooseGame(model, input)),
 	WAIT_ERASE(Status.WAIT_ERASE, (model,input) -> model.chooseGame(model, input)),
-	GAME(Status.GAME, (model, input) -> model.game(model, input))
+	GAME(Status.GAME, (model, input) -> model.game(model, input)),
+	CONFIRM_BACK_TO_MENU(Status.CONFIRM_BACK_TO_MENU, (model, input) -> model.backToMenu(model, input)),
+	WAIT_SAVE(Status.WAIT_SAVE, (model, input) -> model.save(model, input)),
+	LEVEL_FINISHED(Status.LEVEL_FINISHED, (model, input) -> model.finishLevel(model, input)),
 	;
 
 	private final Status	status;
