@@ -108,27 +108,15 @@ public class Model extends Observable {
 	}
 
 	public static void	registerName(Model model, String input) throws Exception {
-		try {
-			String	name = NameValidator.of(input).getData();
-			model.setSchemaName(name);
-			model.change(Status.WAIT_KLASS);
-		} catch (CancelException e) {
-			model.change(Status.MAIN_MENU, e.getMessage());
-		} catch (Exception e) {
-			throw e;
-		}
+		String	name = NameValidator.of(input).getData();
+		model.setSchemaName(name);
+		model.change(Status.WAIT_KLASS);
 	}
 
 	public static void	registerKlass(Model model, String input) throws Exception {
-		try {
-			String	klass = KlassValidator.of(input).getData();
-			model.setSchemaKlass(klass);
-			model.change(Status.CONFIRM_CREATE, heroSchema.toString());
-		} catch (CancelException e) {
-			model.change(Status.MAIN_MENU, e.getMessage());
-		} catch (Exception e) {
-			throw e;
-		}
+		String	klass = KlassValidator.of(input).getData();
+		model.setSchemaKlass(klass);
+		model.change(Status.CONFIRM_CREATE, heroSchema.toString());
 	}
 
 	public static void	createHero(Model model, String input) throws Exception {
@@ -243,7 +231,7 @@ public class Model extends Observable {
 			}
 		}
 		private void	quit() {
-			HibernateUtil.shutdown();
+			// HibernateUtil.shutdown();
 			change(Status.QUIT);
 			System.exit(0);
 		}
@@ -311,6 +299,7 @@ public class Model extends Observable {
 
 				currentHero.getPosition().setOnThis(null);
 				currentHero.setPosition(newPosition);
+				// if Villain on newPosition: Status.FIGHT
 				change(status, currentMap.toString());
 			}
 		}
