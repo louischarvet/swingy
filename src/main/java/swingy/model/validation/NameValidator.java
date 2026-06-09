@@ -26,9 +26,6 @@ public class NameValidator extends InputValidator {
 	}
 
 	public static NameValidator	of(String data) throws Exception {
-		if (data.equalsIgnoreCase("CANCEL"))
-			throw new CancelException();
-
 		NameValidator	validator = new NameValidator(data);
 		validator.validate();
 		return validator;
