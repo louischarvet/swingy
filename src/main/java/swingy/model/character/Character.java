@@ -28,13 +28,10 @@ public abstract class Character {
 	@Column(name = "id")
 	private int	id;
 
-	@NotNull
-	@Size(min = 1, max = 10, message = "Name must be 1 to 10 characters long.")
-	@Pattern(regexp = "^[A-Za-z0-9]+$", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Name must be alphanumeric.")
 	@Column(name = "name")
 	protected String	name;
 
-	@Pattern(regexp = "^(BERSERKER|TANK|RESILIENT)$", message = "Class must be (either digit or string): 1 BERSERKER, 2 TANK, 3 RESILIENT")
+	// @Pattern(regexp = "^(BERSERKER|TANK|RESILIENT)$", message = "Class must be (either digit or string): 1 BERSERKER, 2 TANK, 3 RESILIENT")
 	@Column(name = "klass")
 	protected	String	klass; // Hero only ?
 
