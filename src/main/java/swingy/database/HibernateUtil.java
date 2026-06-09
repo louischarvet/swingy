@@ -60,7 +60,6 @@ public class HibernateUtil {
 	// }
 
     public static void shutdown() {
-        // Ferme la SessionFactory à la fin du programme
         if (sessionFactory != null) {
             sessionFactory.close();
         }

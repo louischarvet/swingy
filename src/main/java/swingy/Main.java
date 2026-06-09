@@ -10,6 +10,8 @@ import swingy.view.ViewChangeListener;
 
 import swingy.controller.Controller;
 
+import swingy.database.HibernateUtil;
+
 public class Main implements ViewChangeListener {
 	private static Model	model = null;
 	private static View	view = null;
@@ -31,6 +33,10 @@ public class Main implements ViewChangeListener {
 
 		main.model.addObserver(view);
 		main.view.registerController(controller);
+
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			HibernateUtil.shutdown();
+        }));
 
 		main.launch();
 	}
