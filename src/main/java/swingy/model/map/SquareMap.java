@@ -45,6 +45,17 @@ public class SquareMap {
 		// must check map validity
 	}
 
+	public SquareMap(SquareMap rhs) {
+		this.size = rhs.getSize();
+		this.map = new Tile[this.size][this.size];
+		for (int y = 0; y < this.size; y++) {
+			for (int x = 0; x < this.size; x++) {
+				this.map[y][x] = new Tile(rhs.getTile(y, x));
+			}
+		}
+		this.center = rhs.getCenter();
+	}
+
 	public int	getSize() {
 		return this.size;
 	}
@@ -88,13 +99,15 @@ public class SquareMap {
 			for (int j = 0; j < this.size; j++) {
 				int	value = this.map[i][j].getValue();
 
-				if (i == this.size / 2 && j == i) // center
-					System.out.print("\u001B[32m");
-				else if (value == 0)
-					System.out.print("\u001B[32m");
-				System.out.print(value + " \u001B[0m");
+				// if (i == this.size / 2 && j == i) // center
+				// 	System.out.print("\u001B[32m");
+				// else if (value == 0)
+				// 	System.out.print("\u001B[32m");
+				// System.out.print(value + " \u001B[0m");
+				System.out.print(value);
 			}
 			System.out.println();
 		}
+		System.out.println("-----------------------");
 	}
 }
