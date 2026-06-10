@@ -12,6 +12,9 @@ import swingy.controller.Controller;
 
 import swingy.database.HibernateUtil;
 
+import swingy.model.map.SquareMapFactory;
+import swingy.model.character.Hero;
+
 public class Main implements ViewChangeListener {
 	private static Model	model = null;
 	private static View	view = null;
@@ -23,6 +26,16 @@ public class Main implements ViewChangeListener {
 			System.out.println("Usage: java -jar target/Swingy(...) <console or gui>");
 			return;
 		}
+
+		//// test for map construction with villains
+		// for (int i = 1; i <= 5; i++) {
+		// 	Hero	hero = new Hero.Builder()
+		// 		.withName("locharve")
+		// 		.withKlass("TANK")
+		// 		.withLevel(i)
+		// 		.build();
+		// 	System.out.println(SquareMapFactory.create(i, hero).toStringAllVisible());
+		// }
 
 		Main	main = new Main();
 

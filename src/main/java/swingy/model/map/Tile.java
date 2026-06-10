@@ -15,13 +15,6 @@ public class Tile {
 		this.value = value;
 	}
 
-	public Tile(int y, int x, int value, boolean visible) {
-		this.y = y;
-		this.x = x;
-		this.value = value;
-		this.visible = visible;
-	}
-
 	public Tile(Tile rhs) {
 		this.y = rhs.getY();
 		this.x = rhs.getX();

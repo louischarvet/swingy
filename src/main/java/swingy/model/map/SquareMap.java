@@ -2,6 +2,7 @@ package swingy.model.map;
 
 import java.lang.StringBuilder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +12,7 @@ import java.lang.Integer;
 
 import swingy.model.character.Character;
 import swingy.model.character.Hero;
+import swingy.model.character.Villain;
 
 public class SquareMap {
 	private static final Random	random = new Random();
@@ -26,23 +28,20 @@ public class SquareMap {
 		for (int y = 0; y < this.size; y++) {
 			for (int x = 0; x < this.size; x++) {
 				int	randInt = random.nextInt();
+				Tile	tile;
+
 				if (y == this.size / 2 && x == y)
-					this.map[y][x] = new Tile(y, x, 0, true);
+					tile = new Tile(y, x, 0);
 				else
-					this.map[y][x] = new Tile(y, x, randInt % (level + (randInt % level)) == 0 ? 0 : 1);
+					tile = new Tile(y, x, (randInt % (level + (randInt % level))) == 0 ? 0 : 1);
+				this.map[y][x] = tile;
 			}
 		}
 		this.center = this.map[this.size / 2][this.size / 2];
 		this.center.setOnThis(hero);
-		int	centerX = center.getX();
-		int	centerY = center.getY();
-
-		this.map[centerY - 1][centerX].setVisible(true);
-		this.map[centerY + 1][centerX].setVisible(true);
-		this.map[centerY][centerX - 1].setVisible(true);
-		this.map[centerY][centerX + 1].setVisible(true);
-
-		// must check map validity
+		
+		setVillains();
+		setVisibility(center.getY(), center.getX());
 	}
 
 	public SquareMap(SquareMap rhs) {
@@ -61,8 +60,6 @@ public class SquareMap {
 	}
 
 	public Tile	getTile(int y, int x) {
-		// check y and x
-		// >= 0 && < size
 		if (y < 0 || y >= size || x < 0 || x >= size)
 			return null;
 		else
@@ -71,6 +68,33 @@ public class SquareMap {
 
 	public Tile	getCenter() {
 		return this.center;
+	}
+
+	private void	setVillains() {
+		List< Tile >	list = new ArrayList<>();
+
+		for (int y = 0; y < this.size; y++)
+			for (int x = 0; x < this.size; x++)
+				if (this.map[y][x].getValue() == 0 && this.map[y][x].getOnThis() == null)
+					list.add(this.map[y][x]);
+
+		Collections.shuffle(list);
+
+		for (int i = 0, n = list.size() / 5; i < n; i++)
+			list.get(i).setOnThis(
+				new Villain.Builder()
+					.withName("Villain") // random name ?
+					.withKlass("TANK") // random Klass ?
+					.withLevel(1) /// hero.getLevel()
+					.build());
+	}
+
+	public void	setVisibility(int y, int x) {
+		this.map[y][x].setVisible(true);
+		this.map[y - 1][x].setVisible(true);
+		this.map[y + 1][x].setVisible(true);
+		this.map[y][x - 1].setVisible(true);
+		this.map[y][x + 1].setVisible(true);
 	}
 
 	public String	toString() {
@@ -83,11 +107,32 @@ public class SquareMap {
 					Character	onTile = tile.getOnThis();
 					if (onTile == null)
 						sb.append(Integer.toString(tile.getValue()));
-					else
+					else if (onTile instanceof Hero)
 						sb.append("H");
+					else
+						sb.append("V");
 				}
 				else
 					sb.append("X");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
+	public String	toStringAllVisible() {
+		StringBuilder	sb = new StringBuilder();
+
+		for (int y = 0; y < this.size; y++) {
+			for (int x = 0; x < this.size; x++) {
+				Tile	tile = this.map[y][x];
+				Character	onTile = tile.getOnThis();
+				if (onTile == null)
+					sb.append("\u001B[0m").append(Integer.toString(tile.getValue()));
+				else if (onTile instanceof Hero)
+					sb.append("\u001B[32mH");
+				else
+					sb.append("\u001B[35mV");
 			}
 			sb.append("\n");
 		}
