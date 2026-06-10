@@ -179,7 +179,7 @@ public class Model extends Observable {
 			case "MAP":
 				game.showMap();
 				break;
-			case "hero":
+			case "HERO":
 				game.showHero();
 				break;
 			case "HELP":
@@ -260,7 +260,6 @@ public class Model extends Observable {
 			change(status, "N -> move North\nE -> move East\nS -> move South\nW -> move West\nMAP -> display map\nHERO -> display hero stats\nMENU -> back to menu\nHELP -> display this message");
 		}
 		private void	move(String command) {
-			// check if out of map
 			int	y = currentHero.getPosition().getY();
 			int	x = currentHero.getPosition().getX();
 
@@ -277,26 +276,19 @@ public class Model extends Observable {
 				case "W":
 					x--;
 					break;
+				default:
+					return;
 			}
 
 			Tile	newPosition = currentMap.getTile(y, x);
 			if (newPosition == null) // hero.position == null ?
-				change(Status.LEVEL_FINISHED);//
+				change(Status.LEVEL_FINISHED);
 			else if (newPosition.getValue() == 1)
 				change(status, "Moving here is impossible: there is an obstacle !");
 			else {
-				newPosition.setVisible(true); // already the case
 				newPosition.setOnThis(currentHero);
 
-				if (y - 1 >= 0)
-					currentMap.getTile(y - 1, x).setVisible(true);
-				if (y + 1 < currentMap.getSize())
-					currentMap.getTile(y + 1, x).setVisible(true);
-				if (x - 1 >= 0)
-					currentMap.getTile(y, x - 1).setVisible(true);
-				if (x + 1 < currentMap.getSize())
-					currentMap.getTile(y, x + 1).setVisible(true);
-
+				currentMap.setVisibility(y, x);
 				currentHero.getPosition().setOnThis(null);
 				currentHero.setPosition(newPosition);
 				// if Villain on newPosition: Status.FIGHT

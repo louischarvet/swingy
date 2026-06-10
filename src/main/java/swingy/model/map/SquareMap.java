@@ -91,10 +91,14 @@ public class SquareMap {
 
 	public void	setVisibility(int y, int x) {
 		this.map[y][x].setVisible(true);
-		this.map[y - 1][x].setVisible(true);
-		this.map[y + 1][x].setVisible(true);
-		this.map[y][x - 1].setVisible(true);
-		this.map[y][x + 1].setVisible(true);
+		if (y - 1 >= 0)
+			this.map[y - 1][x].setVisible(true);
+		if (y + 1 < this.size)
+			this.map[y + 1][x].setVisible(true);
+		if (x - 1 >= 0)
+			this.map[y][x - 1].setVisible(true);
+		if (x + 1 < this.size)
+			this.map[y][x + 1].setVisible(true);
 	}
 
 	public String	toString() {
