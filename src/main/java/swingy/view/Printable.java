@@ -3,7 +3,7 @@ package swingy.view;
 public enum Printable {
 	MAIN_MENU("\tNEW -> Start the adventure with a new hero\n\tLOAD -> Select a previously created hero\n\tERASE -> Delete a saved hero\n\tQUIT -> Quit the game (please don't)\n"),
 	WAIT_NAME("\tWhat is your name, noble adventurer ?"),
-	WAIT_KLASS("\tWhich class is yours ?\n\t1: BERSERKER (+1 ATT)\n\t2: TANK (+1 DEF)\n\t3: RESILIENT (+1 HP)"),
+	WAIT_KLASS("\tWhich class is yours ?\n\t1: BERSERKER (+1 ATT)\n\t2: TANK (+1 DEF)\n\t3: RESILIENT (+3 HP)"),
 	CONFIRM_CREATE("\tCreate this hero ? (y/n)\n"),
 	WAIT_LOAD("Choose a game to load (\"CANCEL\" to go back to menu):\n"),
 	WAIT_ERASE("Choose a game to erase (\"CANCEL\" to go back to menu):\n"),

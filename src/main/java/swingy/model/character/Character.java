@@ -243,7 +243,7 @@ public abstract class Character {
 
 		private int	attack = 1;
 		private int	defense = 1;
-		private int	hitPoints = 1;
+		private int	hitPoints = 5;
 
 //		private Weapon	weapon = null;
 //		private Armor	armor = null;
@@ -256,6 +256,19 @@ public abstract class Character {
 
 		public Builder< T >	withKlass(String p_class) {
 			this.klass = p_class;
+			switch (this.klass) {
+				case "BERSERKER":
+					this.attack++;
+					break;
+				case "TANK":
+					this.defense++;
+					break;
+				case "RESILIENT":
+					this.hitPoints += 3;
+					break;
+				default:
+					break;
+			}
 			return this;
 		}
 
