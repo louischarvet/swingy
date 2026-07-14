@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Configuration de la base de données PostgreSQL -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/swingy</property>
+        <property name="hibernate.connection.username">locharve</property>
+        <property name="hibernate.connection.password">locharve</property>
+
+        <!-- Configuration de Hibernate -->
+        <!-- <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Spécifie les classes à mapper -->
+        <mapping class="swingy.model.character.Hero"/>
+        <mapping class="swingy.model.character.Character"/>
+    </session-factory>
+</hibernate-configuration>

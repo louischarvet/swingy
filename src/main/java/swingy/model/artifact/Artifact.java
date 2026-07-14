@@ -29,12 +29,12 @@ public abstract class Artifact {
 		private String _name;
 		private int	_level;
 
-		public Builder	setName(String p_name) {
+		public Builder	withName(String p_name) {
 			this._name = p_name;
 			return this;
 		}
 
-		public Builder	setLevel(int p_level) {
+		public Builder	withLevel(int p_level) {
 			this._level = p_level;
 			return this;
 		}

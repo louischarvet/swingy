@@ -1,20 +1,25 @@
 package swingy.view;
 
-import java.awt.event.ActionEvent;
+import java.util.Observer;
 
-import swingy.model.Model;
+import swingy.controller.Controller;
 
-public abstract class View {
-	protected final String	OPENING_MESSAGE = "Welcome to Swingy -- A completely revolutionnary text-based game ONLY for true GAMERS.\nEnter one of the following commands:\n\tNEW -> Start the adventure with a new hero\n\tLOAD -> Select a previously created hero\n\tQUIT -> Quit the game (please don't)\n";
-	protected final String	HELP_MESSAGE = "In game:\n\tN/E/S/W -> move North, East, South or West\n\tMAP -> displays map\n\tHERO -> shows your stats and inventory\n";
-	protected Model	model = null;
+public abstract class View implements Observer {
+	protected static ViewChangeListener	listener = null;
+	protected static Controller	controller = null;
 
-	protected View(Model p_model) {
-		this.model = p_model;
+	public static void setListener(ViewChangeListener p_listener) {
+		listener = p_listener;
+	}
+	public static void	registerController(Controller p_controller) {
+		controller = p_controller;
+	}
+	protected static void	transmit(String input) {
+		controller.transmit(input);
 	}
 
-	public abstract void	display();
+	public abstract void	launch();
+	protected abstract void	display();
 	protected abstract void	readInput();
 	public abstract void	error(String message);
-	public abstract void	update();
 }

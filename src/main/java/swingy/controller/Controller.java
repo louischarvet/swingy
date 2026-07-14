@@ -1,60 +1,30 @@
 package swingy.controller;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import swingy.view.View;
-import swingy.model.Model; /////////////////
+import swingy.model.Model;
+import swingy.model.Status;
 
-/**
- * Réagir aux résultats (ex : afficher une erreur ou rediriger).
- */
+import swingy.model.validation.ValidationException;
 
-/**
- * INPUT TYPES
- * in game: N S E W MAP MENU(?)
- * menu: NEW LOAD QUIT
- * hero creation: <name> <class>
- */
 public class Controller {
-	// private static final List< String >	COMMANDS = new ArrayList<>(Arrays.asList(
-	// 	"NEW",
-	// 	"LOAD",
-	// 	"QUIT",
-	// 	"N",
-	// 	"E",
-	// 	"S",
-	// 	"W",
-	// 	"MAP",
-	// 	"HELP"
-	// ));
-	private static View	view = null; // to notify in case of exception/error
-	private static Model	model = null;
-//	private Runnable	stateModel[3];
+	private View	view = null;
+	private Model	model = null;
 
 	public Controller(Model p_model, View p_view) {
 		this.view = p_view;
 		this.model = p_model;
 	}
 
-	public static void	transmit(String input) {
+	public void	transmit(String input) {
+		Status	status = model.getStatus();
 		try {
-			String	currentState = model.getCurrentState();
-			String	upperInput = input.toUpperCase();
-
-			switch (currentState) {
-				case "MAIN_MENU":
-					model.menu(upperInput);
-				case "HERO_CREATION":
-					;
-//					this.model.createHero(upperInput);
-				case "IN_GAME":
-					;
-//					this.model.game(upperInput);
-			}
+			Switch.execute(model, status, input.trim());
 		} catch (Exception e) {
 			view.error(e.getMessage());
 		}
+	}
+
+	public void	registerView(View view) {
+		this.view = view;
 	}
 }
