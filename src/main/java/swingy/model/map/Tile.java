@@ -5,7 +5,7 @@ import swingy.model.character.Character;
 public class Tile {
 	private final int	y;
 	private final int	x;
-	private int	value;	// not final for tests
+	private int	value;	// not final for tests // 1 == wall
 	private boolean	visible = false;
 	private Character	onThis = null;
 

@@ -16,12 +16,14 @@ import swingy.model.character.Villain;
 
 public class SquareMap {
 	private static final Random	random = new Random();
+	private final int	level;
 	private final int	size;
 	// private final int	grid[][];
 	private final Tile	map[][];
 	private final Tile	center;
 
-	public SquareMap(int level, Hero hero) {
+	public SquareMap(int p_level, Hero hero) {
+		this.level = p_level;
 		this.size = (level - 1) * 5 + 10 - (level % 2);
 		this.map = new Tile[this.size][this.size];
 		
@@ -45,6 +47,7 @@ public class SquareMap {
 	}
 
 	public SquareMap(SquareMap rhs) {
+		this.level = rhs.getLevel();
 		this.size = rhs.getSize();
 		this.map = new Tile[this.size][this.size];
 		for (int y = 0; y < this.size; y++) {
@@ -53,6 +56,10 @@ public class SquareMap {
 			}
 		}
 		this.center = rhs.getCenter();
+	}
+
+	public int	getLevel() {
+		return this.level;
 	}
 
 	public int	getSize() {
@@ -85,7 +92,7 @@ public class SquareMap {
 				new Villain.Builder()
 					.withName("Villain") // random name ?
 					.withKlass("TANK") // random Klass ?
-					.withLevel(1) /// hero.getLevel()
+					.withLevel(this.level)
 					.build());
 	}
 
@@ -112,12 +119,12 @@ public class SquareMap {
 					if (onTile == null)
 						sb.append(Integer.toString(tile.getValue()));
 					else if (onTile instanceof Hero)
-						sb.append("H");
+						sb.append("\u001b[42mH\u001b[0m");
 					else
-						sb.append("V");
+						sb.append("\u001b[41mV\u001b[0m");
 				}
 				else
-					sb.append("X");
+					sb.append("\u001b[47mX\u001b[0m");
 			}
 			sb.append("\n");
 		}

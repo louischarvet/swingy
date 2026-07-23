@@ -11,6 +11,7 @@ public enum Printable {
 	CONFIRM_BACK_TO_MENU("Do you really want to go back to menu ? (y/n)\n"),
 	WAIT_SAVE("Do you want to save your progression ? (y/n)\n"),
 	LEVEL_FINISHED("You made your way out of the maze !\n"),
+	GAME_OVER("GAME OVER\nRetry ? (y/n)\n"),
 	QUIT("See you soon !\n");
 
 	private final String	message;

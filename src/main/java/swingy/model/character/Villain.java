@@ -30,6 +30,18 @@ public class Villain extends Character {
 		return artifacts;
 	}
 
+	@Override
+	public String	toString() {
+		String	string = new StringBuilder(name)
+			.append(", ").append(klass)
+			.append(", level ").append(level)
+			.append(", attack ").append(attack)
+			.append(", defense ").append(defense)
+			.append(", hp ").append(hitPoints)
+			.toString();
+		return string;
+	}
+
 	public static class Builder extends Character.Builder {
 		private List< Artifact >	artifacts;
 		private Weapon	weapon = null;

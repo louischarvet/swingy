@@ -57,6 +57,30 @@ public class Hero extends Character {
 		this.experience += experience;
 	}
 
+	public boolean	fight(Villain villain) {
+		int	heroA = this.attackOutput(),
+			heroD = this.defenseOutput(),
+			heroHP = this.hitPointsOutput();
+
+		int	villainA = villain.attackOutput(),
+			villainD = villain.defenseOutput(),
+			villainHP = villain.getHitPoints();
+
+		do {
+			villainHP -= heroA - villainD;
+		//	System.out.println("villainHP = " + villainHP);
+			if (villainHP <= 0)
+				break;
+			heroHP -= villainA - heroD;
+		//	System.out.println("heroHP = " + heroHP);
+		} while (heroHP > 0	&& villainHP > 0);
+
+		this.setHitPoints(heroHP);
+		villain.setHitPoints(villainHP);
+
+		return heroHP > 0 && villainHP <= 0;
+	}
+
 	// @Override
 	// public void	equip(Artifact artifact) {
 	// 	String	artifactType = artifact.getClass().getSimpleName();
@@ -78,6 +102,7 @@ public class Hero extends Character {
 	// 	}
 	// }
 
+	@Override
 	public String	toString() {
 		String	string = new StringBuilder(name)
 			.append(", ").append(klass)
@@ -85,7 +110,7 @@ public class Hero extends Character {
 			.append(", exp ").append(experience)
 			.append(", attack ").append(attack)
 			.append(", defense ").append(defense)
-			.append(", hp ").append(hitPoints)
+			.append(", hp ").append(hitPoints).append("/").append(maxHitPoints)
 			.toString();
 		return string;
 	}

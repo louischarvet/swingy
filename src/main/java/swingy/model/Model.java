@@ -25,6 +25,7 @@ import swingy.model.validation.ChooseHeroValidator;
 import swingy.model.validation.GameCommandValidator;
 
 import swingy.model.character.Hero;
+import swingy.model.character.Villain;
 
 import swingy.model.map.SquareMapFactory;
 import swingy.model.map.SquareMap;
@@ -208,6 +209,23 @@ public class Model extends Observable {
 		/// to do
 	}
 
+	public static void	gameOver(Model model, String input) throws Exception {
+		if (ConfirmValidator.of(input).isOk()) {
+			// System.out.println("in gameOver: hero:");
+			// System.out.println(model.currentHero.toString());
+			model.currentHero = heroDAO.getById(model.currentHero.getId());
+			model.game.start();
+		} else {
+			model.clear();
+			model.change(Status.MAIN_MENU);
+		}
+	}
+
+	private static void	clear() {
+		currentHero = null;
+		currentMap = null;
+	}
+
 	private class Menu {
 		private void	newGame() {
 			change(Status.WAIT_NAME);
@@ -283,8 +301,32 @@ public class Model extends Observable {
 			Tile	newPosition = currentMap.getTile(y, x);
 			if (newPosition == null) // hero.position == null ?
 				change(Status.LEVEL_FINISHED);
-			else if (newPosition.getValue() == 1)
+			else if (newPosition.getValue() == 1) // wall
 				change(status, "Moving here is impossible: there is an obstacle !");
+			else if (newPosition.getOnThis() != null) {
+			//	change(Status.FIGHT, newPosition.getOnThis().toString());
+			//	System.out.println(newPosition.getOnThis().toString());
+				if (currentHero.fight((Villain)(newPosition.getOnThis())) == true) {
+					newPosition.setOnThis(currentHero);
+					currentMap.setVisibility(y, x);
+					currentHero.getPosition().setOnThis(null);
+					currentHero.setPosition(newPosition);
+
+					// if Villain has artifact: drop
+
+					StringBuilder	sb = new StringBuilder()
+						.append("Enemy defeated !\nHero's HP = ")
+						.append(currentHero.getHitPoints())
+						.append("/")
+						.append(currentHero.getMaxHitPoints())
+						.append("\n")
+						.append(currentMap.toString());
+
+					change(status, sb.toString());
+				} else {
+					change(Status.GAME_OVER);
+				}
+			}
 			else {
 				newPosition.setOnThis(currentHero);
 

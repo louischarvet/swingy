@@ -56,7 +56,9 @@ public class HeroDAO {
 
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			Query< Hero >	query = session.createQuery("SELECT h FROM Hero h", Hero.class);
+			Query< Hero >	query = session.createQuery(
+				"SELECT h FROM Hero h", Hero.class
+			);
 			heroes = query.getResultList();
 			transaction.commit();
 		} catch (Exception e) {
@@ -66,6 +68,23 @@ public class HeroDAO {
 		}
 
 		return heroes;
+	}
+
+	public Hero	getById(int id) {
+		Transaction	transaction = null;
+		Hero	hero = null;
+
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			hero = session.get(Hero.class, id);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+			throw e;
+		}
+
+		return hero;
 	}
 
 	public Hero	get(int index) {

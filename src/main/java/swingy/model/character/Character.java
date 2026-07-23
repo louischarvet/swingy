@@ -46,20 +46,26 @@ public abstract class Character {
 
 	@Column(name = "hitPoints")
 	protected int	hitPoints;
+	
+	@Column(name = "maxHitPoints")
+	protected int	maxHitPoints;
 
 	@Transient
 	protected Tile	position = null;
 
 	// hero & villain: attribut private int damagePoints ?
 
-	// @Column(name = "weapon")
-	// protected Weapon	weapon;
+//	@Column(name = "weapon")
+	@Transient
+	protected Weapon	weapon;
 
-	// @Column(name = "armor")
-	// protected Armor	armor;
+//	@Column(name = "armor")
+	@Transient
+	protected Armor	armor;
 
-	// @Column(name = "helm")
-	// protected Helm	helm;
+//	@Column(name = "helm")
+	@Transient
+	protected Helm	helm;
 
 /**
  * CONSTRUCTORS
@@ -75,10 +81,11 @@ public abstract class Character {
 		this.attack = builder.attack;
 		this.defense = builder.defense;
 		this.hitPoints = builder.hitPoints;
+		this.maxHitPoints = this.hitPoints;
 
-		// this.weapon = null;
-		// this.armor = null;
-		// this.helm = null;
+		this.weapon = null;
+		this.armor = null;
+		this.helm = null;
 	}
 
 /**
@@ -112,21 +119,25 @@ public abstract class Character {
 		return this.hitPoints;
 	}
 
+	public int	getMaxHitPoints() {
+		return this.maxHitPoints;
+	}
+
 	public Tile	getPosition() {
 		return this.position;
 	}
 
-	// public Weapon	getWeapon() {
-	// 	return this.weapon;
-	// }
+	public Weapon	getWeapon() {
+		return this.weapon;
+	}
 
-	// public Armor	getArmor() {
-	// 	return this.armor;
-	// }
+	public Armor	getArmor() {
+		return this.armor;
+	}
 
-	// public Helm	getHelm() {
-	// 	return this.helm;
-	// }
+	public Helm	getHelm() {
+		return this.helm;
+	}
 
 /**
  * SETTERS
@@ -156,43 +167,49 @@ public abstract class Character {
 		this.hitPoints = hitPoints;
 	}
 
+	public void	setMaxHitPoints(int maxHitPoints) {
+		this.maxHitPoints = maxHitPoints;
+	}
+
 	public void	setPosition(Tile position) {
 		this.position = position;
 	}
 
-	// public void	setWeapon(Weapon weapon) {
-	// 	this.weapon = weapon;
-	// }
+	public abstract String	toString();
 
-	// public void	setArmor(Armor armor) {
-	// 	this.armor = armor;
-	// }
+	public void	setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+	}
 
-	// public void	setHelm(Helm helm) {
-	// 	this.helm = helm;
-	// }
+	public void	setArmor(Armor armor) {
+		this.armor = armor;
+	}
+
+	public void	setHelm(Helm helm) {
+		this.helm = helm;
+	}
 
 /**
  * METHODS
  */
 
-	// public int	attackOutput() {
-	// 	int	bonus = this.weapon != null ? this.weapon.getLevel() : 0;
+	public int	attackOutput() {
+		int	bonus = this.weapon != null ? this.weapon.getLevel() : 0;
 		
-	// 	return this.attack + bonus;
-	// }
+		return this.attack + bonus;
+	}
 
-	// public int	defenseOutput() {
-	// 	int	bonus = this.armor != null ? this.armor.getLevel() : 0;
+	public int	defenseOutput() {
+		int	bonus = this.armor != null ? this.armor.getLevel() : 0;
 		
-	// 	return this.defense + bonus;
-	// }
+		return this.defense + bonus;
+	}
 
-	// public int	hitPointsOutput() {
-	// 	int	bonus = this.helm != null ? this.helm.getLevel() : 0;
+	public int	hitPointsOutput() {
+		int	bonus = this.helm != null ? this.helm.getLevel() : 0;
 		
-	// 	return this.hitPoints + bonus;
-	// }
+		return this.hitPoints + bonus;
+	}
 
 	// public void	equip(Artifact artifact) {
 	// 	String	artifactType = artifact.getClass().getSimpleName();
@@ -241,13 +258,13 @@ public abstract class Character {
 
 		private int	level = 1;
 
-		private int	attack = 1;
+		private int	attack = 3;
 		private int	defense = 1;
 		private int	hitPoints = 5;
 
-//		private Weapon	weapon = null;
-//		private Armor	armor = null;
-//		private Helm	helm = null;
+		private Weapon	weapon = null;
+		private Armor	armor = null;
+		private Helm	helm = null;
 
 		public Builder< T >	withName(String p_name) {
 			this.name = p_name;
@@ -277,20 +294,20 @@ public abstract class Character {
 			return this;
 		}
 
-		// public Builder	withWeapon(Weapon p_weapon) {
-		// 	this._weapon = p_weapon;
-		// 	return this;
-		// }
+		public Builder	withWeapon(Weapon p_weapon) {
+			this.weapon = p_weapon;
+			return this;
+		}
 
-		// public Builder	withArmor(Armor p_armor) {
-		// 	this._armor = p_armor;
-		// 	return this;
-		// }
+		public Builder	withArmor(Armor p_armor) {
+			this.armor = p_armor;
+			return this;
+		}
 
-		// public Builder	withHelm(Helm p_helm) {
-		// 	this._helm = p_helm;
-		// 	return this;
-		// }
+		public Builder	withHelm(Helm p_helm) {
+			this.helm = p_helm;
+			return this;
+		}
 
 		// public Character	build() {
 		// 	return new Character(this);

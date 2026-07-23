@@ -1,0 +1,13 @@
+TO DO:
+------
+- Fight System
+- Save map progression (serialize)
+- Niveau termine : passer au nivau suivant.
+- implement artifacts
+- Makefile rule to rm volume
+- premiere commande apres lancement : lente (?)
+- procedural generation of Villains
+- GUI mode
+- Signal to switch view mode
+
+DONE On map : make villains and obstacles more visible (colors)
