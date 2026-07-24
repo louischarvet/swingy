@@ -93,6 +93,7 @@ public class SquareMap {
 					.withName("Villain") // random name ?
 					.withKlass("TANK") // random Klass ?
 					.withLevel(this.level)
+					.withPosition(list.get(i))
 					.build());
 	}
 

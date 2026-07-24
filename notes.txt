@@ -1,20 +1,25 @@
 TO DO:
 ------
 
-NOT FINISHED Fight System
-
-- Niveau termine : passer au niveau suivant.
+- procedural generation of Villains
 - implement artifacts
+- limit number of saved games
 - Makefile rule to rm volume
 - premiere commande apres lancement : lente (?)
-- procedural generation of Villains
 - GUI mode
 - Signal to switch view mode
-- RUN & FIGHT: display steps one by one
 - Save map progression (serialize)
 - View: strings in order
 
 
+~ Villains move
+~ RUN & FIGHT: display steps one by one
+
+
+DONE Niveau termine : passer au niveau suivant.
+DONE Heal at end of fight ?
+DONE XP when fight finishes
+DONE level up
 DONE create FightResult (boolean win; String report;)
 DONE Run from enemy
 DONE On map : make villains and obstacles more visible (colors)

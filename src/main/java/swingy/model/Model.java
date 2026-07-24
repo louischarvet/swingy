@@ -25,6 +25,7 @@ import swingy.model.validation.ConfirmValidator;
 import swingy.model.validation.ChooseHeroValidator;
 import swingy.model.validation.GameCommandValidator;
 import swingy.model.validation.EncounterValidator;
+import swingy.model.validation.LevelUpValidator;
 
 import swingy.model.character.Hero;
 import swingy.model.character.Villain;
@@ -211,7 +212,9 @@ public class Model extends Observable {
 
 	public static void	finishLevel(Model model, String input) throws Exception {
 		/// to do
-
+		model.setMap(SquareMapFactory.create(currentHero.getLevel(), currentHero));
+		model.currentHero.setPosition(model.currentMap.getCenter());
+		model.change(Status.GAME, currentMap.toString());
 	}
 
 	public static void	encounter(Model model, String input) throws Exception {
@@ -243,7 +246,12 @@ public class Model extends Observable {
 			currentVillain = null;
 
 			sb.append(fr.toString());
-			change(Status.GAME, sb.toString());
+			if (fr.isLevelUp()) {
+				sb.append(currentHero.toString())
+					.append("\n");
+				change(Status.LEVEL_UP, sb.toString());
+			} else
+				change(Status.GAME, sb.toString());
 		} else {
 			sb.append(fr.toString());
 			change(Status.GAME_OVER, sb.toString());
@@ -252,13 +260,24 @@ public class Model extends Observable {
 
 	private void	run() {
 		Random	random = new Random();
+		int	r = random.nextInt();
+		if (r < 0)
+			r *= -1;
 
-		if (random.nextInt() % 2 == 1) {
+		if (r % 2 == 0) {
 			fight(false);
 		} else {
 			currentVillain = null;
 			change(Status.GAME, "You escaped the enemy.");
 		}
+	}
+
+	public static void	levelUp(Model model, String input) throws Exception {
+		String	choice = LevelUpValidator.of(input).getData();
+
+		model.currentHero.levelUp(Integer.parseInt(choice));
+
+		model.change(Status.GAME, model.currentHero.toString());
 	}
 
 	public static void	gameOver(Model model, String input) throws Exception {
@@ -353,40 +372,14 @@ public class Model extends Observable {
 			}
 
 			Tile	newPosition = currentMap.getTile(y, x);
-			currentVillain	= (Villain)newPosition.getOnThis();
+			if (newPosition != null)
+				currentVillain	= (Villain)newPosition.getOnThis();
 			if (newPosition == null) // hero.position == null ?
 				change(Status.LEVEL_FINISHED);
 			else if (newPosition.getValue() == 1) // wall
 				change(status, "Moving here is impossible: there is an obstacle !");
 			else if (currentVillain != null) {
 				change(Status.ENCOUNTER, currentVillain.toString());
-			//	change(Status.FIGHT, newPosition.getOnThis().toString());
-			//	System.out.println(newPosition.getOnThis().toString());
-
-
-
-			// Fight ....later
-/*				if (currentHero.fight((Villain)(newPosition.getOnThis())) == true) {
-					newPosition.setOnThis(currentHero);
-					currentMap.setVisibility(y, x);
-					currentHero.getPosition().setOnThis(null);
-					currentHero.setPosition(newPosition);
-
-					// if Villain has artifact: drop
-
-					StringBuilder	sb = new StringBuilder()
-						.append("Enemy defeated !\nHero's HP = ")
-						.append(currentHero.getHitPoints())
-						.append("/")
-						.append(currentHero.getMaxHitPoints())
-						.append("\n")
-						.append(currentMap.toString());
-
-					change(status, sb.toString());
-				} else {
-					change(Status.GAME_OVER);
-				}
-*/
 			}
 			else {
 				newPosition.setOnThis(currentHero);

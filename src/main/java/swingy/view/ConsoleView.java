@@ -52,9 +52,10 @@ public class ConsoleView extends View {
 		int code = arg.getStatusCode();
 		String	info = arg.getInfo();
 		String	message = Printable.getMessage(code);
-		if (info != null)
-			message = message.concat(info); // info.concat(message)
-
-		System.out.println(message);
+		if (info != null) {
+			info = info.concat(message); // info.concat(message)
+			System.out.println(info);
+		} else
+			System.out.println(message);
 	}
 }

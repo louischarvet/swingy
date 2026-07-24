@@ -1,5 +1,8 @@
 package swingy.model.character;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import java.lang.StringBuilder;
 import java.lang.Integer;
 
@@ -9,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Transient;
 
 import swingy.model.FightResult;
 
@@ -20,6 +24,18 @@ import swingy.model.artifact.Helm;
 @Entity
 @Table(name = "hero")
 public class Hero extends Character {
+	@Transient
+	private final static	List< Integer >	levelUp;
+
+	static {
+		levelUp = new ArrayList<>();
+
+		for (int i = 1; i <= 10; i++) {
+			levelUp.add(i * 1000 + ((i - 1) * (i - 1)) * 450);
+			// System.out.println(levelUp.get(i - 1));
+		}
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -55,8 +71,25 @@ public class Hero extends Character {
 		this.experience = experience;
 	}
 
-	public void	gainExperience(int experience) {
+	public boolean	gainExperience(int experience) {
 		this.experience += experience;
+		// level up ?
+		int	xpLimit = levelUp.get(this.level - 1);
+		if (this.experience >= xpLimit) {
+			this.experience -= xpLimit;
+			this.level++;
+			return true;
+		}
+		return false;
+	}
+
+	public void	levelUp(int choice) {
+		if (choice == 1)
+			this.attack++;
+		else if (choice == 2)
+			this.defense++;
+		else
+			this.hitPoints++;
 	}
 
 	public FightResult	fight(Villain villain, boolean firstStrike) {
@@ -72,7 +105,8 @@ public class Hero extends Character {
 			villainHP = villain.getHitPoints(),
 			villainMaxHP = villainHP;
 
-		fr.append(this.toString())
+		fr.append("\n*********** FIGHT BEGINS ! ***********\n\n")
+			.append(this.toString())
 			.append("\n\tVERSUS\n")
 			.append(villain.toString())
 			.append("\n\n******* battle music playing *******\n\n");
@@ -117,6 +151,17 @@ public class Hero extends Character {
 
 		this.setHitPoints(heroHP);
 		villain.setHitPoints(villainHP);
+
+		// xp
+		if (fr.isWon()) {
+			int xp = 1000 / (this.getLevel() - villain.getLevel() + 1);
+			fr.append("You got ")
+				.append(xp)
+				.append(" experience points.\n");
+			fr.setLevelUp(this.gainExperience(xp));
+			this.hitPoints = this.maxHitPoints;
+		}
+		// level up ?
 
 		return fr;
 	}

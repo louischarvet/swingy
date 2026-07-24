@@ -4,6 +4,7 @@ import java.lang.StringBuilder;
 
 public class FightResult {
 	private boolean	won;
+	private boolean	levelUp;
 	private StringBuilder	report = new StringBuilder();
 
 	public void	setWon(boolean w) {
@@ -12,6 +13,10 @@ public class FightResult {
 			report.append("Enemy defeated !\n");
 		else
 			report.append("Game over...\n");
+	}
+
+	public void	setLevelUp(boolean l) {
+		levelUp = l;
 	}
 
 	public FightResult	append(String str) {
@@ -32,5 +37,9 @@ public class FightResult {
 
 	public boolean	isWon() {
 		return won;
+	}
+
+	public boolean	isLevelUp() {
+		return levelUp;
 	}
 }

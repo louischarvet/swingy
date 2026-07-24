@@ -83,6 +83,8 @@ public abstract class Character {
 		this.hitPoints = builder.hitPoints;
 		this.maxHitPoints = this.hitPoints;
 
+		this.position = builder.position;
+
 		this.weapon = null;
 		this.armor = null;
 		this.helm = null;
@@ -262,6 +264,8 @@ public abstract class Character {
 		private int	defense = 1;
 		private int	hitPoints = 5;
 
+		private Tile	position = null;
+
 		private Weapon	weapon = null;
 		private Armor	armor = null;
 		private Helm	helm = null;
@@ -291,6 +295,11 @@ public abstract class Character {
 
 		public Builder< T >	withLevel(int p_level) {
 			this.level = p_level;
+			return this;
+		}
+
+		public Builder< T >	withPosition(Tile p) {
+			this.position = p;
 			return this;
 		}
 
