@@ -5,6 +5,7 @@ import java.lang.Integer;
 
 import java.util.Observable;
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,6 +24,7 @@ import swingy.model.validation.KlassValidator;
 import swingy.model.validation.ConfirmValidator;
 import swingy.model.validation.ChooseHeroValidator;
 import swingy.model.validation.GameCommandValidator;
+import swingy.model.validation.EncounterValidator;
 
 import swingy.model.character.Hero;
 import swingy.model.character.Villain;
@@ -38,8 +40,10 @@ public class Model extends Observable {
 
 	private	static final HeroSchema	heroSchema = new HeroSchema();
 	private static HeroDAO	heroDAO = new HeroDAO();
+
 	private static Hero	currentHero = null;
 	private static SquareMap	currentMap = null;
+	private static Villain	currentVillain = null;
 
 	public Model() {
 		status = Status.MAIN_MENU;
@@ -207,6 +211,54 @@ public class Model extends Observable {
 
 	public static void	finishLevel(Model model, String input) throws Exception {
 		/// to do
+
+	}
+
+	public static void	encounter(Model model, String input) throws Exception {
+		String	data = EncounterValidator.of(input).getData();
+
+		if (data.equals("FIGHT"))
+			model.fight(true);
+		else
+			model.run();
+	}
+
+	private void	fight(boolean firstStrike) {
+		StringBuilder	sb = new StringBuilder();
+
+		if (firstStrike == false)
+			sb.append("You couldn't escape from the enemy...\n");
+
+		FightResult	fr = currentHero.fight(currentVillain, firstStrike);
+		if (fr.isWon() == true) {
+			Tile	newPosition = currentVillain.getPosition();
+
+			// artifact !
+
+			newPosition.setOnThis(currentHero);
+			currentMap.setVisibility(newPosition.getY(), newPosition.getX());
+			currentHero.getPosition().setOnThis(null);
+			currentHero.setPosition(newPosition);
+
+			currentVillain = null;
+
+			sb.append(fr.toString());
+			change(Status.GAME, sb.toString());
+		} else {
+			sb.append(fr.toString());
+			change(Status.GAME_OVER, sb.toString());
+		}
+	}
+
+	private void	run() {
+		Random	random = new Random();
+
+		if (random.nextInt() % 2 == 1) {
+			fight(false);
+		} else {
+			currentVillain = null;
+			change(Status.GAME, "You escaped the enemy.");
+		}
 	}
 
 	public static void	gameOver(Model model, String input) throws Exception {
@@ -214,6 +266,7 @@ public class Model extends Observable {
 			// System.out.println("in gameOver: hero:");
 			// System.out.println(model.currentHero.toString());
 			model.currentHero = heroDAO.getById(model.currentHero.getId());
+			model.currentVillain = null;
 			model.game.start();
 		} else {
 			model.clear();
@@ -224,6 +277,7 @@ public class Model extends Observable {
 	private static void	clear() {
 		currentHero = null;
 		currentMap = null;
+		currentVillain = null;
 	}
 
 	private class Menu {
@@ -299,14 +353,20 @@ public class Model extends Observable {
 			}
 
 			Tile	newPosition = currentMap.getTile(y, x);
+			currentVillain	= (Villain)newPosition.getOnThis();
 			if (newPosition == null) // hero.position == null ?
 				change(Status.LEVEL_FINISHED);
 			else if (newPosition.getValue() == 1) // wall
 				change(status, "Moving here is impossible: there is an obstacle !");
-			else if (newPosition.getOnThis() != null) {
+			else if (currentVillain != null) {
+				change(Status.ENCOUNTER, currentVillain.toString());
 			//	change(Status.FIGHT, newPosition.getOnThis().toString());
 			//	System.out.println(newPosition.getOnThis().toString());
-				if (currentHero.fight((Villain)(newPosition.getOnThis())) == true) {
+
+
+
+			// Fight ....later
+/*				if (currentHero.fight((Villain)(newPosition.getOnThis())) == true) {
 					newPosition.setOnThis(currentHero);
 					currentMap.setVisibility(y, x);
 					currentHero.getPosition().setOnThis(null);
@@ -326,6 +386,7 @@ public class Model extends Observable {
 				} else {
 					change(Status.GAME_OVER);
 				}
+*/
 			}
 			else {
 				newPosition.setOnThis(currentHero);

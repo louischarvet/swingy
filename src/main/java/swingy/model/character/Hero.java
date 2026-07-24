@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 
+import swingy.model.FightResult;
+
 import swingy.model.artifact.Artifact;
 import swingy.model.artifact.Weapon;
 import swingy.model.artifact.Armor;
@@ -57,28 +59,66 @@ public class Hero extends Character {
 		this.experience += experience;
 	}
 
-	public boolean	fight(Villain villain) {
+	public FightResult	fight(Villain villain, boolean firstStrike) {
+		FightResult	fr = new FightResult();
+
 		int	heroA = this.attackOutput(),
 			heroD = this.defenseOutput(),
-			heroHP = this.hitPointsOutput();
+			heroHP = this.hitPointsOutput(),
+			heroMaxHP = this.getMaxHitPoints();
 
 		int	villainA = villain.attackOutput(),
 			villainD = villain.defenseOutput(),
-			villainHP = villain.getHitPoints();
+			villainHP = villain.getHitPoints(),
+			villainMaxHP = villainHP;
 
-		do {
+		fr.append(this.toString())
+			.append("\n\tVERSUS\n")
+			.append(villain.toString())
+			.append("\n\n******* battle music playing *******\n\n");
+
+		if (firstStrike == false) {
+			heroHP -= villainA - heroD;
+			fr.append(villain.getName())
+				.append(" attacks !\n\t")
+				.append(this.getName())
+				.append(" HP: ")
+				.append(heroHP)
+				.append("/")
+				.append(heroMaxHP)
+				.append("\n");
+		}
+
+		while (heroHP > 0 && villainHP > 0) {
 			villainHP -= heroA - villainD;
-		//	System.out.println("villainHP = " + villainHP);
+			fr.append(this.getName())
+				.append(" attacks !\n\t")
+				.append(villain.getName())
+				.append(" HP: ")
+				.append(villainHP)
+				.append("/")
+				.append(villainMaxHP)
+				.append("\n");
 			if (villainHP <= 0)
 				break;
+
 			heroHP -= villainA - heroD;
-		//	System.out.println("heroHP = " + heroHP);
-		} while (heroHP > 0	&& villainHP > 0);
+			fr.append(villain.getName())
+				.append(" attacks !\n\t")
+				.append(this.getName())
+				.append(" HP: ")
+				.append(heroHP)
+				.append("/")
+				.append(heroMaxHP)
+				.append("\n");
+		}
+
+		fr.setWon(heroHP > 0 && villainHP <= 0);
 
 		this.setHitPoints(heroHP);
 		villain.setHitPoints(villainHP);
 
-		return heroHP > 0 && villainHP <= 0;
+		return fr;
 	}
 
 	// @Override

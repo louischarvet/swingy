@@ -21,6 +21,7 @@ public enum Switch {
 	CONFIRM_BACK_TO_MENU(Status.CONFIRM_BACK_TO_MENU, (model, input) -> model.backToMenu(model, input)),
 	WAIT_SAVE(Status.WAIT_SAVE, (model, input) -> model.save(model, input)),
 	LEVEL_FINISHED(Status.LEVEL_FINISHED, (model, input) -> model.finishLevel(model, input)),
+	ENCOUNTER(Status.ENCOUNTER, (model, input) -> model.encounter(model, input)),
 	GAME_OVER(Status.GAME_OVER, (model, input) -> model.gameOver(model, input))
 	// QUIT
 	;

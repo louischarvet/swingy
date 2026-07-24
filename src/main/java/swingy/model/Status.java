@@ -11,8 +11,9 @@ public enum Status {
 	CONFIRM_BACK_TO_MENU(7),
 	WAIT_SAVE(8),
 	LEVEL_FINISHED(9),
-	GAME_OVER(10),
-	QUIT(11);
+	ENCOUNTER(10),
+	GAME_OVER(11),
+	QUIT(12);
 
 	private final int	code;
 
