@@ -1,5 +1,8 @@
 package swingy.model.character;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
@@ -255,6 +258,14 @@ public abstract class Character {
 	// }
 
 	public static abstract class Builder< T extends Character > {
+		private final static List< String >	klassList = new ArrayList<>();
+		
+		static { 
+			klassList.add("BERSERKER");
+			klassList.add("TANK");
+			klassList.add("RESILIENT");
+		}
+
 		private String	name;
 		private String	klass;
 
@@ -291,6 +302,10 @@ public abstract class Character {
 					break;
 			}
 			return this;
+		}
+
+		public Builder< T >	withKlass(int index) {
+			return this.withKlass(klassList.get(index));
 		}
 
 		public Builder< T >	withLevel(int p_level) {

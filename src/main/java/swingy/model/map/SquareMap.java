@@ -87,14 +87,19 @@ public class SquareMap {
 
 		Collections.shuffle(list);
 
-		for (int i = 0, n = list.size() / 5; i < n; i++)
+		Random	random = new Random();
+		// System.out.println("klassIndex = " + klassIndex);
+
+		for (int i = 0, n = list.size() / 5; i < n; i++) {
+			int	klassIndex = random.nextInt(3);
 			list.get(i).setOnThis(
 				new Villain.Builder()
 					.withName("Villain") // random name ?
-					.withKlass("TANK") // random Klass ?
+					.withKlass(klassIndex) // random Klass ?
 					.withLevel(this.level)
 					.withPosition(list.get(i))
 					.build());
+		}
 	}
 
 	public void	setVisibility(int y, int x) {

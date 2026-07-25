@@ -1,7 +1,6 @@
 TO DO:
 ------
 
-- procedural generation of Villains
 - implement artifacts
 - limit number of saved games
 - Makefile rule to rm volume
@@ -16,6 +15,7 @@ TO DO:
 ~ RUN & FIGHT: display steps one by one
 
 
+DONE procedural generation of Villains
 DONE Niveau termine : passer au niveau suivant.
 DONE Heal at end of fight ?
 DONE XP when fight finishes

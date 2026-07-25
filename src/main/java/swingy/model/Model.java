@@ -260,11 +260,9 @@ public class Model extends Observable {
 
 	private void	run() {
 		Random	random = new Random();
-		int	r = random.nextInt();
-		if (r < 0)
-			r *= -1;
+		int	r = random.nextInt(2);
 
-		if (r % 2 == 0) {
+		if (r == 0) {
 			fight(false);
 		} else {
 			currentVillain = null;
