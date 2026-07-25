@@ -90,6 +90,7 @@ public class Hero extends Character {
 			this.defense++;
 		else
 			this.hitPoints++;
+		this.hitPoints = this.maxHitPoints;
 	}
 
 	public FightResult	fight(Villain villain, boolean firstStrike) {
@@ -159,7 +160,7 @@ public class Hero extends Character {
 				.append(xp)
 				.append(" experience points.\n");
 			fr.setLevelUp(this.gainExperience(xp));
-			this.hitPoints = this.maxHitPoints;
+			// this.hitPoints = this.maxHitPoints;
 		}
 		// level up ?
 
