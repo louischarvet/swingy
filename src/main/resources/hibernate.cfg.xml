@@ -18,5 +18,10 @@
         <!-- Spécifie les classes à mapper -->
         <mapping class="swingy.model.character.Hero"/>
         <mapping class="swingy.model.character.Character"/>
+        <mapping class="swingy.model.character.Villain"/>
+        <mapping class="swingy.model.artifact.Artifact"/>
+        <mapping class="swingy.model.artifact.Weapon"/>
+        <mapping class="swingy.model.artifact.Armor"/>
+        <mapping class="swingy.model.artifact.Helm"/>
     </session-factory>
 </hibernate-configuration>

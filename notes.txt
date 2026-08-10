@@ -2,6 +2,8 @@ TO DO:
 ------
 
 - implement artifacts
+- only one table for artifacts ?
+
 - limit number of saved games
 - Makefile rule to rm volume
 - premiere commande apres lancement : lente (?)

@@ -3,18 +3,23 @@ package swingy.model.character;
 import java.util.List;
 import java.util.ArrayList;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import swingy.model.artifact.Artifact;
 import swingy.model.artifact.Weapon;
 import swingy.model.artifact.Armor;
 import swingy.model.artifact.Helm;
 
+@Entity
+@Table(name = "villain")
 public class Villain extends Character {
 	private Villain(Builder builder) {
 		super(builder);
 
-		// this.weapon = builder.weapon;
-		// this.armor = builder.armor;
-		// this.helm = builder.helm;
+		this.weapon = builder.weapon;
+		this.armor = builder.armor;
+		this.helm = builder.helm;
 	}
 
 	public	List< Artifact >	dropArtifacts() {
@@ -42,7 +47,7 @@ public class Villain extends Character {
 		return string;
 	}
 
-	public static class Builder extends Character.Builder {
+	public static class Builder extends Character.Builder< Villain > {
 		private List< Artifact >	artifacts;
 		private Weapon	weapon = null;
 		private Armor	armor = null;

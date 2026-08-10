@@ -1,5 +1,11 @@
 <persistence-unit name="swingyPU" transaction-type="RESOURCE_LOCAL">
     <class>swingy.model.character.Hero</class>
+    <class>swingy.model.character.Character</class>
+    <class>swingy.model.character.Villain</class>
+    <class>swingy.model.artifact.Artifact</class>
+    <class>swingy.model.artifact.Weapon</class>
+    <class>swingy.model.artifact.Armor</class>
+    <class>swingy.model.artifact.Helm</class>
     <properties>
         <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/swingy"/>
         <property name="jakarta.persistence.jdbc.user" value="locharve"/>

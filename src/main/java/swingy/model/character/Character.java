@@ -15,6 +15,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Transient;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 import swingy.model.artifact.Artifact;
 import swingy.model.artifact.Weapon;
@@ -58,17 +60,17 @@ public abstract class Character {
 
 	// hero & villain: attribut private int damagePoints ?
 
-//	@Column(name = "weapon")
-	@Transient
-	protected Weapon	weapon;
+	@ManyToOne
+	@JoinColumn(name = "weapon_id")
+	protected Weapon    weapon;
 
-//	@Column(name = "armor")
-	@Transient
-	protected Armor	armor;
+	@ManyToOne
+	@JoinColumn(name = "armor_id")
+	protected Armor    armor;
 
-//	@Column(name = "helm")
-	@Transient
-	protected Helm	helm;
+	@ManyToOne
+	@JoinColumn(name = "helm_id")
+	protected Helm    helm;
 
 /**
  * CONSTRUCTORS
@@ -331,6 +333,34 @@ public abstract class Character {
 		public Builder	withHelm(Helm p_helm) {
 			this.helm = p_helm;
 			return this;
+		}
+
+		public Builder	withArtifact(int i) {
+			switch (i) {
+				case 0:
+					return this.withWeapon(
+						new Weapon.Builder()
+							.withName("Weapon")
+							.withLevel(this.level)
+							.build()
+					);
+				case 1:
+					return this.withArmor(
+						new Armor.Builder()
+							.withName("Armor")
+							.withLevel(this.level)
+							.build()
+					);
+				case 2:
+					return this.withHelm(
+						new Helm.Builder()
+							.withName("Helm")
+							.withLevel(this.level)
+							.build()
+					);
+				default:
+					return this;
+			}
 		}
 
 		// public Character	build() {

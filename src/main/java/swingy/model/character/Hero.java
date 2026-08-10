@@ -208,7 +208,7 @@ public class Hero extends Character {
 	}
 
 	public static class Builder extends Character.Builder< Hero > {
-		@Override
+		// @Override
 		public Hero	build() {
 			return new Hero(this);
 		}
