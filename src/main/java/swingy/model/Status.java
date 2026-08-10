@@ -13,8 +13,9 @@ public enum Status {
 	LEVEL_FINISHED(9),
 	ENCOUNTER(10),
 	LEVEL_UP(11),
-	GAME_OVER(12),
-	QUIT(13);
+	LOOT(12),
+	GAME_OVER(13),
+	QUIT(14);
 
 	private final int	code;
 

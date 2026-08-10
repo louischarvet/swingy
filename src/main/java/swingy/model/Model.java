@@ -30,6 +30,8 @@ import swingy.model.validation.LevelUpValidator;
 import swingy.model.character.Hero;
 import swingy.model.character.Villain;
 
+import swingy.model.artifact.Artifact;
+
 import swingy.model.map.SquareMapFactory;
 import swingy.model.map.SquareMap;
 import swingy.model.map.Tile;
@@ -45,6 +47,7 @@ public class Model extends Observable {
 	private static Hero	currentHero = null;
 	private static SquareMap	currentMap = null;
 	private static Villain	currentVillain = null;
+	private static Artifact	drop = null;
 
 	public Model() {
 		status = Status.MAIN_MENU;
@@ -246,10 +249,16 @@ public class Model extends Observable {
 			currentVillain = null;
 
 			sb.append(fr.toString());
+
+			this.drop = fr.getDrop();
 			if (fr.isLevelUp()) {
 				sb.append(currentHero.toString())
 					.append("\n");
 				change(Status.LEVEL_UP, sb.toString());
+			} else if (drop != null) {
+				// drop
+				sb.append(drop.toString());
+				change(Status.LOOT, sb.toString());
 			} else
 				change(Status.GAME, sb.toString());
 		} else {
@@ -275,6 +284,19 @@ public class Model extends Observable {
 
 		model.currentHero.levelUp(Integer.parseInt(choice));
 
+		// check if FightResult has Artifact
+		if (model.drop != null)
+			model.change(Status.LOOT, model.drop.toString());
+		else
+			model.change(Status.GAME, model.currentHero.toString());
+	}
+
+	public static void	loot(Model model, String input) throws Exception {
+		if (ConfirmValidator.of(input).isOk()) {
+			// equip artifact (get it in FightResult)
+			model.currentHero.equip(model.drop);
+			// message
+		}
 		model.change(Status.GAME, model.currentHero.toString());
 	}
 

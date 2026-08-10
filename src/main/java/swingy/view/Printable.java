@@ -11,8 +11,9 @@ public enum Printable {
 	CONFIRM_BACK_TO_MENU("Do you really want to go back to menu ? (y/n)\n"),
 	WAIT_SAVE("Do you want to save your progression ? (y/n)\n"),
 	LEVEL_FINISHED("You made your way out of the maze !\nType anything to continue.\n"),
-	ENCOUNTER("You encounter an enemy ! What should you do :\nFIGHT or RUN ?\n"),
+	ENCOUNTER("\nYou encounter an enemy ! What should you do :\nFIGHT or RUN ?\n"),
 	LEVEL_UP("Level up ! Choose a stat to improve:\n\t1: ATTACK +1\n\t2: DEFENSE +1\n\t3: HP +1\n"),
+	LOOT("The enemy left something... Take it ? (yes/no)\n"),
 	GAME_OVER("Retry ? (y/n)\n"),
 	QUIT("See you soon !\n");
 

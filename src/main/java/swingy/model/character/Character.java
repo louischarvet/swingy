@@ -90,9 +90,9 @@ public abstract class Character {
 
 		this.position = builder.position;
 
-		this.weapon = null;
-		this.armor = null;
-		this.helm = null;
+		this.weapon = builder.weapon;
+		this.armor = builder.armor;
+		this.helm = builder.helm;
 	}
 
 /**
@@ -260,7 +260,7 @@ public abstract class Character {
 	// }
 
 	public static abstract class Builder< T extends Character > {
-		private final static List< String >	klassList = new ArrayList<>();
+		protected final static List< String >	klassList = new ArrayList<>();
 		
 		static { 
 			klassList.add("BERSERKER");
@@ -268,20 +268,20 @@ public abstract class Character {
 			klassList.add("RESILIENT");
 		}
 
-		private String	name;
-		private String	klass;
+		protected String	name;
+		protected String	klass;
 
-		private int	level = 1;
+		protected int	level = 1;
 
-		private int	attack = 3;
-		private int	defense = 1;
-		private int	hitPoints = 5;
+		protected int	attack = 3;
+		protected int	defense = 1;
+		protected int	hitPoints = 5;
 
-		private Tile	position = null;
+		protected Tile	position = null;
 
-		private Weapon	weapon = null;
-		private Armor	armor = null;
-		private Helm	helm = null;
+		protected Weapon	weapon = null;
+		protected Armor	armor = null;
+		protected Helm	helm = null;
 
 		public Builder< T >	withName(String p_name) {
 			this.name = p_name;
@@ -315,6 +315,32 @@ public abstract class Character {
 			return this;
 		}
 
+		public Builder< T >	withArtifact(int a) {
+			switch (a) {
+				case 1:
+					this.weapon = new Weapon.Builder()
+						.withName("Weapon")
+						.withLevel(this.level)
+						.build();
+					break;
+				case 2:
+					this.armor = new Armor.Builder()
+						.withName("Armor")
+						.withLevel(this.level)
+						.build();
+					break;
+				case 3:
+					this.helm = new Helm.Builder()
+						.withName("Helm")
+						.withLevel(this.level)
+						.build();
+					break;
+				default:
+					break;
+			}
+			return this;
+		}
+
 		public Builder< T >	withPosition(Tile p) {
 			this.position = p;
 			return this;
@@ -335,33 +361,33 @@ public abstract class Character {
 			return this;
 		}
 
-		public Builder	withArtifact(int i) {
-			switch (i) {
-				case 0:
-					return this.withWeapon(
-						new Weapon.Builder()
-							.withName("Weapon")
-							.withLevel(this.level)
-							.build()
-					);
-				case 1:
-					return this.withArmor(
-						new Armor.Builder()
-							.withName("Armor")
-							.withLevel(this.level)
-							.build()
-					);
-				case 2:
-					return this.withHelm(
-						new Helm.Builder()
-							.withName("Helm")
-							.withLevel(this.level)
-							.build()
-					);
-				default:
-					return this;
-			}
-		}
+		// public Builder	withArtifact(int i) {
+		// 	switch (i) {
+		// 		case 0:
+		// 			return this.withWeapon(
+		// 				new Weapon.Builder()
+		// 					.withName("Weapon")
+		// 					.withLevel(this.level)
+		// 					.build()
+		// 			);
+		// 		case 1:
+		// 			return this.withArmor(
+		// 				new Armor.Builder()
+		// 					.withName("Armor")
+		// 					.withLevel(this.level)
+		// 					.build()
+		// 			);
+		// 		case 2:
+		// 			return this.withHelm(
+		// 				new Helm.Builder()
+		// 					.withName("Helm")
+		// 					.withLevel(this.level)
+		// 					.build()
+		// 			);
+		// 		default:
+		// 			return this;
+		// 	}
+		// }
 
 		// public Character	build() {
 		// 	return new Character(this);

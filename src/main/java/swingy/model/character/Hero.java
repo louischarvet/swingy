@@ -160,6 +160,7 @@ public class Hero extends Character {
 				.append(xp)
 				.append(" experience points.\n");
 			fr.setLevelUp(this.gainExperience(xp));
+			fr.setDrop(villain.dropArtifact());
 			// this.hitPoints = this.maxHitPoints;
 		}
 		// level up ?
@@ -168,37 +169,48 @@ public class Hero extends Character {
 	}
 
 	// @Override
-	// public void	equip(Artifact artifact) {
-	// 	String	artifactType = artifact.getClass().getSimpleName();
+	public void	equip(Artifact artifact) {
+		String	artifactType = artifact.getClass().getSimpleName();
 
-	// 	/*
-	// 		If an artifact is already equipped
-	// 		Ask player if he wants to replace ?
-	// 	*/
+		/*
+			If an artifact is already equipped
+			Ask player if he wants to replace ?
+		*/
 
-	// 	switch (artifactType) {
-	// 		case "Weapon":
-	// 			this._weapon = (Weapon)artifact;
-	// 		case "Armor":
-	// 			this._armor = (Armor)artifact;
-	// 		case "Helm":
-	// 			this._helm = (Helm)artifact;
-	// 		default:
-	// 			;
-	// 	}
-	// }
+		switch (artifactType) {
+			case "Weapon":
+				this.weapon = (Weapon)artifact;
+				break;
+			case "Armor":
+				this.armor = (Armor)artifact;
+				break;
+			case "Helm":
+				this.helm = (Helm)artifact;
+				break;
+			default:
+				break;
+		}
+	}
 
 	@Override
 	public String	toString() {
-		String	string = new StringBuilder(name)
+		StringBuilder	sb = new StringBuilder();
+		sb.append(name)
 			.append(", ").append(klass)
 			.append(", level ").append(level)
 			.append(", exp ").append(experience)
-			.append(", attack ").append(attack)
-			.append(", defense ").append(defense)
-			.append(", hp ").append(hitPoints).append("/").append(maxHitPoints)
-			.toString();
-		return string;
+			.append(", attack ").append(attack);
+		if (weapon != null)
+			sb.append("\u001b[42m+").append(weapon.getLevel()).append("\u001b[0m");
+		sb.append(", defense ").append(defense);
+		if (armor != null)
+			sb.append("\u001b[42m+").append(armor.getLevel()).append("\u001b[0m");
+		sb.append(", hp ").append(hitPoints);
+		if (helm != null)
+			sb.append("\u001b[42m+").append(helm.getLevel()).append("\u001b[0m");
+		sb.append("/").append(maxHitPoints);
+
+		return sb.toString();
 	}
 
 	// @Override

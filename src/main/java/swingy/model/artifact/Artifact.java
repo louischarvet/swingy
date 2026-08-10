@@ -1,5 +1,7 @@
 package swingy.model.artifact;
 
+import java.lang.StringBuilder;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -62,9 +64,18 @@ public abstract class Artifact {
 		);
 	}
 
+	public String	toString() {
+		StringBuilder	sb = new StringBuilder();
+
+		sb.append(this.name)
+			.append(" level ").append(this.level);
+			
+		return sb.toString();
+	}
+
 	public static abstract class Builder< T extends Artifact > {
-		private String name;
-		private int	level;
+		protected String name;
+		protected int	level;
 
 		public Builder< T >	withName(String p_name) {
 			this.name = p_name;

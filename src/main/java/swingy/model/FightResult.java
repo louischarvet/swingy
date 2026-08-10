@@ -2,9 +2,12 @@ package swingy.model;
 
 import java.lang.StringBuilder;
 
+import swingy.model.artifact.Artifact;
+
 public class FightResult {
 	private boolean	won;
 	private boolean	levelUp;
+	private	Artifact	drop = null;
 	private StringBuilder	report = new StringBuilder();
 
 	public void	setWon(boolean w) {
@@ -17,6 +20,10 @@ public class FightResult {
 
 	public void	setLevelUp(boolean l) {
 		levelUp = l;
+	}
+
+	public void	setDrop(Artifact d) {
+		this.drop = d;
 	}
 
 	public FightResult	append(String str) {
@@ -41,5 +48,9 @@ public class FightResult {
 
 	public boolean	isLevelUp() {
 		return levelUp;
+	}
+
+	public Artifact	getDrop() {
+		return this.drop;
 	}
 }

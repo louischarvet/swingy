@@ -92,13 +92,17 @@ public class SquareMap {
 
 		for (int i = 0, n = list.size() / 5; i < n; i++) {
 			int	klassIndex = random.nextInt(3);
+			int	artifact = random.nextInt(4);
+
 			list.get(i).setOnThis(
 				new Villain.Builder()
 					.withName("Villain") // random name ?
-					.withKlass(klassIndex) // random Klass ?
+					.withKlass(klassIndex)
 					.withLevel(this.level)
+					.withArtifact(artifact)
 					.withPosition(list.get(i))
 					.build());
+			System.out.println(list.get(i).getOnThis().toString());
 		}
 	}
 
