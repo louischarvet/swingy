@@ -103,7 +103,7 @@ public class Hero extends Character {
 
 		int	villainA = villain.attackOutput(),
 			villainD = villain.defenseOutput(),
-			villainHP = villain.getHitPoints(),
+			villainHP = villain.hitPointsOutput(),
 			villainMaxHP = villainHP;
 
 		fr.append("\n*********** FIGHT BEGINS ! ***********\n\n")
@@ -134,6 +134,7 @@ public class Hero extends Character {
 				.append("/")
 				.append(villainMaxHP)
 				.append("\n");
+
 			if (villainHP <= 0)
 				break;
 
@@ -146,15 +147,24 @@ public class Hero extends Character {
 				.append("/")
 				.append(heroMaxHP)
 				.append("\n");
+
+			if (villainHP == villainMaxHP && heroHP == heroMaxHP)
+				break;
 		}
 
-		fr.setWon(heroHP > 0 && villainHP <= 0);
+		if (heroHP > 0) {
+			if (villainHP <= 0)
+				fr.setWon(1);
+			else
+				fr.setWon(0);
+		} else
+			fr.setWon(-1);
 
 		this.setHitPoints(heroHP);
 		villain.setHitPoints(villainHP);
 
 		// xp
-		if (fr.isWon()) {
+		if (fr.getWon() > 0) {
 			int xp = 1000 / (this.getLevel() - villain.getLevel() + 1);
 			fr.append("You got ")
 				.append(xp)
@@ -163,7 +173,6 @@ public class Hero extends Character {
 			fr.setDrop(villain.dropArtifact());
 			// this.hitPoints = this.maxHitPoints;
 		}
-		// level up ?
 
 		return fr;
 	}
@@ -201,13 +210,13 @@ public class Hero extends Character {
 			.append(", exp ").append(experience)
 			.append(", attack ").append(attack);
 		if (weapon != null)
-			sb.append("\u001b[42m+").append(weapon.getLevel()).append("\u001b[0m");
+			sb.append("\u001b[32m+").append(weapon.getLevel()).append("\u001b[0m");
 		sb.append(", defense ").append(defense);
 		if (armor != null)
-			sb.append("\u001b[42m+").append(armor.getLevel()).append("\u001b[0m");
+			sb.append("\u001b[32m+").append(armor.getLevel()).append("\u001b[0m");
 		sb.append(", hp ").append(hitPoints);
 		if (helm != null)
-			sb.append("\u001b[42m+").append(helm.getLevel()).append("\u001b[0m");
+			sb.append("\u001b[32m+").append(helm.getLevel()).append("\u001b[0m");
 		sb.append("/").append(maxHitPoints);
 
 		return sb.toString();

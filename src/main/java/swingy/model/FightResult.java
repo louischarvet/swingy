@@ -5,17 +5,19 @@ import java.lang.StringBuilder;
 import swingy.model.artifact.Artifact;
 
 public class FightResult {
-	private boolean	won;
+	private int	won;
 	private boolean	levelUp;
 	private	Artifact	drop = null;
 	private StringBuilder	report = new StringBuilder();
 
-	public void	setWon(boolean w) {
+	public void	setWon(int w) {
 		won = w;
-		if (won == true)
+		if (won > 0)
 			report.append("Enemy defeated !\n");
-		else
+		else if (won < 0)
 			report.append("Game over...\n");
+		else
+			report.append("You managed to run from the enemy.\n");
 	}
 
 	public void	setLevelUp(boolean l) {
@@ -42,9 +44,9 @@ public class FightResult {
 		return report.toString();
 	}
 
-	public boolean	isWon() {
+	public int	getWon() {
 		return won;
-	}
+	} 
 
 	public boolean	isLevelUp() {
 		return levelUp;

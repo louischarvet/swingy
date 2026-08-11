@@ -236,7 +236,7 @@ public class Model extends Observable {
 			sb.append("You couldn't escape from the enemy...\n");
 
 		FightResult	fr = currentHero.fight(currentVillain, firstStrike);
-		if (fr.isWon() == true) {
+		if (fr.getWon() > 0) {
 			Tile	newPosition = currentVillain.getPosition();
 
 			// artifact !
@@ -261,6 +261,9 @@ public class Model extends Observable {
 				change(Status.LOOT, sb.toString());
 			} else
 				change(Status.GAME, sb.toString());
+		} else if (fr.getWon() == 0) {
+			sb.append(fr.toString());
+			change(Status.GAME, sb.toString());
 		} else {
 			sb.append(fr.toString());
 			change(Status.GAME_OVER, sb.toString());

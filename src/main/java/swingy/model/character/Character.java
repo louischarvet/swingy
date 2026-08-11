@@ -62,15 +62,15 @@ public abstract class Character {
 
 	@ManyToOne
 	@JoinColumn(name = "weapon_id")
-	protected Weapon    weapon;
+	protected Weapon    weapon = null;
 
 	@ManyToOne
 	@JoinColumn(name = "armor_id")
-	protected Armor    armor;
+	protected Armor    armor = null;
 
 	@ManyToOne
 	@JoinColumn(name = "helm_id")
-	protected Helm    helm;
+	protected Helm    helm = null;
 
 /**
  * CONSTRUCTORS

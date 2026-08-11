@@ -53,17 +53,15 @@ public class Villain extends Character {
 		sb.append(name)
 			.append(", ").append(klass)
 			.append(", level ").append(level)
-			.append(", attack ").append(attack)
-			.append(", defense ").append(defense)
-			.append(", hp ").append(hitPoints);
+			.append(", attack ").append(attack);
 		if (weapon != null)
-			sb.append("\u001b[42m+").append(weapon.getLevel()).append("\u001b[0m");
-		sb.append(", defense ").append(defenseOutput());
+			sb.append("\u001b[31m+").append(weapon.getLevel()).append("\u001b[0m");
+		sb.append(", defense ").append(defense);
 		if (armor != null)
-			sb.append("\u001b[42m+").append(armor.getLevel()).append("\u001b[0m");
-		sb.append(", hp ").append(hitPointsOutput());
+			sb.append("\u001b[31m+").append(armor.getLevel()).append("\u001b[0m");
+		sb.append(", hp ").append(hitPoints);
 		if (helm != null)
-			sb.append("\u001b[42m+").append(helm.getLevel()).append("\u001b[0m");
+			sb.append("\u001b[31m+").append(helm.getLevel()).append("\u001b[0m");
 		return sb.toString();
 	}
 

@@ -1,12 +1,9 @@
 TO DO:
 ------
 
-- implement artifacts
-- only one table for artifacts ?
 - maxHitPoints / hitPointsOutput
-- After status LEVEL UP, check if loot or not (FightResult saved tmp)
-- Character toString(): print in color artifacts bonuses
 - Printable... make good order
+- in game: menu: save not working. artifact ?
 
 - limit number of saved games
 - Makefile rule to rm volume
@@ -21,6 +18,10 @@ TO DO:
 ~ RUN & FIGHT: display steps one by one
 
 
+?DONE? After status LEVEL UP, check if loot or not (FightResult saved tmp)
+DONE Character toString(): print in color artifacts bonuses
+DONE only one table for artifacts ?
+DONE implement artifacts
 DONE Builder attributes: protected
 DONE procedural generation of Villains
 DONE Niveau termine : passer au niveau suivant.
